@@ -38,7 +38,7 @@ else:
     if header == '>':
         head_symbol = ">"
         seq_type = "fasta"
-        print "File type set as FASTQ."
+        print "File type set as FASTA."
     elif header == '@':
         head_symbol = '@'
         seq_type = 'fastq'
