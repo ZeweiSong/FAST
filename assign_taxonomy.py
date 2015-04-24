@@ -12,3 +12,4 @@ Dept. Plant Pathology
 songzewei@outlook.com
 """
 
+from lib import ParseOtuTable

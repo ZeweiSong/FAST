@@ -2,7 +2,7 @@
 """
 Create on April 20th, 2015.
 
-Create an OTU table from a Qiime style OTU map.
+Create an OTU table from a Qiime style OTU map. The OTUs will be sorted by their total abundance.
 
 Please feel free to contact me with any question.
 --
@@ -18,7 +18,7 @@ import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-map', help='The OTU map')
-parser.add_argument('-o', '--output', help='Output OTU table')
+parser.add_argument('-o', '--output', help='Output OTU table.')
 args = parser.parse_args()
 
 input_file = args.map
@@ -44,7 +44,7 @@ otu_abundance = {}
 for sample in sample_list:
     otu_abundance[sample] = 0  # Set initial abundance to zero as place holder
 sample_list.sort()
-otu_table = [['OTU_ID'] + sample_list]
+otu_table = []
 for key, value in otu_table_dict.items():
     current_otu = [key]
     for sample in sample_list:
@@ -53,6 +53,8 @@ for key, value in otu_table_dict.items():
         except KeyError:
             current_otu.append(0)
     otu_table.append(current_otu)
+otu_table.sort(key=lambda x: sum(x), reverse=True)
+otu_table = [['OTU_ID'] + sample_list] + otu_table
 
 # Write OTU table to a new file
 sample_list = ['OTU_ID'] + sample_list
