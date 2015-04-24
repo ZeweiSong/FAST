@@ -53,7 +53,7 @@ for key, value in otu_table_dict.items():
         except KeyError:
             current_otu.append(0)
     otu_table.append(current_otu)
-otu_table.sort(key=lambda x: sum(x), reverse=True)
+otu_table.sort(key=lambda x: sum(map(int, x[1:])), reverse=True)
 otu_table = [['OTU_ID'] + sample_list] + otu_table
 
 # Write OTU table to a new file

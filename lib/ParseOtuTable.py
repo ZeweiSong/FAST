@@ -38,8 +38,8 @@ class parser_otu_table(object):
         
         # Check abundance value in the OTU table
         try:
-            for line in self.sample_matrix[1:]:
-                temp = [int(i) for i in line]
+            for line in self.sample_matrix:
+                temp = [int(i) for i in line[1:]]
         except ValueError:
             print "There are non-number value in your OTU table."
             import sys
