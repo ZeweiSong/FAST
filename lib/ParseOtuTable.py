@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# !/usr/bin/env python
+#!/usr/bin/env python
 """
 Create on 4/21/2015.
 
@@ -13,12 +13,16 @@ songzewei@outlook.com
 
 
 class parser_otu_table(object):
-    def __init__(self, file_path, meta_col = 'taxonomy'):
+    def __init__(self, file_path, meta_col='taxonomy'):
         with open(file_path, 'rU') as f:
             temp = f.readlines()
         table = []
         for line in temp:
             table.append(line.strip('\n').split('\t'))
+        size = len(table[0])
+        for line in table:
+            if len(line) < size:
+                line += ['']*(size-len(line))
         
         # Get id for sample, species, amd meta data
         try:        
@@ -39,7 +43,7 @@ class parser_otu_table(object):
         # Check abundance value in the OTU table
         try:
             for line in self.sample_matrix:
-                temp = [int(i) for i in line[1:]]
+                t = [int(i) for i in line[1:]]
         except ValueError:
             print "There are non-number value in your OTU table."
             import sys
@@ -77,3 +81,4 @@ class parser_otu_table(object):
         for line in self.meta_matrix:
             for i in range(len(self.species_id)):
                 meta[line[0]][self.species_id[i]] = line[1:][i]
+        return meta
