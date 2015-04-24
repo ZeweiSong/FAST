@@ -45,15 +45,16 @@ class parser_otu_table(object):
             import sys
             sys.exit()
         
-    # Generate a dicionary using sample name, OTU name
+    # Generate a dictionary using sample name, OTU name
     def sample_dict(self):
         sample = {}
         for s in self.sample_id:
             sample[s] = {}
         for line in self.sample_matrix:
+            abundance = line[1:]
             for i in range(len(self.species_id)):
-                if int(line[1:][i]) > 0:
-                    sample[line[0]][self.species_id[i]] = int(line[1:][i])
+                if int(abundance[i]) > 0:
+                    sample[line[0]][self.species_id[i]] = int(abundance[i])
         return sample
 
     # Generate a dicionry using OTU name, sample name
