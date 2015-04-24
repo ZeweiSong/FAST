@@ -65,7 +65,7 @@ def generate_repeat_otu(sample):
                 temp.append(n)
             sample_single += temp
         n += 1
-    sample_single = {'single':sample_single,'original_length':len(sample)} #Original length of the sample is in sample_single[1]
+    sample_single = {'single':sample_single,'original_length':len(sample)} # Save rriginal length of degenerate
     return sample_single
 #%%###############################################################################
 #Random sample the repeat list for a given time (depth) 
