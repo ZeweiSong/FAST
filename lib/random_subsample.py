@@ -105,7 +105,7 @@ def allocate_processor(sample,depth,rep,processor=4):
     rep_parallel = []
     worker_input = []
     for i in range(processor):
-        rep_parallel.append(rep/processor),,lpl,
+        rep_parallel.append(rep/processor)
     n = 0
     for i in range(rep%processor):
         rep_parallel[n] += 1
