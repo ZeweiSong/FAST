@@ -44,15 +44,18 @@ def repeat_rarefaction(sample,depth,rep): #has problem
     return sample_rarefied_corrected
 #%%#############################################################################
 def repeat_rarefaction_parallel(sample,depth,rep,processor=4):
-    from multiprocessing import Pool
-    p = Pool(processor)
-    worker_input = allocate_processor(sample,depth,rep,processor=processor)
-    sample_rarefied = (p.map(worker_parallel,worker_input))
-    sample_rarefied_cat = []
-    for item in sample_rarefied:
-        for element in item:
-            sample_rarefied_cat.append(element)
-    return sample_rarefied_cat
+    if sum(sample) <= depth:
+        return [sample]*rep
+    else:
+        from multiprocessing import Pool
+        p = Pool(processor)
+        worker_input = allocate_processor(sample,depth,rep,processor=processor)
+        sample_rarefied = (p.map(worker_parallel,worker_input))
+        sample_rarefied_cat = []
+        for item in sample_rarefied:
+            for element in item:
+                sample_rarefied_cat.append(element)
+        return sample_rarefied_cat
 #%%#############################################################################   
 # Generate a new list that contains the repeat for each OTU.
 # The variable sample should be a list of OTU abundance (include 0), without sample name

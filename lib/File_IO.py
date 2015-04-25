@@ -167,7 +167,7 @@ def name_file(input_filename, prefix, suffix):
             input_filename = prefix + "_" + input_filename + "." + suffix
     else:
         if prefix == "":
-            input_filename = input_filename[:dot_position[-1]] + "." + suffix
+            input_filename = input_filename[:dot_position[-1]] + "." + suffix + input_filename[dot_position[-1]:]
         else:
-            input_filename = prefix + "_" + input_filename[:dot_position[-1]] + "." + suffix
+            input_filename = prefix + "_" + input_filename[:dot_position[-1]] + "." + suffix + input_filename[dot_position[-1]:]
     return input_filename
