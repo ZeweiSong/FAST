@@ -54,7 +54,8 @@ def repeat_rarefaction_parallel(sample,depth,rep,processor=4):
             sample_rarefied_cat.append(element)
     return sample_rarefied_cat
 #%%#############################################################################   
-#Generate a new list that contains the repeat for each OTU.
+# Generate a new list that contains the repeat for each OTU.
+# The variable sample should be a list of OTU abundance (include 0), without sample name
 def generate_repeat_otu(sample):
     sample_single = []
     n = 0
@@ -104,7 +105,7 @@ def allocate_processor(sample,depth,rep,processor=4):
     rep_parallel = []
     worker_input = []
     for i in range(processor):
-        rep_parallel.append(rep/processor)
+        rep_parallel.append(rep/processor),,lpl,
     n = 0
     for i in range(rep%processor):
         rep_parallel[n] += 1
