@@ -32,7 +32,16 @@ class parser_otu_table(object):
         self.sample_id = table[0][1:meta_position]  # Second column till the first meta column
         self.meta_id = table[0][meta_position:]  # Start from the first meta column to the end
         self.species_id = [i[0] for i in table[1:]]  # First column stating from the second row
-
+        
+        # Convert all abundance to intger
+        for line in table[1:]:
+            try:
+                line[1:meta_position] = map(int, line[1:meta_position])
+            except ValueError:
+                print "There are non-number value in your OTU table."
+                import sys                
+                sys.exit()
+                
         # Get sample, species, and meta data matrix with head names
         self.species_matrix = [i[:meta_position] for i in table[1:]]
         temp = [i[1:meta_position] for i in table]
@@ -40,15 +49,6 @@ class parser_otu_table(object):
         temp = [i[meta_position:] for i in table]
         self.meta_matrix = [list(i) for i in zip(*temp)]
 
-        # Check abundance value in the OTU table
-        try:
-            for line in self.sample_matrix:
-                t = [int(i) for i in line[1:]]
-        except ValueError:
-            print "There are non-number value in your OTU table."
-            import sys
-
-            sys.exit()
 
     # Generate a dictionary using sample name, OTU name
     def sample_dict(self):
