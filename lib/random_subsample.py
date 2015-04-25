@@ -145,7 +145,7 @@ if __name__ == "__main__":
         print sample
     print
     print "Rarefy sample to the level of 500 for 3 times and using 4 processors:"
-    print "repeat_rarefaction_parallel(osample,500,3,processor=4)"
+    print "repeat_rarefaction_parallel(sample,500,3,processor=4)"
     repeat_sample = repeat_rarefaction_parallel(sample,500,3,processor=4)
     for sample in repeat_sample:
         print sample
