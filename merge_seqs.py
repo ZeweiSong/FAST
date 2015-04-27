@@ -47,7 +47,7 @@ if args.fasta:
 
 start = time.time()
 f_list = File_IO.file_list(input_folder)
-print 'Found %d files in the folder %s' % (len(f_list), input_folder)
+print 'Found %i files in the folder %s' % (len(f_list), input_folder)
 count = 0
 n = 1
 count_total = 0
@@ -59,4 +59,4 @@ for seq_file in f_list:
     count_total += count
 end = time.time()
 used_time = round(end-start, 2)
-print 'Spent %ss to merge %d records in %d files into %s' % (str(used_time), count_total, len(f_list), output_file)
+print 'Spent %s sec to merge %d records in %d files into %s' % (str(used_time), count_total, len(f_list), output_file)
