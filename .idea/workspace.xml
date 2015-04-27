@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="55e1303e-b5fb-4244-b7f3-38bb870bc624" name="Default" comment="">
+    <list default="true" id="55e1303e-b5fb-4244-b7f3-38bb870bc624" name="Default" comment="clean up">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="FAST.iws" />
@@ -336,7 +336,13 @@
       <option name="project" value="LOCAL" />
       <updated>1430105547975</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="clean up">
+      <created>1430105738324</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1430105738324</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
