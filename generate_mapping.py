@@ -67,6 +67,6 @@ if __name__ == '__main__':
     folder_name = args.input
     count_file, unknown_read = write_mapping(folder_name, mapping_file=args.output)
 
-    print 'Generated a mapping with %d files in %s.' % (count_file, args.output)
+    print 'Generated a mapping file with %d files in %s.' % (count_file, args.output)
     if unknown_read > 0:
-        print 'Can not detect read type in %s files, please check the mapping file.' % unknown_read
+        print '%s files have unknown read type, please check the mapping file.' % unknown_read

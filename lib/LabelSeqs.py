@@ -2,7 +2,7 @@
 """
 Created on Tue Mar 31 15:22:43 2015
 
-Renam e sequences in the fastq or fasta file to real sample name.
+Rename sequences in the fastq or fasta file to real sample name.
 For default it will add the USEARCH label "barcodelabel=", read type "R1", and Sample Name with a sequence number
 to the new fodler "labeled" with a prefix "labeled_".
 
