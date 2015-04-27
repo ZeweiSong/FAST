@@ -25,7 +25,7 @@ parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpForm
                                     ------------------------'''))
 parser.add_argument("-otu", help="Input OTU folder")
 parser.add_argument("-mock_list", help="A list of species name in the mock community, Genus and species should be connected with _")
-parser.add_argument("-mock_sample", default='mock', help="Name of the mock community sample")
+parser.add_argument("-mock_column", default='mock', help="Name of the mock community sample")
 parser.add_argument("-o", "--output", help="Output OTU table")
 parser.add_argument('-min_length', default = 0.9, help='Minimum mathced length')
 parser.add_argument('-min_pident', default = 90, help='Minimum Pident')
@@ -33,14 +33,14 @@ args = parser.parse_args()
 
 input_otu = args.otu
 input_mock = args.mock_list
-mock_column = args.mock_sample
+mock_column = args.mock_column
 output_report = args.output
 min_length = float(args.min_length)
 min_pident = float(args.min_pident)
 
-input_otu = 'otu_table.tax.txt'
-input_mock = 'mock_list.txt'
-mock_column = 'Mock-community'
+#input_otu = 'otu_table.tax.txt'
+#input_mock = 'mock_list.txt'
+#mock_column = 'Mock-community'
 
 otu_table = ParseOtuTable.parser_otu_table(input_otu)
 otu_sample = otu_table.sample_dict()
