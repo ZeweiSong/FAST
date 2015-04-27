@@ -34,7 +34,7 @@ if not output_file:
     print 'Please specified an output file.'
     sys.exit()
 if os.path.isfile(output_file):
-    file_size = round(os.path.getsize(output_file)/1024**2,0)
+    file_size = round(os.path.getsize(output_file)/1024**2, 0)
     exist = raw_input('%s (%d MB)already exists , do you want to overwrite it? [y/n]' % (output_file, file_size))
     if exist == 'y' or exist == 'Y':
         os.remove(output_file)
