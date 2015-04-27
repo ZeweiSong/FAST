@@ -61,4 +61,5 @@ sample_id = ['OTU_ID'] + sample_id + ['taxonomy','Query_Len','Subject_Len','Pide
 with open(output_otu, 'w') as f:
     f.write('%s\n' % '\t'.join(sample_id))
     for line in otu_matrix:
+        line = [str(x) for x in line]
         f.write('%s\n' % '\t'.join(line))
