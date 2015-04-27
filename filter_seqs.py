@@ -98,4 +98,4 @@ print 'Filtered %d sequences, %d (%s%%) passed. Used %s seconds.' % (
     count_total, count_pass, str(round(float(count_pass) / count_total, 1) * 100), str(used_time))
 print 'Writing to %s ...' % filtered_file
 count = File_IO.write_seqs(seqs_filtered, filtered_file, checker=False, overwrite=True)
-print 'Filtered sequences store in %s' % (filtered_file)
+print 'Filtered sequences store in %s' % filtered_file

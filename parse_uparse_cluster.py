@@ -18,9 +18,9 @@ import argparse
 from lib import ParseOtuMap
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-i','--input',help='Input uparse denovo cluster output file')
-parser.add_argument('-o','--output',help='Output Qiime style OTU map')
-parser.add_argument('-separator', default=';',help='Separator between sample name and size annotation')
+parser.add_argument('-i', '--input', help='Input uparse denovo cluster output file')
+parser.add_argument('-o', '--output', help='Output Qiime style OTU map')
+parser.add_argument('-separator', default=';', help='Separator between sample name and size annotation')
 args = parser.parse_args()
 input_file = args.input
 output_file = args.output
@@ -54,8 +54,9 @@ print
 print 'The OTU map contains:'
 print '%i OTUs' % otu_map_parser.derep_count
 print '%i sequences' % otu_map_parser.seqs_count
-print 'Max size=%i, Min size=%i, Ave size=%i' % (otu_map_parser.max_derep, otu_map_parser.min_derep, otu_map_parser.ave_derep)
+print 'Max size=%i, Min size=%i, Ave size=%i' % (
+    otu_map_parser.max_derep, otu_map_parser.min_derep, otu_map_parser.ave_derep)
 
 # Write the OTU map to a new file
-ParseOtuMap.write_otu_map(otu_map,output_file)
+ParseOtuMap.write_otu_map(otu_map, output_file)
 print 'Converted OTU map saved to %s' % output_file

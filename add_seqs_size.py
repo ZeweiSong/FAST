@@ -3,7 +3,7 @@
 Created on Thu Apr 16 10:38:33 2015
 
 Add a size annotation using a Qiime style OTU map.
-The size annoation ";size=XXX;" is required for USEARCH to perform OTU clustering.
+The size annotation ";size=XXX;" is required for USEARCH to perform OTU clustering.
 The sequences will also be sorted based on the size.
 
 Please feel free to contact me for any question.
@@ -18,10 +18,11 @@ from lib import File_IO
 from lib import ParseOtuMap
 import argparse
 import sys
+
 parser = argparse.ArgumentParser()
-parser.add_argument('-i','--input',help='Input FASTA file')
+parser.add_argument('-i', '--input', help='Input FASTA file')
 parser.add_argument('-map', help='Input OTU map file')
-parser.add_argument('-o','--output', help='Output FASTA file')
+parser.add_argument('-o', '--output', help='Output FASTA file')
 args = parser.parse_args()
 
 input_fasta = args.input
@@ -45,13 +46,13 @@ for record in fasta:
             record[0] += (';size=%i;' % size)
         record.append(size)
         count += 1
-        print 'Annotating %i sequence ...' % count + '\b'*100,
+        print 'Annotating %i sequence ...' % count + '\b' * 100,
     except KeyError:
         print "Can not find %s in the OTU map file." % record[0]
         sys.exit()
 print
 print 'Sorting the annotated sequences ...'
-fasta.sort(key = lambda x: x[-1], reverse=True)
+fasta.sort(key=lambda x: x[-1], reverse=True)
 
 print 'Writing to a new FASTA file ...'
 with open(output_fasta, 'w') as f:

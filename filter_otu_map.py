@@ -18,11 +18,12 @@ import argparse
 from lib import ParseOtuMap
 from lib import File_IO
 import sys
+
 parser = argparse.ArgumentParser()
-parser.add_argument('-i','--input')
-parser.add_argument('-o','--output')
+parser.add_argument('-i', '--input', help='Input OTU map')
+parser.add_argument('-o', '--output', help='Output OTU map')
 group = parser.add_mutually_exclusive_group()
-group.add_argument('-min_size',default=2, help='The minimum size of an OTU to be kept')
+group.add_argument('-min_size', default=2, help='The minimum size of an OTU to be kept')
 group.add_argument('-name_list', help='A file contains a list of sequence name to be picked')
 group.add_argument('-fasta', help='A FASTA file contains sequence to be picked')
 args = parser.parse_args()
@@ -42,14 +43,13 @@ if args.fasta:
     for record in seqs:
         pick_list.append(record[0])
 
-
 print 'Reading in %s ...' % map_file
 MapDict = ParseOtuMap.read_otu_map(map_file)
 
-#  Filter OTU map based on parameters
+# Filter OTU map based on parameters
 if args.min_size:
     print 'Filtering OTUs with less than %d sequences ...' % min_size
-    MapDictFiltered = ParseOtuMap.filter_by_size(MapDict,min_size=min_size)
+    MapDictFiltered = ParseOtuMap.filter_by_size(MapDict, min_size=min_size)
 
 if args.name_list or args.fasta:
     print 'Pick OTUs based on the names in %s ...' % args.name_list
@@ -66,10 +66,12 @@ old_map = ParseOtuMap.otu_map_parser(MapDict)
 new_map = ParseOtuMap.otu_map_parser(MapDictFiltered)
 
 print 'Original OTU map:'
-print '\t OTU=%i (Total Sequences=%i, Max=%i, Min=%i, Ave=%i)' % (old_map.derep_count, old_map.seqs_count, old_map.max_derep, old_map.min_derep, old_map.ave_derep)
+print '\t OTU=%i (Total Sequences=%i, Max=%i, Min=%i, Ave=%i)' % (
+    old_map.derep_count, old_map.seqs_count, old_map.max_derep, old_map.min_derep, old_map.ave_derep)
 print 'Filtered OTU map:'
-print '\t OTU=%i (Total Sequences=%i, Max=%i, Min=%i, Ave=%i)' % (new_map.derep_count, new_map.seqs_count, new_map.max_derep, new_map.min_derep, new_map.ave_derep)
+print '\t OTU=%i (Total Sequences=%i, Max=%i, Min=%i, Ave=%i)' % (
+    new_map.derep_count, new_map.seqs_count, new_map.max_derep, new_map.min_derep, new_map.ave_derep)
 
 print 'Writing new map ...'
-ParseOtuMap.write_otu_map(MapDictFiltered,output_file=output_file)
+ParseOtuMap.write_otu_map(MapDictFiltered, output_file=output_file)
 print 'New map saved in %s.' % output_file
