@@ -9,6 +9,7 @@ ehthumbs.db
 *.txt
 
 #PyCharm
+.idea\
 *.xml
 *.name
 *.iml
