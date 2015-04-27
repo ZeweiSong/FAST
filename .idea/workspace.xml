@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="55e1303e-b5fb-4244-b7f3-38bb870bc624" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/LabelSeqs.py" afterPath="$PROJECT_DIR$/lib/LabelSeqs.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/add_labels.py" afterPath="$PROJECT_DIR$/add_labels.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/generate_mapping.py" afterPath="$PROJECT_DIR$/generate_mapping.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="FAST.iws" />
@@ -29,21 +27,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="add_labels.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="add_labels.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/add_labels.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.4168618" vertical-offset="0" max-vertical-offset="1540">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1540">
               <caret line="55" column="22" selection-start-line="55" selection-start-column="15" selection-end-line="55" selection-end-column="29" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LabelSeqs.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="LabelSeqs.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/lib/LabelSeqs.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3410">
-              <caret line="0" column="23" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.7423888" vertical-offset="2688" max-vertical-offset="3674">
+              <caret line="151" column="14" selection-start-line="151" selection-start-column="14" selection-end-line="151" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="File_IO.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/File_IO.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1056" max-vertical-offset="3916">
+              <caret line="64" column="14" selection-start-line="64" selection-start-column="14" selection-end-line="64" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -111,6 +119,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="FAST" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FAST" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FAST" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -303,7 +325,13 @@
       <option name="project" value="LOCAL" />
       <updated>1430103934883</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="clean up">
+      <created>1430104777166</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1430104777166</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -350,7 +378,8 @@
     <MESSAGE value="assign tax" />
     <MESSAGE value="Rename" />
     <MESSAGE value="sample name" />
-    <option name="LAST_COMMIT_MESSAGE" value="sample name" />
+    <MESSAGE value="clean up" />
+    <option name="LAST_COMMIT_MESSAGE" value="clean up" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -455,18 +484,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/LabelSeqs.py">
+    <entry file="file://$PROJECT_DIR$/add_labels.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3410">
-          <caret line="0" column="23" selection-start-line="0" selection-start-column="23" selection-end-line="0" selection-end-column="23" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1540">
+          <caret line="55" column="22" selection-start-line="55" selection-start-column="15" selection-end-line="55" selection-end-column="29" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/add_labels.py">
+    <entry file="file://$PROJECT_DIR$/lib/File_IO.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.4168618" vertical-offset="0" max-vertical-offset="1540">
-          <caret line="55" column="22" selection-start-line="55" selection-start-column="15" selection-end-line="55" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1056" max-vertical-offset="3916">
+          <caret line="64" column="14" selection-start-line="64" selection-start-column="14" selection-end-line="64" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/LabelSeqs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7423888" vertical-offset="2688" max-vertical-offset="3674">
+          <caret line="151" column="14" selection-start-line="151" selection-start-column="14" selection-end-line="151" selection-end-column="14" />
           <folding />
         </state>
       </provider>
