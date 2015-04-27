@@ -2,12 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="55e1303e-b5fb-4244-b7f3-38bb870bc624" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/rename_otu_map.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/add_seqs_size.py" afterPath="$PROJECT_DIR$/add_seqs_size.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dereplicate.py" afterPath="$PROJECT_DIR$/dereplicate.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/filter_otu_map.py" afterPath="$PROJECT_DIR$/filter_otu_map.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/filter_seqs.py" afterPath="$PROJECT_DIR$/filter_seqs.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/parse_uparse_cluster.py" afterPath="$PROJECT_DIR$/parse_uparse_cluster.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="FAST.iws" />
@@ -32,55 +26,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="parse_uparse_cluster.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/parse_uparse_cluster.py">
+      <file leaf-file-name="rarefy_otu_table.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/rarefy_otu_table.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1139">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="23" selection-end-column="26" />
-              <folding>
-                <element signature="e#349#364#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="rename_otu_map.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/rename_otu_map.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7584331" vertical-offset="0" max-vertical-offset="919">
-              <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
-              <folding>
-                <element signature="e#272#287#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ParseOtuMap.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/ParseOtuMap.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1989">
-              <caret line="64" column="23" selection-start-line="64" selection-start-column="23" selection-end-line="64" selection-end-column="23" />
+            <state vertical-scroll-proportion="0.8890098" vertical-offset="866" max-vertical-offset="1785">
+              <caret line="103" column="104" selection-start-line="103" selection-start-column="104" selection-end-line="103" selection-end-column="104" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="add_seqs_size.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/add_seqs_size.py">
+      <file leaf-file-name="ParseOtuTable.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/ParseOtuTable.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="169" max-vertical-offset="1088">
-              <caret line="54" column="5" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="filter_otu_map.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/filter_otu_map.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="1343">
-              <caret line="61" column="22" selection-start-line="61" selection-start-column="22" selection-end-line="61" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1530">
+              <caret line="1" column="1" selection-start-line="1" selection-start-column="1" selection-end-line="1" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -95,7 +55,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/make_otu_table.py" />
-        <option value="$PROJECT_DIR$/assign_taxonomy.py" />
         <option value="$PROJECT_DIR$/evaluate_mock_community.py" />
         <option value="$PROJECT_DIR$/lib/ParseOtuTable.py" />
         <option value="$PROJECT_DIR$/generate_mapping.py" />
@@ -108,6 +67,9 @@
         <option value="$PROJECT_DIR$/parse_uparse_cluster.py" />
         <option value="$PROJECT_DIR$/filter_otu_map.py" />
         <option value="$PROJECT_DIR$/rename_otu_map.py" />
+        <option value="$PROJECT_DIR$/assign_taxonomy.py" />
+        <option value="$PROJECT_DIR$/evaluate_mock.py" />
+        <option value="$PROJECT_DIR$/rarefy_otu_table.py" />
       </list>
     </option>
   </component>
@@ -474,6 +436,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1088" max-vertical-offset="3026">
           <caret line="64" column="14" selection-start-line="64" selection-start-column="14" selection-end-line="64" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -512,20 +475,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/evaluate_mock.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1887">
-          <caret line="56" column="22" selection-start-line="56" selection-start-column="22" selection-end-line="56" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/ParseOtuTable.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1530">
-          <caret line="1" column="1" selection-start-line="1" selection-start-column="1" selection-end-line="1" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/make_otu_table.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.21337947" vertical-offset="629" max-vertical-offset="1496">
@@ -554,17 +503,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assign_taxonomy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5005441" vertical-offset="203" max-vertical-offset="1122">
-          <caret line="39" column="32" selection-start-line="39" selection-start-column="32" selection-end-line="39" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/File_IO.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1056" max-vertical-offset="3916">
           <caret line="64" column="14" selection-start-line="64" selection-start-column="14" selection-end-line="64" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -624,21 +567,61 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/rename_otu_map.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="799">
+          <caret line="40" column="30" selection-start-line="40" selection-start-column="30" selection-end-line="40" selection-end-column="30" />
+          <folding>
+            <element signature="e#272#287#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assign_taxonomy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="250" max-vertical-offset="1139">
+          <caret line="57" column="69" selection-start-line="57" selection-start-column="69" selection-end-line="57" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/evaluate_mock.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.21034871" vertical-offset="0" max-vertical-offset="1887">
+          <caret line="11" column="3" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/lib/ParseOtuMap.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1989">
+        <state vertical-scroll-proportion="1.223847" vertical-offset="0" max-vertical-offset="1989">
           <caret line="64" column="23" selection-start-line="64" selection-start-column="23" selection-end-line="64" selection-end-column="23" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rename_otu_map.py">
+    <entry file="file://$PROJECT_DIR$/merge_otu_maps.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7584331" vertical-offset="0" max-vertical-offset="919">
-          <caret line="41" column="30" selection-start-line="41" selection-start-column="30" selection-end-line="41" selection-end-column="30" />
-          <folding>
-            <element signature="e#272#287#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.28683916" vertical-offset="0" max-vertical-offset="969">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/ParseOtuTable.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1530">
+          <caret line="1" column="1" selection-start-line="1" selection-start-column="1" selection-end-line="1" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rarefy_otu_table.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8890098" vertical-offset="866" max-vertical-offset="1785">
+          <caret line="103" column="104" selection-start-line="103" selection-start-column="104" selection-end-line="103" selection-end-column="104" />
+          <folding />
         </state>
       </provider>
     </entry>
