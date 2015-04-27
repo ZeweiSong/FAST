@@ -17,10 +17,10 @@ import sys
 import time
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-i','--input',help='Name of the input file, can be FASTA or FASTQ')
-parser.add_argument('-o','--output',help='Name of the output file')
-parser.add_argument('-maxN',help='Number of maximum ambiguous base')
-parser.add_argument('-maxhomop',help='Maximum length of homopolyer')
+parser.add_argument('-i', '--input', help='Name of the input file, can be FASTA or FASTQ')
+parser.add_argument('-o', '--output', help='Name of the output file')
+parser.add_argument('-maxN', help='Number of maximum ambiguous base')
+parser.add_argument('-maxhomop', help='Maximum length of homopolyer')
 args = parser.parse_args()
 
 start = time.time()
@@ -53,9 +53,12 @@ if args.maxhomop:
 else:
     pass
 checker = 0
-if checkN and check_homop: checker = 12
-elif checkN: checker = 1
-elif check_homop: checker = 2
+if checkN and check_homop:
+    checker = 12
+elif checkN:
+    checker = 1
+elif check_homop:
+    checker = 2
 
 seqs_filtered = []
 count_pass = 0
@@ -64,34 +67,35 @@ count_total = 0
 if checker == 12:
     for record in seqs:
         count_total += 1
-        print 'Processing %i sequence ...' %count_total + '\b'*100,
+        print 'Processing %i sequence ...' % count_total + '\b' * 100,
         current_record = record[1]
-        if not Seq_IO.check_ambiguous(current_record,maxN):
-            if not Seq_IO.check_homop(current_record,maxhomop+1):
+        if not Seq_IO.check_ambiguous(current_record, maxN):
+            if not Seq_IO.check_homop(current_record, maxhomop + 1):
                 seqs_filtered.append(record)
                 count_pass += 1
 
 if checker == 1:
     for record in seqs:
         count_total += 1
-        print 'Processing %i sequence ...' %count_total + '\b'*100,
+        print 'Processing %i sequence ...' % count_total + '\b' * 100,
         current_record = record[1]
-        if not Seq_IO.check_ambiguous(current_record,maxN):
+        if not Seq_IO.check_ambiguous(current_record, maxN):
             seqs_filtered.append(record)
             count_pass += 1
 
 if checker == 2:
     for record in seqs:
         count_total += 1
-        print 'Processing %i sequence ...' %count_total + '\b'*100,
+        print 'Processing %i sequence ...' % count_total + '\b' * 100,
         current_record = record[1]
-        if not Seq_IO.check_homop(current_record,maxhomop+1):
+        if not Seq_IO.check_homop(current_record, maxhomop + 1):
             seqs_filtered.append(record)
             count_pass += 1
 end = time.time()
-used_time = round(float(end-start),2)
-print          
-print 'Filtered %d sequences, %d (%s%%) passed. Used %s seconds.' % (count_total, count_pass, str(round(float(count_pass)/count_total,1)*100), str(used_time))
+used_time = round(float(end - start), 2)
+print
+print 'Filtered %d sequences, %d (%s%%) passed. Used %s seconds.' % (
+    count_total, count_pass, str(round(float(count_pass) / count_total, 1) * 100), str(used_time))
 print 'Writing to %s ...' % filtered_file
-count = File_IO.write_seqs(seqs_filtered, filtered_file, checker=False,overwrite=True)
+count = File_IO.write_seqs(seqs_filtered, filtered_file, checker=False, overwrite=True)
 print 'Filtered sequences store in %s' % (filtered_file)
