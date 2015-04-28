@@ -92,6 +92,8 @@ if __name__ == '__main__':
     for line in otu_table_rarefied[1:]:
         for key in meta_data:
             line.append(meta_data[key][line[0]])
+    for key in meta_data:
+        otu_table_rarefied[0].append(key)
 
     with open(output_otu, 'w') as f:
         for line in otu_table_rarefied:
