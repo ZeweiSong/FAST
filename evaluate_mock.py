@@ -59,7 +59,7 @@ mock_hit['other'] = {}
 
 for otu_name in mock_sample:
     if otu_meta['taxonomy'][otu_name] != 'no_blast_hit':
-        coverage = int(otu_meta['Subjec_Len'][otu_name])/float(int(otu_meta['Query_Len'][otu_name]))
+        coverage = int(otu_meta['Subject_Len'][otu_name])/float(int(otu_meta['Query_Len'][otu_name]))
         if coverage >= min_length and float(otu_meta['Pident'][otu_name]) >= min_pident:
             match_checker = False
             for mock_species in mock_list:
