@@ -50,6 +50,8 @@ print 'Found %i names to be picked.' % len(pick_list)
 
 print 'Reaing in the original FASTA file: %s ...' % input_fasta
 input_content = File_IO.read_seqs(input_fasta)
+for record in input_content:
+    record[0] = record[0].split(' ')[0]  # OTU name will be cut at the first space
 print 'Indexing the original sequence file ...'
 input_dict = Seq_IO.make_dict(input_content)
 
