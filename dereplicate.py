@@ -22,7 +22,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', help='Input FASTA file to be dereplicated.')
 parser.add_argument('-o', '--output', help='Name for output OTU map and FASTA file.')
-parser.add_argument('-t', '--thread', help='Number of threads to be used.')
+parser.add_argument('-t', '--thread', default = 1, help='Number of threads to be used.')
 
 args = parser.parse_args()
 
@@ -30,7 +30,7 @@ input_file = args.input
 output_name = args.output
 output_map = output_name + '.txt'
 output_fasta = output_name + '.fasta'
-thread = args.thread
+thread = int(args.thread)
 
 
 def dereplicate_worker(input_seqs, output_derep, n, count, total):
@@ -68,7 +68,6 @@ if __name__ == '__main__':
     from lib import File_IO
     from multiprocessing import Process, Manager, Value
 
-    thread = 4
     print 'Using %i threads ...' % thread
 
     input_file = input_file
