@@ -116,7 +116,7 @@ if __name__ == '__main__':
     print
     print "Sequences dereplicated, clapsed from %i into %i sequences." % (seqs_num.value, len(merged_dict))
     s = [len(merged_dict[i]) for i in merged_dict]
-    print 'Dereplicated length: Max=%i, Min=%i, Average=%i.' % (max(s), min(s), round(float(sum(s) / len(s)), 2))
+    print 'Dereplicated OTU size: Max=%i, Min=%i, Average=%i.' % (max(s), min(s), round(float(sum(s) / len(s)), 2))
     end = time.time()
     print "Used time: " + str(end - start) + ' seconds.'
     print
@@ -129,6 +129,7 @@ if __name__ == '__main__':
         count += 1
 
     # Output dereplicated FASTA file
+    print 'Writing dereplicated sequence and OTU map ...'
     output_seq_file = output_fasta
     with open(output_seq_file, 'w') as f:
         for key, value in merged_dict.items():
