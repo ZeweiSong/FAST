@@ -94,10 +94,8 @@ if __name__ == '__main__':
                                args=(seqs[current_range[0]:current_range[1]], derep_dict, i, count, seqs_num)))
     del seqs
     
-    count_job = 1
+    print 'Starting %i jobs ...' % thread    
     for job in workers:
-        print 'Starting job %i ...' % count_job
-        count_job += 1
         job.start()
 
     for derep_worker in workers:
