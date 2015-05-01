@@ -92,7 +92,13 @@ if __name__ == '__main__':
         current_range = d[i]
         workers.append(Process(target=dereplicate_worker,
                                args=(seqs[current_range[0]:current_range[1]], derep_dict, i, count, seqs_num)))
-        workers[i].start()
+    del seqs
+    
+    count_job = 1
+    for job in workers:
+        print 'Starting job %i ...' % count_job
+        count_job += 1
+        job.start()
 
     for derep_worker in workers:
         derep_worker.join()
