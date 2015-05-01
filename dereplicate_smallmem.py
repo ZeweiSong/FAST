@@ -11,7 +11,6 @@ songzewei@outlook.com
 """
 
 import argparse
-import json
 import pickle
 
 parser = argparse.ArgumentParser()
@@ -84,9 +83,12 @@ if __name__ == '__main__':
                                args=(seqs[0:current_size], i, count)))
         seqs[0:current_size] = []
     
-    print 'Starting %i jobs ...' % thread    
+    print 'Starting %i jobs ...' % thread  
+    count_worker = 1
     for job in workers:
         job.start()
+        print 'Starting thread No. %i ...' % count_worker
+        count_worker += 1
     
     job_alive = True
     while job_alive:
@@ -104,9 +106,6 @@ if __name__ == '__main__':
     print 'Finished dereplicating.'
 
     # Merged dereplicated dictionaries into a single dict
-    print
-
-    # Merge all dicts
     file_list = []
     for i in range(thread):
         file_list.append('file_'+str(i)+'.txt')
