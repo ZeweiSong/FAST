@@ -105,18 +105,22 @@ if __name__ == '__main__':
 
     # Merged dereplicated dictionaries into a single dict
     print
-    print 'Merging %i dictionaries into one ...' % len(derep_dict)
-    merged_dict = {}
-    count = 0
-    for d in derep_dict:
-        for key, value in d.items():
-            count += 1
-            try:
-                merged_dict[key] += value
-            except KeyError:
-                merged_dict[key] = value
-            print 'Merging %i sequence ...' % count + '\b' * 50,
-        derep_dict[0] = ''  # Empty finished dictionary to free memory.    
+    
+    if thread > 1:
+        print 'Merging %i dictionaries into one ...' % len(derep_dict)
+        merged_dict = {}
+        count = 0
+        for d in derep_dict:
+            for key, value in d.items():
+                count += 1
+                try:
+                    merged_dict[key] += value
+                except KeyError:
+                    merged_dict[key] = value
+                print 'Merging %i sequence ...' % count + '\b' * 50,
+            derep_dict[0] = ''  # Empty finished dictionary to free memory.  
+    else:
+        merged_dict = derep_dict[0]
     print
     print "Sequences dereplicated, clapsed from %i into %i sequences." % (seqs_num.value, len(merged_dict))
     s = [len(merged_dict[i]) for i in merged_dict]
