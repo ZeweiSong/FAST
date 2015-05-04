@@ -37,10 +37,10 @@ output_report = args.output
 
 #cmd = 'blastn -db unite_02.03.2015 -query Corn_Pytobiome_rep_seq.fa -max_target_seqs 1 -outfmt "6 qseqid stitle qlen length pident evalue"'
 #%%
-import shlex, subprocess
-input_otu = 'otu_table_raw.txt'
-input_db = 'unite_02.03.2015'
-input_query = 'raw.qc.fasta_rep_set.fasta'
+#import shlex, subprocess
+input_otu = 'otu_table.txt'
+input_db = 'blast/unite_02.03.2015'
+input_query = 'cluster_usearch.fa'
 output_report = 'blast_report.txt'
 cmd = 'blastn -db ' + input_db + ' -query ' + input_query + ' -max_target_seqs 1 -outfmt "6 qseqid stitle qlen length pident evalue"'
 
