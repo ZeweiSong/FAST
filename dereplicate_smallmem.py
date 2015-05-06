@@ -96,13 +96,13 @@ if __name__ == '__main__':
         for job in workers:            
             if job.is_alive():
                 job_alive = True
-        progress = str(round(sum(count)/float(seqs_num)*100,2)) + "%" + "\r"
+        progress = "Dereplicating: " + str(round(sum(count)/float(seqs_num)*100,2)) + "%" + "\r"
         sys.stderr.write(progress)
 
     for derep_worker in workers:
         derep_worker.join()
-    print "100.00% \n"
-    print 'Finished dereplicating.'
+    print "Dereplicating: " + "100.00% \n"
+    print 'Finished dereplication.'
 
     # Merged dereplicated dictionaries into a single dict
     file_list = []
@@ -121,7 +121,8 @@ if __name__ == '__main__':
                 except KeyError:
                     merged_dict[key] = value
                 count_merge += 1
-                print 'Merging %i record ...' %count_merge + '\b'*100,
+                merge_progress = 'Merging %i record ... \r' %count_merge
+                sys.stderr.write(merge_progress)
                 
     print
     print "Sequences dereplicated, clapsed from %i into %i sequences." % (seqs_num, len(merged_dict))
