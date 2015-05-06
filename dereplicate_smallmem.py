@@ -96,12 +96,12 @@ if __name__ == '__main__':
         for job in workers:            
             if job.is_alive():
                 job_alive = True
-        progress = str(round(sum(count)/float(seqs_num)*100,2)) + "%%" + "\r"
+        progress = str(round(sum(count)/float(seqs_num)*100,2)) + "%" + "\r"
         sys.stderr.write(progress)
 
     for derep_worker in workers:
         derep_worker.join()
-    print "100%"
+    print "100.00% \n"
     print 'Finished dereplicating.'
 
     # Merged dereplicated dictionaries into a single dict
