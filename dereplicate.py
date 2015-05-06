@@ -38,7 +38,6 @@ def dereplicate_worker(input_seqs, output_derep, n, count):
     # n is the iterate number of the worker
     # count is a shared list on number of processed sequences by each worker
     # total is a shared value for total number of sequences
-#    total_seqs = float(total.value)
     derep = output_derep[n]
     for record in input_seqs:
         try:
@@ -46,8 +45,6 @@ def dereplicate_worker(input_seqs, output_derep, n, count):
         except KeyError:
             derep[record[1]] = [record[0]]
         count[n] += 1
-#        if n == 0:
-#            print str(round((sum(count) / total_seqs * 100), 2)) + '%' + '\b' * 50,
     output_derep[n] = derep
 
 
