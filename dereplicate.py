@@ -33,12 +33,12 @@ output_fasta = output_name + '.fasta'
 thread = int(args.thread)
 
 
-def dereplicate_worker(input_seqs, output_derep, n, count, total):
+def dereplicate_worker(input_seqs, output_derep, n, count):
     # Dereplicate a chunk of input sequences
     # n is the iterate number of the worker
     # count is a shared list on number of processed sequences by each worker
     # total is a shared value for total number of sequences
-    total_seqs = float(total.value)
+#    total_seqs = float(total.value)
     derep = output_derep[n]
     for record in input_seqs:
         try:
@@ -46,8 +46,8 @@ def dereplicate_worker(input_seqs, output_derep, n, count, total):
         except KeyError:
             derep[record[1]] = [record[0]]
         count[n] += 1
-        if n == 0:
-            print str(round((sum(count) / total_seqs * 100), 2)) + '%' + '\b' * 50,
+#        if n == 0:
+#            print str(round((sum(count) / total_seqs * 100), 2)) + '%' + '\b' * 50,
     output_derep[n] = derep
 
 
@@ -66,19 +66,20 @@ def divide_seqs(total, thread_num):
 if __name__ == '__main__':
     import time
     from lib import File_IO
-    from multiprocessing import Process, Manager, Value
+    from multiprocessing import Process, Manager
+    import sys
 
     print 'Using %i threads ...' % thread
 
     input_file = input_file
     print 'Loading %s ...' % input_file
     seqs = File_IO.read_seqs(input_file)
-    seqs_num = Value('i', len(seqs))
-    print 'Read in %i sequences.' % seqs_num.value
+    seqs_num = len(seqs)
+    print 'Read in %i sequences.' % seqs_num
 
     # Separated seqs into pools
     print 'Separating raw sequences into %d jobs ...' % thread
-    d = divide_seqs(seqs_num.value, thread)
+    d = divide_seqs(seqs_num, thread)
 
     start = time.time()
     # Create shared list for store dereplicated dict and progress counter
@@ -91,12 +92,25 @@ if __name__ == '__main__':
     for i in range(thread):
         current_range = d[i]
         workers.append(Process(target=dereplicate_worker,
-                               args=(seqs[current_range[0]:current_range[1]], derep_dict, i, count, seqs_num)))
+                               args=(seqs[current_range[0]:current_range[1]], derep_dict, i, count)))
     del seqs
     
-    print 'Starting %i jobs ...' % thread    
+    print 'Starting %i jobs ...' % thread
+    count_worker = 1
     for job in workers:
         job.start()
+        print 'Starting thread No. %i ...' % count_worker
+        count_worker += 1
+        
+    job_alive = True
+    while job_alive:
+        time.sleep(0.01)
+        job_alive = False
+        for job in workers:            
+            if job.is_alive():
+                job_alive = True
+        progress = "Dereplicating: " + str(round(sum(count)/float(seqs_num)*100,2)) + "%" + "\r"
+        sys.stderr.write(progress)
 
     for derep_worker in workers:
         derep_worker.join()
@@ -122,7 +136,7 @@ if __name__ == '__main__':
     else:
         merged_dict = derep_dict[0]
     print
-    print "Sequences dereplicated, clapsed from %i into %i sequences." % (seqs_num.value, len(merged_dict))
+    print "Sequences dereplicated, clapsed from %i into %i sequences." % (seqs_num, len(merged_dict))
     s = [len(merged_dict[i]) for i in merged_dict]
     print 'Dereplicated OTU size: Max=%i, Min=%i, Average=%i.' % (max(s), min(s), round(float(sum(s) / len(s)), 2))
     end = time.time()
