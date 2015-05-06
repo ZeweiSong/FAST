@@ -41,7 +41,6 @@ def dereplicate_worker(input_seqs, n, count):
     dump_file = 'file_'+str(n)+'.txt'
     with open(dump_file, 'w') as f:
         pickle.dump(derep, f)
-#    json.dump(derep, open('file_'+str(n)+'.txt', 'w'))  # dump dict to a json file
     
 def divide_seqs(total, thread_num):
     # Set break point for input sequences
@@ -56,7 +55,7 @@ if __name__ == '__main__':
     import time
     from lib import File_IO
     from multiprocessing import Process, Manager
-    import os
+    import os, sys
 
     print 'Using %i threads ...' % thread
 
@@ -97,12 +96,12 @@ if __name__ == '__main__':
         for job in workers:            
             if job.is_alive():
                 job_alive = True
-        progress = round(sum(count)/float(seqs_num)*100,2)
-        print str(progress) + '% ' + '\b'*20,
+        progress = str(round(sum(count)/float(seqs_num)*100,2)) + "%%" + "\r"
+        sys.stderr.write(progress)
 
     for derep_worker in workers:
         derep_worker.join()
-    print
+    print "100%"
     print 'Finished dereplicating.'
 
     # Merged dereplicated dictionaries into a single dict
