@@ -63,7 +63,7 @@ def ChangeName(barcodelabel, count_seq, read_type='R1', label_type='both'):
     usearch_label = 'barcodelabel=' + barcodelabel
     qiime_label = barcodelabel + '_' + count_seq
     if label_type == 'usearch':
-        new_header = usearch_label + ';' + 'read_type=' + read_type + ';'
+        new_header = usearch_label + ';' + 'count=' + count_seq + 'read_type=' + read_type + ';'
         return new_header
     elif label_type == 'qiime':
         new_header = qiime_label + ';' + 'read_type=' + read_type + ';'
