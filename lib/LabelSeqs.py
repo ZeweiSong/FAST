@@ -48,12 +48,17 @@ def ReLabelFastQ(file_name, label, read_type, input_folder, output_folder='label
 def ParseMapping(mapping_file, input_folder):
     # Return a dictionary containing filename, label and read type
     with open(mapping_file, 'rU') as f:
-        temp = f.readlines()[1:]
+        mapping_content = f.readlines()
+        header = mapping_content[0]
+        pos_SampleID = header.index('#sampleID')
+        pos_InputFileName = header.index('InputFileName')
+        pos_ReadType = header.index('ReadType')
+        temp = mapping_content[1:]
         mapping = []
         for record in temp:
             sample = record.strip('\n').split('\t')
             mapping.append(
-                {'file': sample[0], 'input_folder': input_folder + '/', 'label': sample[1], 'read_type': sample[2]})
+                {'file': sample[pos_InputFileName], 'input_folder': input_folder + '/', 'label': sample[pos_SampleID], 'read_type': sample[pos_ReadType]})
         return tuple(mapping)
 
 
