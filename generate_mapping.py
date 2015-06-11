@@ -39,7 +39,7 @@ def write_mapping(folder, mapping_file='mapping.txt'):
     count_file = 0
     for item in f:
         file_info = parse_file_name(item)
-        new_record = (file_info[1],'','',file_info[0],file_info[2],'')
+        new_record = (file_info[1],'','',file_info[0],file_info[2],file_info[1])
         mapping.append(new_record)
         count_file += 1
         if mapping[-1][4] == 'unknown':
