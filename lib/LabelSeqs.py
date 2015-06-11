@@ -49,8 +49,8 @@ def ParseMapping(mapping_file, input_folder):
     # Return a dictionary containing filename, label and read type
     with open(mapping_file, 'rU') as f:
         mapping_content = f.readlines()
-        header = mapping_content[0]
-        pos_SampleID = header.index('#sampleID')
+        header = mapping_content[0].strip('\n').split('\t')
+        pos_SampleID = header.index('#SampleID')
         pos_InputFileName = header.index('InputFileName')
         pos_ReadType = header.index('ReadType')
         temp = mapping_content[1:]
