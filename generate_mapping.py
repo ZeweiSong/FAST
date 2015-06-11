@@ -33,13 +33,16 @@ def parse_file_name(filename):
 
 def write_mapping(folder, mapping_file='mapping.txt'):
     f = File_IO.file_list(folder)
-    mapping = [("Filename", "Sample_name", "Read_type")]
+    #mapping = [("Filename", "Sample_name", "Read_type")]
+    mapping = [('#SampleID','BarcodeSequence','LinkerPrimerSequence','InputFileName','ReadType','Description')]
     unknown_read = 0
     count_file = 0
     for item in f:
-        mapping.append(parse_file_name(item))
+        file_info = parse_file_name(item)
+        new_record = (file_info[1],'','',file_info[0],file_info[2],'')
+        mapping.append(new_record)
         count_file += 1
-        if mapping[-1][2] == 'unknown':
+        if mapping[-1][4] == 'unknown':
             unknown_read += 1
     with open(mapping_file, 'w') as m:
         for line in mapping:
