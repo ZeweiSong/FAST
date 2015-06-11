@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {}
+h1 {font-family: "Calibri", Calibri, Times; color:black;}
+p {font-family: Lucida Sans, Calibri, Times; color:black; font-size:15px; margin-top: 0.5em;}
+code {font-family: "Arial", Arial; background-color:#CCCCFF; font-size:15px;}
+#text {
+  width: 800px ;
+  margin-left: auto ;
+  margin-right: auto ;
+  background-color:#FFFFFF;
+  padding: 0.8em;
+  line-height: 150%;	
+}
+#code {
+  width: 800px ;
+  margin-left: auto ;
+  margin-right: auto ;
+  background-color:#DEDEDE;
+  border: 1px solid #D8D8D8;
+  padding: 10px;
+  line-height: 150%;
+  border-radius: 6px;
+}
+</style>
+</head>
+
+<body>
+<div id="text">
+<h1>Analysing Fungal Amplicon Sequencing Data</h1>
+</div>
+<div id="text">
+<p>Zewei Song</p>
+</div>
+<div id="text">
+<h3>Intorduction</h3>
+<p>I wrote this pipeline protocol to make my life easier. Like everyone who just start to analyse his/her first next generation amplicon dataset, I spent many hours sitting in front of my laptop, trying to figure out which file I should use to feed the program. Besides banging my head against my office wall, I ended up writing a package of Python scripts that is used in this pipeline, can indeed make my life easier.</p>
+<p>FAST (Fungal Amplicon Sequencing Toolbox) provides a framework for analysing the huge sequence data. I wrote it in order that a new user can go step by step from the raw data to an OTU table. The work flow in this pipeline represent a natural flow of processing the next gen data. I try to let a new user to have an idea of what they are doing at each step, and also get some information on the outcome of their command. I hope a fresh user will not just get a final product through this pipeline, but can also get a better idea of how the analysing works.</p>
+<p>FAST also give some flexibility to experienced users.</p>
+</div>
+<div id="code">
+<p>This is a division. with a extrame longe line 111111 <br/>
+	1111111111111111111111111111111 1111111111 1111111111<br/>
+	$python generate_mapping.py -i Raw -o mapping.txt<br/>
+	ddddddddd dddddddd dddddd dddddddddd</p>
+<p>This is another line.</p>
+</div>
+</body>
+</html>
