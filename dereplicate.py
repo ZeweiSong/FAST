@@ -57,7 +57,7 @@ def dereplicate_single_thread(input_seqs):
         except KeyError:
             derep[record[1]] = [record[0]]
         count += 1
-        sys.stdout.write('Dereplicating %i seq ... \r' % count)
+        sys.stderr.write('Dereplicating %i seq ... \r' % count)
     return derep
 
 
