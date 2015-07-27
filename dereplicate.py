@@ -47,6 +47,19 @@ def dereplicate_worker(input_seqs, output_derep, n, count):
         count[n] += 1
     output_derep[n] = derep
 
+def dereplicate_single_thread(input_seqs):
+    import sys
+    derep = {}
+    count = 0
+    for record in input_seqs:
+        try:
+            derep[record[1]].append(record[0])
+        except KeyError:
+            derep[record[1]] = [record[0]]
+        count += 1
+        sys.stdout.write('Dereplicating %i seq ... \r' % count)
+    return derep
+
 
 def divide_seqs(total, thread_num):
     # Set break point for input sequences
@@ -67,52 +80,57 @@ if __name__ == '__main__':
     import sys
 
     print 'Using %i threads ...' % thread
-
+    start = time.time()
+    
     input_file = input_file
     print 'Loading %s ...' % input_file
     seqs = File_IO.read_seqs(input_file)
     seqs_num = len(seqs)
     print 'Read in %i sequences.' % seqs_num
 
-    # Separated seqs into pools
-    print 'Separating raw sequences into %d jobs ...' % thread
-    d = divide_seqs(seqs_num, thread)
-
-    start = time.time()
-    # Create shared list for store dereplicated dict and progress counter
-    manager = Manager()
-    derep_dict = manager.list([{}] * thread)
-    count = manager.list([0] * thread)
-
-    print 'Starting dereplicating ...'
-    workers = []
-    for i in range(thread):
-        current_range = d[i]
-        workers.append(Process(target=dereplicate_worker,
-                               args=(seqs[current_range[0]:current_range[1]], derep_dict, i, count)))
-    del seqs
+    # Disable multiprocess if using single thread
+    if thread == 1:
+        derep_dict = dereplicate_single_thread(seqs)
+    else:
+        # Separated seqs into pools
+        print 'Separating raw sequences into %d jobs ...' % thread
+        d = divide_seqs(seqs_num, thread)
     
-    print 'Starting %i jobs ...' % thread
-    count_worker = 1
-    for job in workers:
-        job.start()
-        print 'Starting thread No. %i ...' % count_worker
-        count_worker += 1
         
-    job_alive = True
-    while job_alive:
-        time.sleep(0.01)
-        job_alive = False
-        for job in workers:            
-            if job.is_alive():
-                job_alive = True
-        progress = "Dereplicating: " + str(round(sum(count)/float(seqs_num)*100,2)) + "%" + "\r"
-        sys.stderr.write(progress)
-
-    for derep_worker in workers:
-        derep_worker.join()
-    print 'Finished dereplicating.'
-    seqs = []  # Empty sequences list to free memory.
+        # Create shared list for store dereplicated dict and progress counter
+        manager = Manager()
+        derep_dict = manager.list([{}] * thread)
+        count = manager.list([0] * thread)
+    
+        print 'Starting dereplicating ...'
+        workers = []
+        for i in range(thread):
+            current_range = d[i]
+            workers.append(Process(target=dereplicate_worker,
+                                   args=(seqs[current_range[0]:current_range[1]], derep_dict, i, count)))
+        del seqs
+        
+        print 'Starting %i jobs ...' % thread
+        count_worker = 1
+        for job in workers:
+            job.start()
+            print 'Starting thread No. %i ...' % count_worker
+            count_worker += 1
+            
+        job_alive = True
+        while job_alive:
+            time.sleep(0.01)
+            job_alive = False
+            for job in workers:            
+                if job.is_alive():
+                    job_alive = True
+            progress = "Dereplicating: " + str(round(sum(count)/float(seqs_num)*100,2)) + "%" + "\r"
+            sys.stderr.write(progress)
+    
+        for derep_worker in workers:
+            derep_worker.join()
+        print 'Finished dereplicating.'
+        seqs = []  # Empty sequences list to free memory.
 
     # Merged dereplicated dictionaries into a single dict
     print
@@ -131,7 +149,7 @@ if __name__ == '__main__':
                 print 'Merging %i sequence ...' % count + '\b' * 50,
             derep_dict[0] = ''  # Empty finished dictionary to free memory.  
     else:
-        merged_dict = derep_dict[0]
+        merged_dict = derep_dict
     print
     print "Sequences dereplicated, clapsed from %i into %i sequences." % (seqs_num, len(merged_dict))
     s = [len(merged_dict[i]) for i in merged_dict]
