@@ -51,6 +51,7 @@ def repeat_rarefaction_parallel(sample,depth,rep,processor=4):
         p = Pool(processor)
         worker_input = allocate_processor(sample,depth,rep,processor=processor)
         sample_rarefied = (p.map(worker_parallel,worker_input))
+        p.close()
         sample_rarefied_cat = []
         for item in sample_rarefied:
             for element in item:
