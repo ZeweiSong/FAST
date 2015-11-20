@@ -3,6 +3,8 @@
 """
 Create on 4/21/2015.
 
+This library will parse a tab-delimited OTU table into dictionaries.
+
 Please feel free to contact me with any question.
 --
 Zewei Song
