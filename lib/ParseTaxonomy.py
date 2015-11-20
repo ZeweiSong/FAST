@@ -32,11 +32,11 @@ def parse_taxonomy(tax_string):
 
 
 # Parse the taxonomy string of all OTUs
-def taxonomy_info(otu_table, tax_level):
+def taxonomy_info(input_otu_table, tax_level):
     from lib import ParseOtuTable
-    table = ParseOtuTable.parser_otu_table(otu_table)
-    tax_dict = table.meta_dict()['taxonomy']
-    otu_dict = table.species_dict()
+    otu_table = ParseOtuTable.parser_otu_table(input_otu_table)
+    tax_dict = otu_table.meta_dict()['taxonomy']
+    otu_dict = otu_table.species_dict()
     
     abundance_dict = {}
     richness_dict = {}
@@ -61,3 +61,22 @@ def taxonomy_info(otu_table, tax_level):
     report_dict = {'abundance': abundance_dict, 'richness': richness_dict, 'taxonomy_level': tax_level}
     
     return report_dict
+
+# Change the output of taxonomy_info() into writable form (a list):
+def taxonomy_output(input_report_dict):
+    levels = input_report_dict['abundance'].keys()
+    header = input_report_dict['abundance'][levels[0]].keys()
+    header.sort()
+    header = ['tax_level'] + header
+    
+    output_dict = {'abundance':[header], 'richness':[header]}    
+    for tax_level in input_report_dict['abundance'].keys():
+        current_abundance = [tax_level]
+        current_richness = [tax_level]
+        for sample in header[1:]:
+            current_abundance.append(str(input_report_dict['abundance'][tax_level][sample]))
+            current_richness.append(str(input_report_dict['richness'][tax_level][sample]))
+        output_dict['abundance'].append(current_abundance)
+        output_dict['richness'].append(current_richness)
+    return output_dict
+        
