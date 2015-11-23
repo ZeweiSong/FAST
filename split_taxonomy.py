@@ -44,7 +44,7 @@ def main():
             line = '\t'.join(line)
             f.write('%s\n' % line)
     with open(output_richness, 'w') as f:
-        for line in split_tax_table['richness']:
+        for line in split_tax_table_output['richness']:
             line = '\t'.join(line)
             f.write('%s\n' % line)
     
