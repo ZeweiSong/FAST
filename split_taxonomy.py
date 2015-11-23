@@ -30,8 +30,10 @@ def main():
     parser.add_argument("-otu", help="Name of the OTU table, tab delimited.")
     parser.add_argument("-tax", help="Taxonomic level from k, p, c, o, f, g, s")
     args = parser.parse_args()
+    tax_dict = {'k':'Kingdom', 'p':'Phylum', 'c':'Class', 'o':'Order', 'f':'Family', 'g':'Genus', 's':'Species'}
     
     split_tax_table = ParseTaxonomy.taxonomy_info(args.otu, args.tax)
+    tax_number = len(split_tax_table['abundance'])
     split_tax_table_output = ParseTaxonomy.taxonomy_output(split_tax_table)
     
     output_abundance = 'abundance_' + args.tax + '_' + args.otu
@@ -39,12 +41,17 @@ def main():
     
     with open(output_abundance, 'w') as f:
         for line in split_tax_table_output['abundance']:
-            line = '/t'.join(line)
-            f.write('%s/n' % line)
+            line = '\t'.join(line)
+            f.write('%s\n' % line)
     with open(output_richness, 'w') as f:
         for line in split_tax_table['richness']:
-            line = '/t'.join(line)
-            f.write('%s/n' % line)
+            line = '\t'.join(line)
+            f.write('%s\n' % line)
+    
+    print 'Split %s at the level of %s.' % (args.otu, tax_dict[args.tax])
+    print 'Find %i %s.' % (tax_number, tax_dict[args.tax])
+    print 'Splitted OTU table by abundance saved in %s.' % output_abundance
+    print 'Splitted OTU table by richness saved in %s.' % output_richness
             
 if __name__ == '__main__':
     main()
