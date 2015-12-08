@@ -2,7 +2,15 @@
 """
 Created on Tue Dec 08 10:51:54 2015
 
-@author: Zewei Song
+This is a trial script for filtering the UNITE database.
+All records with 'unidentified' in its name are discarded, resutling a clean reference database for taxonomic assignment.
+
+Please feel free to contact me for any question.
+--
+Zewei Song
+University of Minnesota
+Dept. Plant Pathology
+songzewei@outlook.com
 """
 def main():
     import argparse
