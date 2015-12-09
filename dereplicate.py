@@ -151,7 +151,7 @@ if __name__ == '__main__':
     else:
         merged_dict = derep_dict
     print
-    print "Sequences dereplicated, clapsed from %i into %i sequences." % (seqs_num, len(merged_dict))
+    print "Sequences dereplicated, clasped from %i into %i sequences." % (seqs_num, len(merged_dict))
     s = [len(merged_dict[i]) for i in merged_dict]
     print 'Dereplicated OTU size: Max=%i, Min=%i, Average=%i.' % (max(s), min(s), round(float(sum(s) / len(s)), 2))
     end = time.time()
