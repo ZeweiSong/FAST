@@ -32,7 +32,7 @@ input_map = args.input
 input_map_compare = args.subset
 
 print 'Reading in %s ...' % input_map
-otu_map = ParseOtuMap.read_otu_map(input_map)
+otu_map = ParseOtuMap.read_otu_map(input_map) # This line is useless?
 otu_map_parser = ParseOtuMap.otu_map_parser(input_map)
 otu_num = otu_map_parser.derep_count
 seq_num = otu_map_parser.seqs_count
@@ -43,5 +43,5 @@ otu_ave = otu_map_parser.ave_derep
 print 'OTU = %i; Sequence = %i' % (otu_num, seq_num)
 print 'Max abundance = %i; Min abundance = %i; Ave abundance = %i' % (otu_max, otu_min, otu_ave)
 print
-print 'Reading in %s for comparison ...' % input_map_compare
+print 'Reading in %s for comparison ...' % input_map_compare # Not finished
 otu_map_compare = ParseOtuMap.read_otu_map(input_map_compare)
