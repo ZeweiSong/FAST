@@ -33,7 +33,7 @@ input_map_compare = args.subset
 
 print 'Reading in %s ...' % input_map
 otu_map = ParseOtuMap.read_otu_map(input_map) # This line is useless?
-otu_map_parser = ParseOtuMap.otu_map_parser(input_map)
+otu_map_parser = ParseOtuMap.otu_map_parser(input_map) #input_map --> otu_map?
 otu_num = otu_map_parser.derep_count
 seq_num = otu_map_parser.seqs_count
 otu_max = otu_map_parser.max_derep
