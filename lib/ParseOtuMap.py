@@ -20,8 +20,6 @@ def read_otu_map(filename):
         MapDict[names[0]]=names[1:]
     return MapDict
 #%%
-
-
 class otu_map_parser(object):
     # Get basic information of an OTU map
     def __init__(self, Map):
