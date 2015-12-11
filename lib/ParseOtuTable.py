@@ -33,7 +33,7 @@ class parser_otu_table(object):
             meta_position = len(table[0]) + 1
         self.sample_id = table[0][1:meta_position]  # Second column till the first meta column
         self.meta_id = table[0][meta_position:]  # Start from the first meta column to the end
-        self.species_id = [i[0] for i in table[1:]]  # First column stating from the second row
+        self.species_id = [i[0] for i in table[1:]]  # First column starting from the second row
         
         # Convert all abundance to intger
         for line in table[1:]:
@@ -85,7 +85,13 @@ class parser_otu_table(object):
             for i in range(len(self.species_id)):
                 meta[line[0]][self.species_id[i]] = line[1:][i]
         return meta
+    
+    
+# Generate a ne OTU table sorted by sum of OTU abundance
+def sorted_table(self):
+        
 
+# Output a tab delimited OTU table using a sample dict and meta_dict
 def write_sample_dict(sample_dict, meta_dict, otu_id, output_file_path):
     sample_id = sample_dict.keys()
     sample_id.sort()
