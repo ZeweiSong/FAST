@@ -89,7 +89,7 @@ class parser_otu_table(object):
     
     
 # Generate a new tab delimited OTU table sorted by sum of OTU abundance
-def sorted_table(otu_table_parser, new_file_path='otu_table_sorted.txt'):
+def sorted_table(otu_table_parser, new_file_path='otu_table_sorted.txt', remove_zero = False):
     otu_id = otu_table_parser.species_id
     otu_dict = otu_table_parser.species_dict()
     meta_id = otu_table_parser.meta_id
@@ -100,6 +100,15 @@ def sorted_table(otu_table_parser, new_file_path='otu_table_sorted.txt'):
         sum_abundance = sum(otu_dict[otu].values())
         otu_abundance_list.append([sum_abundance, otu])
     otu_abundance_list = sorted(otu_abundance_list, reverse = True)
+    
+    if remove_zero:
+        new_otu_list = []
+        for item in otu_abundance_list:
+            if item[0] > 0:
+                new_otu_list.append(item)
+            else:
+                pass
+        otu_abundance_list = new_otu_list
     
     output_content = [otu_table_parser.header]
     for item in otu_abundance_list:
@@ -120,6 +129,7 @@ def sorted_table(otu_table_parser, new_file_path='otu_table_sorted.txt'):
         
         output_content.append(current_line)
     write_content(output_content, new_file_path)    
+    
     return
     
     
