@@ -99,7 +99,7 @@ def sorted_table(otu_table_parser, new_file_path='otu_table_sorted.txt'):
     for otu in otu_id:
         sum_abundance = sum(otu_dict[otu].values())
         otu_abundance_list.append([sum_abundance, otu])
-    sorted(otu_abundance_list, reverse = True)
+    otu_abundance_list = sorted(otu_abundance_list, reverse = True)
     
     output_content = [otu_table_parser.header]
     for item in otu_abundance_list:
