@@ -85,3 +85,36 @@ class parser_otu_table(object):
             for i in range(len(self.species_id)):
                 meta[line[0]][self.species_id[i]] = line[1:][i]
         return meta
+
+def write_sample_dict(sample_dict, meta_dict, otu_id, output_file_path):
+    sample_id = sample_dict.keys()
+    sample_id.sort()
+    meta_id = meta_dict.keys()
+    
+    header = ['OTU_ID'] + sample_id + meta_id
+    content = [header]
+    for otu in otu_id:
+        current_line = [otu]
+        for sample in sample_id:
+            try:
+                current_abundance = sample_dict[sample][otu]
+                current_line.append(str(current_abundance))
+            except KeyError:
+                current_line.append('0')
+        if len(meta_id) > 0:
+            for meta_column in meta_id:
+                current_meta = meta_dict[meta_column][otu]
+                current_line.append(current_meta)
+        else:
+            pass
+        content.append(current_line)
+    
+    write_content(content, output_file_path)
+    return
+
+def write_content(input_content, output_file_path):
+    with open(output_file_path, 'w') as f:
+        for line in input_content:
+            line = [str(i) for i in line]
+            line = '\t'.join(line)
+            f.write('%s\n' % line)
