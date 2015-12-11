@@ -34,6 +34,7 @@ class parser_otu_table(object):
         self.sample_id = table[0][1:meta_position]  # Second column till the first meta column
         self.meta_id = table[0][meta_position:]  # Start from the first meta column to the end
         self.species_id = [i[0] for i in table[1:]]  # First column starting from the second row
+        self.header = ['OTU_ID'] + self.sample_id + self.meta_id
         
         # Convert all abundance to intger
         for line in table[1:]:
@@ -87,10 +88,41 @@ class parser_otu_table(object):
         return meta
     
     
-# Generate a ne OTU table sorted by sum of OTU abundance
-def sorted_table(self):
+# Generate a new tab delimited OTU table sorted by sum of OTU abundance
+def sorted_table(otu_table_parser, new_file_path='otu_table_sorted.txt'):
+    otu_id = otu_table_parser.species_id
+    otu_dict = otu_table_parser.species_dict()
+    meta_id = otu_table_parser.meta_id
+    meta_dict = otu_table_parser.meta_dict()
+    
+    otu_abundance_list = []
+    for otu in otu_id:
+        sum_abundance = sum(otu_dict[otu].values())
+        otu_abundance_list.append([sum_abundance, otu])
+    sorted(otu_abundance_list, reverse = True)
+    
+    output_content = [otu_table_parser.header]
+    for item in otu_abundance_list:
+        otu_name = item[1]
+        current_line = [otu_name]
+        for sample in otu_table_parser.sample_id:
+            try:            
+                current_line.append(otu_dict[otu_name][sample])
+            except KeyError:
+                current_line.append(0)
+                
+        if len(meta_id) >0:
+            for meta_column in meta_id:
+                current_meta = meta_dict[meta_column][otu_name]
+                current_line.append(current_meta)
+        else:
+            pass
         
-
+        output_content.append(current_line)
+    write_content(output_content, new_file_path)    
+    return
+    
+    
 # Output a tab delimited OTU table using a sample dict and meta_dict
 def write_sample_dict(sample_dict, meta_dict, otu_id, output_file_path):
     sample_id = sample_dict.keys()
