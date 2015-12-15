@@ -37,6 +37,7 @@ def taxonomy_info(input_otu_table, tax_level):
     otu_table = ParseOtuTable.parser_otu_table(input_otu_table)
     tax_dict = otu_table.meta_dict()['taxonomy']
     otu_dict = otu_table.species_dict()
+    sample_id = otu_table.sample_id
     
     abundance_dict = {}
     richness_dict = {}
@@ -58,16 +59,13 @@ def taxonomy_info(input_otu_table, tax_level):
                 abundance_dict[current_tax[tax_level]][sample] = otu_dict[otu][sample]
                 richness_dict[current_tax[tax_level]][sample] += 1
     
-    report_dict = {'abundance': abundance_dict, 'richness': richness_dict, 'taxonomy_level': tax_level}
+    report_dict = {'abundance': abundance_dict, 'richness': richness_dict, 'taxonomy_level': tax_level, 'sample_id': sample_id}
     
     return report_dict
 
 # Change the output of taxonomy_info() into writable form (a list):
 def taxonomy_output(input_report_dict):
-    levels = input_report_dict['abundance'].keys()
-    header = input_report_dict['abundance'][levels[0]].keys()
-    header.sort()
-    header = ['tax_level'] + header
+    header = ['tax_level'] + input_report_dict['sample_id']    
     
     output_dict = {'abundance':[header], 'richness':[header]}    
     for tax_level in input_report_dict['abundance'].keys():
