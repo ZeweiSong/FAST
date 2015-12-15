@@ -38,13 +38,38 @@ def main():
     
     output_abundance = 'abundance_' + args.tax + '_' + args.otu
     output_richness = 'richness_' + args.tax + '_' + args.otu
-    
+
+    # Write the abundance data    
+    temp_abundance = []
+    for line in split_tax_table_output['abundance'][1:]:
+        temp_sum = sum([int(i) for i in line[1:]])
+        line = [temp_sum] + line
+        temp_abundance.append(line)
+    temp_abundance = sorted(temp_abundance, reverse = True)
     with open(output_abundance, 'w') as f:
-        for line in split_tax_table_output['abundance']:
+        header = split_tax_table_output['abundance'][0]
+        header = '\t'.join(header)
+        f.write('%s\n' % header)
+        for line in temp_abundance:
+            line = line[1:]
+            line = [str(i) for i in line]
             line = '\t'.join(line)
             f.write('%s\n' % line)
+    
+    # Write the richness data
+    temp_richness = []
+    for line in split_tax_table_output['richness'][1:]:
+        temp_sum = sum([int(i) for i in line[1:]])
+        line = [temp_sum] + line
+        temp_richness.append(line)
+    temp_richness = sorted(temp_richness, reverse = True)                        
     with open(output_richness, 'w') as f:
-        for line in split_tax_table_output['richness']:
+        header = split_tax_table_output['richness'][0]
+        header = '\t'.join(header)
+        f.write('%s\n' % header)
+        for line in temp_richness:
+            line = line[1:]
+            line = [str(i) for i in line]
             line = '\t'.join(line)
             f.write('%s\n' % line)
     
