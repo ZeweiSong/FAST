@@ -33,6 +33,7 @@ FAST='/home/kinkelll/shared/FAST' # This is the path to the FAST package.
 
 module load trimmomatic # load trimmomatic for quality filtering
 module load usearch # load USEARCH for OTU clustering
+module load qiime # load QIIME
 
 # After this head file, you can include any of the following command line. You can use the hasg tag "#" to skip any commandlines that have already been ran.
 
@@ -71,6 +72,7 @@ python $FAST/truncate_seqs.py -i .\raw.trim.N0.homop9.fastq -l 230 -o raw.trim.q
 # If you decide not to truncate your sequences, use this command to convert FASTQ to FASTA (remove the #). And remember to change the input time fo the next command.
 #python $FAST/convert_fastq.py -i raw.trim.N0.homop9.fastq -o raw.trim.N0.homop9.fasta
 
+# SECTION-2 OTU CLUSTERING
 # Dereplication
 # For some reason, using only one CPU is the fastest way in mesabi, so just use "-t 1".
 # The output will be two files:
@@ -91,3 +93,65 @@ python $FAST/pick_seqs.py -i raw.qc.derep.fasta -o raw.qc.derep.size2.fasta -map
 # USEARCH need to know the size of each sequence for OTU clustering. You'll need a ";size=XXX" label at the end of each sequence label.
 python $FAST/add_seqs_size.py -i raw.qc.derep.size2.fasta -map raw.qc.derep.size2.txt -o raw.qc.derep.size2.sizeout.fasta
 
+# Use USEARCH to do OTU clustering
+# By this time, the "raw.qc.derep.size2.sizeout.fasta" file should be smaller, even for a very large dataset. For three full runs of MiSeq, I got a file around 200MB.
+# The version of USEARCH in MSI has a memoery limit of 4GB, but it seems not to be a bottlenect at this point. It is, however, too small for dereplication. That is why we use dereplication function in FAST.
+# Notice that we are output the UPARSE style file. This is the file we'll need to generate a QIIME style OTU map file. The default USEARCH setting will only output a FASTA file.
+usearch -cluster_otus raw.qc.derep.size2.sizeout.fasta -uparseout uparse.up
+
+# Convert the UPARSE file to an OTU map file.
+python $FAST/parse_uparse_cluster.py -i uparse.up -o raw.qc.derep.size2.usearch.txt
+
+# Merge two OTU maps.
+# For OTU clustering, you are actually processing the dereplicated file, which in the OTU map "raw.qc.derep.size2.usearch.txt", we don't know the size of each dereplicated sequences.
+# So we merge/map this file with the orignial/larger OTU map, "raw.qc.derep.size2.txt", so each OTU is now correspinding to the real sequences, but not the dereplicated sequences.
+python $FAST/merge_otu_maps.py -map_large raw.qc.derep.size2.txt -map_small raw.qc.derep.size2.usearch.txt -o merged.otu.txt
+
+# And we rename all OTU to start with OTU_ follwing by a number.
+python $FAST/rename_otu_map.py -i merged.otu.txt -o merged.otu.renamed.txt -label OTU_
+
+# Make the unrarefied OTU table by counting the number of sequences in each OTU and divide them up by sample names (sample names are save in the label of each sequences, it is compatible with QIIME).
+python $FAST/make_otu_table.py -map merged.otu.renamed.txt -o fungi_otu_table.txt
+
+# Pick representative sequences using QIIME.
+# Basically, the default setting of QIIME pick the most abudnant sequences in each OTU as the representative.
+pick_rep_set.py -i merged.otu.renamed.txt -f raw.qc.fasta
+mv raw.qc.fasta_rep_set.fasta fungi_rep_set.fasta
+
+# SECTION-3 TAXONOMIC ASSIGNMENT
+# Assign taxonomy
+# Copy the BLAST database to your working folder,
+# For Kinkel lab, the three files can be found under /home/kinkelll/shared/Tools
+# 	unite_filter.nhr
+#	unite_filter.nin
+#	unite_filter.nsq
+
+# You can also build your own BLAST database, and filer it by removing "unidentified" fungi.
+# You can download the latest UNITE database from their website.
+#python $FAST/filter_database -i sh_general_release_s_02.03.2015.fasta -o unite_filter.fasta
+#makeblastdb -in unite_filter.fasta -dbtype nucl -out unite_filter
+
+# Blast your representative sequences against your BLAST database
+blastn -db unite_filter -query fungi_rep_set.fasta -max_target_seqs 1 -outfmt "6 qseqid stitle qlen length pident evalue" -out rep.otu.txt
+
+# Map BLAST result to the OTU table
+python $FAST/assign_taxonomy.py -otu fungi_otu_table.txt -tax rep.otu.txt -o fungi_otu_table.tax.txt
+
+# Filter low mathc records
+# I haven’t come up with a script here (will do in the future), but for now it is easy and flexible to do this in EXCEL. Filter out any rows that below a threshold of percentage match length (Subject_Len/Query_Len, such as 0.85), and/or below a threshold of Pident (such as 85).
+# I usualy apply this filtering to all sequences that are less than 1% of total sequences, knowing that the abundant OTU may be some unknown fungi that do not map to the database.
+
+#!!Remeber to remove all BLAST column except the taxonomy after this step.
+# In this example, I save the new OTU table as fungi_otu_table.tax.filtered.txt
+
+# Subtract Negative Control
+# Subtract the abundance of negative control (if you have one) from other samples in EXCEL, or remove any OTU if you think it is necessary.
+
+# Rarefaction. You will need to random sample your OTU table to a certain depth. Using the FAST package, you will be able to do iterated rarefaction, and pick a representative subsample.
+# "-keep_all" will keep all samples even for those that are below the depth.
+# "-d" is the seuquencing depth
+# "-iter" sets the iteration number, 1000 is a good one.
+# "-thread" set the number of CPU to be used.
+python $FAST/rarefy_otu_table.py -otu fungi_otu_table.tax.filtered.txt -o fungi_otu_table.rare.txt -d 15000 -iter 1000 -thread 4 -keep_all -meta_column taxonomy
+
+# The output OTU table is a text file (not BIOM format like in QIIME) and should be ready for any analysis.
