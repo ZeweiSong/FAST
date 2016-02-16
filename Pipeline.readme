@@ -1,1 +1,93 @@
-FAST Pipeline for processing next generation amplicon sequencing data
+#FAST Pipeline for processing next generation amplicon sequencing data
+
+# This is a pipeline that should be compatible with the University of Minnesota MSI's mesabi system.
+
+# SECTION-0 PREPARATION
+# Download the FAST package (https://github.com/ZeweiSong/FAST) and put it into your MSI folder. 
+# For example, I put the FAST package in the shared folder of the Kinkel group, and make it accessible to all the members.
+# The FAST package can be accessed by using a short cut in mesabi.
+
+# Trimmomatic and USEARCH should be ready on Mesabi.
+# For Trimmomatic, you'll need a primer file to do primer removal. It is a text file containly the sequences of the read1 and read2 primers.
+# Here is an exmaple:
+#	>Read1
+#	CTTGGTCATTTAGAGGAAGTAA
+#	>Read1_rc
+#	TTACTTCCTCTAAATGACCAAG
+#	>Read2
+#	TCCTCCGCTTATTGATATGC
+#	>Read2_rc
+#	GCATATCAATAAGCGGAGGA
+# Copy it to a new text file and remove all # and tab, and save it as "illumina_MiSeq_Fungi.fa". Copy this file to your working folder.
+# For Kinkel lab, you can find this file in /home/kinkelll/shared/Tools
+
+# Start your .sh file with the following head:
+
+#!/bin/bash -l 
+#PBS -l walltime=2:00:00,nodes=2:ppn=8,pmem=2580mb # Rememeber to set the right walltime, I ususally separately the commandlines into several sections so you can check the progress.
+#PBS -m abe 
+#PBS -M songx208@umn.edu 
+module load python-epd
+cd /home/kinkelll/shared/Fungi # This is the path of your working folder.
+FAST='/home/kinkelll/shared/FAST' # This is the path to the FAST package.
+
+module load trimmomatic # load trimmomatic for quality filtering
+module load usearch # load USEARCH for OTU clustering
+
+# After this head file, you can include any of the following command line. You can use the hasg tag "#" to skip any commandlines that have already been ran.
+
+# SECTION-1 QUALITY CONTROL
+# Your data should arrive as two FASTQ files per sample. For fungal data, copy all R1 read files to a new folder.
+# For the example here, I'll put all R1 read files into /home/kinkelll/shared/Fungi/Read1
+
+# Generate a mapping file for your R1 files
+# You are going to repeatly use the following style commandline. "$FAST/generate_mapping.py" refer to the Python script in the shortcut we specify earlier, and Read1 is the folder with all R1 files.
+python $FAST/generate_mapping.py -i Read1
+
+# Add sequence labels to all files, and save them to a new folder
+# -t specify the thread/cpu you would like to use, for the resource we request, we can use 8 cpu at a same time.
+python $FAST/add_labels.py -m mapping.txt -i Read1 -o Read1_labeled -t 8
+
+# Merge all labeled sequences into a single FASTQ file.
+python $FAST/merge_seqs.py -i Read1_labeled -o raw.fastq
+
+# Use trimmomatic to remove reading primers and trim the sequence.
+# Search trimmomatic and read its manual if you want to adjust the parameters. What I'm using here is a strignet one using a moving window.
+java -jar $TRIMMOMATIC/trimmomatic.jar SE raw.fastq raw.trim.fastq ILLUMINACLIP:illumina_MiSeq_Fungi.fa:2:30:10 SLIDINGWINDOW:5:20 MINLEN:125
+
+# Filer sequences by max length of homopolyers and ambiguous bases.
+# I prefer to use this kind of style to name my output file, so you can have a way to track your progress.
+python $FAST/filter_seqs.py -i .\raw.trim.fastq -o raw.trim.N0.homop9.fastq -maxN 0 -maxhomop 9
+
+# Get general information of the filered data.
+# You can skip this one, but taking look at the report will help you decide the following trimming plan. It could also be a useful supplement for manuscript.
+python $FAST/stat_seqs.py -i .\raw.trim.N0.homop9.fastq -o qc_report.txt
+
+# Truncate all sequences to a fixed length, convert FASTQ to FASTA
+# You can also skip this one, but this is recommend by the USEARCH author to truncate all sequences to a fixed length, if the read does not span the entire gene.
+# For example, I truncate all sequences to a length of 230bp, which retains ~80% of my total sequences, by reading the qc_report.txt from the last step.
+python $FAST/truncate_seqs.py -i .\raw.trim.N0.homop9.fastq -l 230 -o raw.trim.qc.L230.fasta
+
+# If you decide not to truncate your sequences, use this command to convert FASTQ to FASTA (remove the #). And remember to change the input time fo the next command.
+#python $FAST/convert_fastq.py -i raw.trim.N0.homop9.fastq -o raw.trim.N0.homop9.fasta
+
+# Dereplication
+# For some reason, using only one CPU is the fastest way in mesabi, so just use "-t 1".
+# The output will be two files:
+# 	raw.qc.derep.txt is the QIIME style OTU mapping.
+#	raw.qc.derep.fasta is the dereplicated FASTA file.
+python $FAST/dereplicate.py -i raw.trim.qc.L230.fasta -o raw.qc.derep -t 1
+
+# Remove all singletons using the OTU map file.
+python $FAST/filter_otu_map.py -i raw.qc.derep.txt -o raw.qc.derep.size2.txt -min_size 2
+
+# Using the new OTU map file (without singletons) to pick sequences in the original dereplicated FASTA file (So you can a new set of mathced OTU map file and FASTA file).
+python $FAST/pick_seqs.py -i raw.qc.derep.fasta -o raw.qc.derep.size2.fasta -map raw.qc.derep.size2.txt
+
+# This is the step you can stop and plug into your own QIIME pipeline if you want. The OTU map and FASTA file are compatibale with all uses in QIIME.
+# If you want to use USEARCH to do clustering (the core algorithem in QIIME), keep going.
+
+# Add a USEARCH label for sequence size.
+# USEARCH need to know the size of each sequence for OTU clustering. You'll need a ";size=XXX" label at the end of each sequence label.
+python $FAST/add_seqs_size.py -i raw.qc.derep.size2.fasta -map raw.qc.derep.size2.txt -o raw.qc.derep.size2.sizeout.fasta
+
