@@ -140,7 +140,7 @@ def write_seqs(input_content, output_file, checker=True, overwrite=False):
             sys.exit()
 
     if not overwrite:  # Append to current file
-        with open(output_file, 'a') as f:
+        with open(output_file, 'ab') as f:
             for record in input_content:
                 record[0] = head_symbol + record[0]
                 for i in range(line_num):
