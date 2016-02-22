@@ -146,7 +146,7 @@ def write_seqs(input_content, output_file, checker=True, overwrite=False):
                 for i in range(line_num):
                     f.write('%s\n' % record[i])
     elif overwrite:  # Overwrite current file
-        with open(output_file, 'w') as f:
+        with open(output_file, 'wb') as f:
             for record in input_content:
                 record[0] = head_symbol + record[0]
                 for i in range(line_num):
