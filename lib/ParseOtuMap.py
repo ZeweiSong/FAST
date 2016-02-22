@@ -67,7 +67,7 @@ def filter_by_size(MapDict,min_size=2):
 def write_otu_map(MapDict,output_file='new_map.txt'):
 #Not sure for now if I should sort the otu names by number
 #Probably not, it can be converted to otu table in Qiime.
-    with open(output_file, 'w') as f:
+    with open(output_file, 'wb') as f:
         for key, value in MapDict.items():
             cluster_seqs = '\t'.join(value)
             f.write('%s\t%s\n'%(key,cluster_seqs))
@@ -87,6 +87,7 @@ def extract_all_seqs(Map, otu_list):
     return extracted
 
 
+"""
 #%%Handling uc file from USEARCH
 def read_uc_map(filename):
 #Read in .uc file
@@ -100,7 +101,7 @@ def read_uc_map(filename):
     return UcMap
 
 
-def convert_us_map(UcMap):
+def convert_uc_map(UcMap):
     QiimeMap = {}
     for line in UcMap:
         if line[1] == "*": #this seq is a new cluster
@@ -108,3 +109,4 @@ def convert_us_map(UcMap):
         else:
             QiimeMap[line[1]].append(line[0]) #this seq belongs to an existed cluster
     return QiimeMap
+"""
