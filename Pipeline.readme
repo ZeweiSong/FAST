@@ -45,6 +45,8 @@ module load qiime # load QIIME
 # You are going to repeatly use the following style commandline. "$FAST/generate_mapping.py" refer to the Python script in the shortcut we specify earlier, and Read1 is the folder with all R1 files.
 python $FAST/generate_mapping.py -i Read1
 
+# Take a look at the mapping file. You should not have "_" in the first column (Sample_Id). "_" is used for identify sample name in the script (it is also the style Qiime uses).
+
 # Add sequence labels to all files, and save them to a new folder
 # -t specify the thread/cpu you would like to use, for the resource we request, we can use 8 cpu at a same time.
 python $FAST/add_labels.py -m mapping.txt -i Read1 -o Read1_labeled -t 8
