@@ -14,7 +14,7 @@ songzewei@outlook.com
 
 import argparse
 from lib import ParseOtuMap
-import sys
+#import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-map', help='The OTU map')
