@@ -33,7 +33,7 @@ def main():
     parser.add_argument("-i", "--input", help="Name of the input folder")
     parser.add_argument("-o", "--output", default='labeled', help="Name of the output folder")
     parser.add_argument("-t", "--thread", default=1, type=int, help="Number of thread to be used")
-    parser.add_argument("-l", "--label", default='both', help="Type of label: both, qiime, or usearch")
+    parser.add_argument("-l", "--label", default='qiime', help="Type of label: both, qiime, or usearch")
     parser.add_argument("-fasta", action="store_true", help="Set input file type to FASTA instead of FASTQ")
     args = parser.parse_args()
 
