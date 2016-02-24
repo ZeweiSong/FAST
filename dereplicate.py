@@ -163,25 +163,7 @@ if __name__ == '__main__':
     print "Used time: " + str(end - start) + ' seconds.'
     print
     
-    # Generate FAST style derep output file (a single file with sample names, counts, and dereplicated sequences)    
-    fast_dict = {}
-    for key, value in merged_dict.items():
-        fast_dict[value[-1]] = {} # Crearte a new dict for current derep unit
-        fast_dict[value[-1]]['seq'] = key # Save dereplicated sequence
-        
-        sample_dict = {} # Create a dict for sample sequence count
-        for sample in value[:-1]:
-            current_sample  = get_treatment(sample)
-            try:
-                sample_dict[current_sample] += 1
-            except KeyError:
-                sample_dict[current_sample] = 1
-        
-        fast_dict[value[-1]]['sample'] = sample_dict
-    
-    import json
-    json.dump(fast_dict, open("fast_dict.txt", "wb"))
-    
+  
     # Name the dereplicated group
     count = 0
     for key, value in merged_dict.items():  # Add group name to the end of the the name list of each group
@@ -203,3 +185,22 @@ if __name__ == '__main__':
         for key, value in merged_dict.items():
             f.write('%s\t%s\n' % (value[-1], '\t'.join(value[:-1])))  # Use the last element as group name
     print '%s contains an OTU map for dereplicated sequences.' % output_map
+    
+    # Generate FAST style derep output file (a single file with sample names, counts, and dereplicated sequences)    
+    fast_dict = {}
+    for key, value in merged_dict.items():
+        fast_dict[value[-1]] = {} # Crearte a new dict for current derep unit
+        fast_dict[value[-1]]['seq'] = key # Save dereplicated sequence
+        
+        sample_dict = {} # Create a dict for sample sequence count
+        for sample in value[:-1]:
+            current_sample  = get_treatment(sample)
+            try:
+                sample_dict[current_sample] += 1
+            except KeyError:
+                sample_dict[current_sample] = 1
+        
+        fast_dict[value[-1]]['sample'] = sample_dict
+    
+    import json
+    json.dump(fast_dict, open("fast_dict.txt", "wb"))
