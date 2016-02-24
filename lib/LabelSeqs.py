@@ -22,7 +22,7 @@ songzewei@outlook.com
 
 # %%+++++Single thread relabeling++++++++++++++++++++++++++++++++++++++++++++++++++++++
 def ReLabelFastQ(file_name, label, read_type, input_folder, output_folder='labeled', file_type='fastq',
-                 label_type='both'):
+                 label_type='qiime'):
     #%% Read in sequence file and change the header
     from lib import File_IO
 
@@ -62,7 +62,7 @@ def ParseMapping(mapping_file, input_folder):
         return tuple(mapping)
 
 
-def ChangeName(barcodelabel, count_seq, read_type='R1', label_type='both'):
+def ChangeName(barcodelabel, count_seq, read_type='R1', label_type='qiime'):
     # Change the sequence name
     count_seq = str(count_seq)
     usearch_label = 'barcodelabel=' + barcodelabel
@@ -71,7 +71,7 @@ def ChangeName(barcodelabel, count_seq, read_type='R1', label_type='both'):
         new_header = usearch_label + ';' + 'count=' + count_seq + 'read_type=' + read_type + ';'
         return new_header
     elif label_type == 'qiime':
-        new_header = qiime_label + ';' + 'read_type=' + read_type + ';'
+        new_header = qiime_label
         return new_header
     elif label_type == 'both':
         new_header = qiime_label + ';' + usearch_label + ';' + 'read_type=' + read_type + ';'
