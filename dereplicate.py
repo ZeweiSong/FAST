@@ -174,12 +174,7 @@ if __name__ == '__main__':
         derep_name = 'derep_' + str(count)
         element.append(derep_name)
         count += 1
-    '''
-    for key, value in merged_dict.items():  # Add group name to the end of the the name list of each group
-        derep_name = 'derep_' + str(count)
-        value.append(derep_name)
-        count += 1
-    '''
+
 
     # Output dereplicated FASTA file
     print 'Writing dereplicated sequence and OTU map ...'
@@ -190,15 +185,7 @@ if __name__ == '__main__':
                 output_label = element[2] + ";size=" + str(element[0])
                 f.write('>%s\n' % output_label)
                 f.write('%s\n' % element[1])
-#        '''
-#        for key, value in merged_dict.items():
-#            if args.sizeout: # size label requires
-#                derep_size = len(value) - 1
-#                size_label = ";size=" + str(derep_size)
-#                output_label = value[-1] + size_label
-#                f.write('>%s\n' % output_label)
-#                f.write('%s\n' % key)
-#        '''
+
         else:
             for element in size_list:
                 output_label = element[2]
