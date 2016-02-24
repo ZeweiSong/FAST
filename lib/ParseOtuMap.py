@@ -87,6 +87,38 @@ def extract_all_seqs(Map, otu_list):
     return extracted
 
 
+def generate_fast_style(input_otu_map, input_centroid):
+    fast_dict = {}
+    centroid_dict = {}
+    centroid_list = []
+    
+    # Remove USEARCH size label from sequence labels
+    for record in input_centroid:
+        current_label = record[0][:record[0].find(';')]
+        centroid_dict[current_label] = record[1]
+        centroid_list.append(current_label)
+    
+    new_otu_map = {}
+    for key, value in input_otu_map:
+        new_key = key[:key.find(';')]
+        new_sample = []
+        for item in value:
+            new_sample.append(item[:item.find(';')])
+        new_otu_map[new_key] = new_sample
+    
+    for element in centroid_list:
+        fast_dict[element] = {}
+        fast_dict[element]['seq'] = centroid_dict[element]
+        
+        fast_dict[element]['sample'] = {}
+        for sample in new_otu_map[element]:
+            try:
+                fast_dict[element]['sample'][sample] += 1
+            except KeyError:
+                fast_dict[element]['sample'][sample] = 1
+    
+    return fast_dict
+
 """
 #%%Handling uc file from USEARCH
 def read_uc_map(filename):
