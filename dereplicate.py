@@ -23,6 +23,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', help='Input FASTA file to be dereplicated.')
 parser.add_argument('-o', '--output', help='Name for output OTU map and FASTA file.')
 parser.add_argument('-t', '--thread', default = 1, help='Number of threads to be used.')
+parser.add_argument('-fast', default = "", help="Name of FAST style output file.")
+parser.add_argument('-sizeout', action = "store_true", help="Specify to add a USEARCH style size label: ;szie=XXX")
 
 args = parser.parse_args()
 
@@ -30,6 +32,7 @@ input_file = args.input
 output_name = args.output
 output_map = output_name + '.txt'
 output_fasta = output_name + '.fasta'
+
 thread = int(args.thread)
 
 
@@ -165,42 +168,73 @@ if __name__ == '__main__':
     
   
     # Name the dereplicated group
+    size_list = sorted([[len(merged_dict[i]), i] for i in merged_dict], reverse=True)
     count = 0
+    for element in size_list:
+        derep_name = 'derep_' + str(count)
+        element.append(derep_name)
+        count += 1
+    '''
     for key, value in merged_dict.items():  # Add group name to the end of the the name list of each group
         derep_name = 'derep_' + str(count)
         value.append(derep_name)
         count += 1
+    '''
 
     # Output dereplicated FASTA file
     print 'Writing dereplicated sequence and OTU map ...'
     output_seq_file = output_fasta
-    with open(output_seq_file, 'w') as f:
-        for key, value in merged_dict.items():
-            f.write('>%s\n' % value[-1])
-            f.write('%s\n' % key)
+    with open(output_seq_file, 'wb') as f:
+        if args.sizeout:        
+            for element in size_list:
+                output_label = element[2] + ";size=" + str(element[0])
+                f.write('>%s\n' % output_label)
+                f.write('%s\n' % element[1])
+#        '''
+#        for key, value in merged_dict.items():
+#            if args.sizeout: # size label requires
+#                derep_size = len(value) - 1
+#                size_label = ";size=" + str(derep_size)
+#                output_label = value[-1] + size_label
+#                f.write('>%s\n' % output_label)
+#                f.write('%s\n' % key)
+#        '''
+        else:
+            for element in size_list:
+                output_label = element[2]
+                f.write('>%s\n' % output_label)
+                f.write('%s\n' % element[1])
+                
     print '%s contains dereplicated sequences.' % output_fasta
 
     # Output Qiime style map
-    with open(output_map, 'w') as f:
-        for key, value in merged_dict.items():
-            f.write('%s\t%s\n' % (value[-1], '\t'.join(value[:-1])))  # Use the last element as group name
+    with open(output_map, 'wb') as f:
+        for element in size_list:
+            name_list = merged_dict[element[1]]
+            f.write('%s\t%s\n' % (element[2], '\t'.join(name_list)))  # Use the last element as group name
     print '%s contains an OTU map for dereplicated sequences.' % output_map
     
-    # Generate FAST style derep output file (a single file with sample names, counts, and dereplicated sequences)    
-    fast_dict = {}
-    for key, value in merged_dict.items():
-        fast_dict[value[-1]] = {} # Crearte a new dict for current derep unit
-        fast_dict[value[-1]]['seq'] = key # Save dereplicated sequence
+    # Generate FAST style derep output file (a single file with sample names, counts, and dereplicated sequences)  
+    if args.fast != "":
+        fast_file = args.fast
         
-        sample_dict = {} # Create a dict for sample sequence count
-        for sample in value[:-1]:
-            current_sample  = get_treatment(sample)
-            try:
-                sample_dict[current_sample] += 1
-            except KeyError:
-                sample_dict[current_sample] = 1
+        fast_dict = {}
         
-        fast_dict[value[-1]]['sample'] = sample_dict
-    
-    import json
-    json.dump(fast_dict, open("fast_dict.txt", "wb"))
+        for element in size_list:
+            
+            fast_dict[element[2]] = {} # Crearte a new dict for current derep unit
+            fast_dict[element[2]]['seq'] = element[1] # Save dereplicated sequence
+            
+            sample_dict = {} # Create a dict for sample sequence count
+            name_list = merged_dict[element[1]]
+            for sample in name_list:
+                current_sample = get_treatment(sample)
+                try:
+                    sample_dict[current_sample] += 1
+                except KeyError:
+                    sample_dict[current_sample] = 1
+            
+            fast_dict[element[2]]['sample'] = sample_dict
+        
+        import json
+        json.dump(fast_dict, open(fast_file, "wb"))
