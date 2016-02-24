@@ -18,11 +18,13 @@ from __future__ import print_function
 import argparse
 from lib import ParseOtuMap
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', help='Input uparse denovo cluster output file')
 parser.add_argument('-o', '--output', help='Output Qiime style OTU map')
 parser.add_argument('-separator', default=';', help='Separator between sample name and size annotation')
+parser.add_argument('-fast', default='', help='Name of FAST style output.')
+parser.add_argument('-centroid', default = '', help='Name of the FASTA file contains sequences of centroids.')
+
 args = parser.parse_args()
 input_file = args.input
 output_file = args.output
