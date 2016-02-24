@@ -60,6 +60,11 @@ def dereplicate_single_thread(input_seqs):
         sys.stderr.write('Dereplicating %i seq ... \r' % count)
     return derep
 
+def get_treatment(input_string):
+    #import sys
+    treatment = input_string[:input_string.find('_')]
+    return treatment
+
 
 def divide_seqs(total, thread_num):
     # Set break point for input sequences
@@ -157,7 +162,26 @@ if __name__ == '__main__':
     end = time.time()
     print "Used time: " + str(end - start) + ' seconds.'
     print
-
+    
+    # Generate FAST style derep output file (a single file with sample names, counts, and dereplicated sequences)    
+    fast_dict = {}
+    for key, value in merged_dict.items():
+        fast_dict[value[-1]] = {} # Crearte a new dict for current derep unit
+        fast_dict[value[-1]]['seq'] = key # Save dereplicated sequence
+        
+        sample_dict = {} # Create a dict for sample sequence count
+        for sample in value[:-1]:
+            current_sample  = get_treatment(sample)
+            try:
+                sample_dict[current_sample] += 1
+            except KeyError:
+                sample_dict[current_sample] = 1
+        
+        fast_dict[value[-1]]['sample'] = sample_dict
+    
+    import json
+    json.dump(fast_dict, open("fast_dict.txt", "wb"))
+    
     # Name the dereplicated group
     count = 0
     for key, value in merged_dict.items():  # Add group name to the end of the the name list of each group
