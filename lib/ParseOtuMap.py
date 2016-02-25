@@ -87,7 +87,8 @@ def extract_all_seqs(Map, otu_list):
     return extracted
 
 
-def generate_fast_style(input_otu_map, input_centroid):
+def generate_fast_style(input_otu_map, input_centroid, real_sample = False):
+# Create a FAST style file that contains information of sequences and sample counts.
     fast_dict = {}
     centroid_dict = {}
     centroid_list = []
@@ -103,7 +104,11 @@ def generate_fast_style(input_otu_map, input_centroid):
         new_key = key[:key.find(';')]
         new_sample = []
         for item in value:
-            new_sample.append(item[:item.find(';')])
+            if real_sample:
+                new_sample.append(item[:item.find('_')]) # if it is real sample, get the sample name by locate the first "_"
+            else:
+                new_sample.append(item[:item.find(';')]) # if it is derep unit, get the derep name by locagte the first ";"
+        
         new_otu_map[new_key] = new_sample
     
     for element in centroid_list:
