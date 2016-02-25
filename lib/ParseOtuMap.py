@@ -86,8 +86,8 @@ def extract_all_seqs(Map, otu_list):
             sys.exit()
     return extracted
 
-
-def generate_fast_style(input_otu_map, input_centroid, real_sample = False):
+#%%
+def generate_fast_output(input_otu_map, input_centroid, real_sample = False):
 # Create a FAST style file that contains information of sequences and sample counts.
     fast_dict = {}
     centroid_dict = {}
@@ -123,27 +123,19 @@ def generate_fast_style(input_otu_map, input_centroid, real_sample = False):
                 fast_dict[element]['sample'][sample] = 1
     
     return fast_dict
+    
 
-"""
-#%%Handling uc file from USEARCH
-def read_uc_map(filename):
-#Read in .uc file
-    from lib import File_IO
-    temp = File_IO.read_file(filename)
-    UcMap = []
-    for line in temp:
-        if line[0] == "S" or line[0] == "H":
-            temp_otu = line.strip('\n').split('\t')[-2:] #Get the last two column in each line
-            UcMap.append(temp_otu)
-    return UcMap
-
-
-def convert_uc_map(UcMap):
-    QiimeMap = {}
-    for line in UcMap:
-        if line[1] == "*": #this seq is a new cluster
-            QiimeMap[line[0]]=[line[0]]
-        else:
-            QiimeMap[line[1]].append(line[0]) #this seq belongs to an existed cluster
-    return QiimeMap
-"""
+def merge_fast_output(input_fast_derep, input_fast_otu):
+    hybrid_fast_dict = {}
+    for key, value in input_fast_otu:
+        hybrid_fast_dict[key] = {}
+        hybrid_fast_dict[key]['seq'] = value['seq']
+        hybrid_fast_dict[key]['sample'] = {}
+        
+        for derep_unit in value['sample']:
+            hybrid_fast_dict[key]['sample'][derep_unit] = {}
+            hybrid_fast_dict[key]['sample'][derep_unit]['seq'] = input_fast_derep[key]['seq']
+            hybrid_fast_dict[key]['sample'][derep_unit]['sample'] = input_fast_derep[key]['sample']
+    
+    return hybrid_fast_dict
+#%%
