@@ -155,10 +155,23 @@ def merge_fast_output(input_fast_derep, input_fast_otu):
 
 
 def write_fast_output(input_fast_dict, output_file):
+# Save the FAST output in JSON format
     import json
     json.dump(input_fast_dict, open(output_file, 'wb'))
 
 def read_fast_output(input_fast_file):
+# Load the FAST output
     import json
     return json.load(open(input_fast_file))
+
+
+class fast_output_parser(object):
+    def __init__(self, input_fast):
+        temp_check = input_fast[input_fast.keys()[0]]['samples']
+        temp_value = type(temp_check[temp_check.keys()[0]])
+        if type(temp_value) is int:
+            fast_type = 'individual'
+        elif type(temp_value) is dict:
+            fast_type = 'combine'
+        self.unit_count = len(input_fast)
 #%%
