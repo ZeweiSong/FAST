@@ -87,7 +87,7 @@ def extract_all_seqs(Map, otu_list):
     return extracted
 
 #%%
-def generate_fast_output(input_otu_map, input_centroid, real_sample = False):
+def generate_fast_output(input_otu_map, input_centroid, real_sample = False, separator = ';'):
 # Create a FAST style file that contains information of sequences and sample counts.
     fast_dict = {}
     centroid_dict = {}
@@ -95,22 +95,32 @@ def generate_fast_output(input_otu_map, input_centroid, real_sample = False):
     
     # Remove USEARCH size label from sequence labels
     for record in input_centroid:
-        current_label = record[0][:record[0].find(';')]
+        if record[0].find(separator) != -1:
+            current_label = record[0][:record[0].find(separator)]
+        else:
+            current_label = record[0]
         centroid_dict[current_label] = record[1]
         centroid_list.append(current_label)
-    
+
     new_otu_map = {}
-    for key, value in input_otu_map:
-        new_key = key[:key.find(';')]
+    for key, value in input_otu_map.items():
+        if key.find(separator) != -1:
+            new_key = key[:key.find(separator)]
+        else:
+            new_key = key
+
         new_sample = []
         for item in value:
             if real_sample:
                 new_sample.append(item[:item.find('_')]) # if it is real sample, get the sample name by locate the first "_"
             else:
-                new_sample.append(item[:item.find(';')]) # if it is derep unit, get the derep name by locagte the first ";"
+                if item.find(separator) != -1:
+                    new_sample.append(item[:item.find(separator)]) # if it is derep unit, get the derep name by locagte the first ";"
+                else:
+                    new_sample.append(item)
         
         new_otu_map[new_key] = new_sample
-    
+
     for element in centroid_list:
         fast_dict[element] = {}
         fast_dict[element]['seq'] = centroid_dict[element]
@@ -123,19 +133,32 @@ def generate_fast_output(input_otu_map, input_centroid, real_sample = False):
                 fast_dict[element]['sample'][sample] = 1
     
     return fast_dict
-    
+#%%    
 
 def merge_fast_output(input_fast_derep, input_fast_otu):
+# Merge the derep output with the OTU output
     hybrid_fast_dict = {}
-    for key, value in input_fast_otu:
+    for key, value in input_fast_otu.items():
+        
         hybrid_fast_dict[key] = {}
         hybrid_fast_dict[key]['seq'] = value['seq']
         hybrid_fast_dict[key]['sample'] = {}
         
-        for derep_unit in value['sample']:
+        for derep_unit in value['sample'].keys():
+
             hybrid_fast_dict[key]['sample'][derep_unit] = {}
-            hybrid_fast_dict[key]['sample'][derep_unit]['seq'] = input_fast_derep[key]['seq']
-            hybrid_fast_dict[key]['sample'][derep_unit]['sample'] = input_fast_derep[key]['sample']
+            hybrid_fast_dict[key]['sample'][derep_unit]['seq'] = input_fast_derep[derep_unit]['seq']
+            hybrid_fast_dict[key]['sample'][derep_unit]['sample'] = input_fast_derep[derep_unit]['sample']
+
     
     return hybrid_fast_dict
+
+
+def write_fast_output(input_fast_dict, output_file):
+    import json
+    json.dump(input_fast_dict, open(output_file, 'wb'))
+
+def read_fast_output(input_fast_file):
+    import json
+    return json.load(open(input_fast_file))
 #%%
