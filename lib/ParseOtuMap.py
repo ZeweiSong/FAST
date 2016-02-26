@@ -170,8 +170,18 @@ class fast_output_parser(object):
         temp_check = input_fast[input_fast.keys()[0]]['samples']
         temp_value = type(temp_check[temp_check.keys()[0]])
         if type(temp_value) is int:
-            fast_type = 'individual'
+            self.fast_type = 'individual'
         elif type(temp_value) is dict:
-            fast_type = 'combine'
+            self.fast_type = 'combine'
         self.unit_count = len(input_fast)
+    
+    def get_seqs(self, input_fast):
+        pass
+    
+    def get_samples(self, input_fast, sizeout = True):
+        pass
+    
+    def detail_sample_unit(self, input_fast, target_sample):
+    # Get an output for a single sample unit        
+        pass
 #%%
