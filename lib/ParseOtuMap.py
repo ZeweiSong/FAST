@@ -86,6 +86,8 @@ def extract_all_seqs(Map, otu_list):
             sys.exit()
     return extracted
 
+
+
 #%%
 def generate_fast_output(input_otu_map, input_centroid, real_sample = False, separator = ';'):
 # Create a FAST style file that contains information of sequences and sample counts.
@@ -153,6 +155,9 @@ def merge_fast_output(input_fast_derep, input_fast_otu):
     
     return hybrid_fast_dict
 
+#%%
+def merge_derep_fast_with_Qiime_otu():
+    pass
 
 def write_fast_output(input_fast_dict, output_file):
 # Save the FAST output in JSON format
