@@ -260,4 +260,24 @@ class fast_output_parser(object):
             
             output_content = [header] + output_content
             return output_content
+    
+    def parse_otu_table(self):
+        if self.fast_type == 'individual':
+            print 'This is not a hybrid FAST map.'
+            return ''
+        elif self.fast_type == 'hybrid':
+            sample_list = []
+            otu_table_dict = {}
+            for otu, value in self.fast.items():
+                otu_table_dict[otu] = {}
+                for derep_unit, derep_value in value['sample'].items():
+                    for sample, abundance in derep_value['sample'].items():
+                        treatment = sample
+                        if treatment not in sample_list:
+                            sample_list.append(treatment)
+                        try:
+                            otu_table_dict[otu][treatment] += abundance
+                        except KeyError:
+                            otu_table_dict[otu][treatment] = abundance
+            return sample_list, otu_table_dict
 #%%
