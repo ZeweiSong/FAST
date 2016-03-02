@@ -244,7 +244,7 @@ class fast_output_parser(object):
             
             header = [''] + list(unit_list) + ['Sequence']
             output_content = []                      
-            output_content.append(header)
+            
             
             for derep_unit, value in unit_dict['sample'].items():
                 current_line = []
@@ -256,5 +256,8 @@ class fast_output_parser(object):
                         current_line.append(0)
                 current_line.append(value['seq'])
                 output_content.append(current_line)
+            output_content = sorted(output_content, key=lambda x:sum(x[1:-1]), reverse=True)
+            
+            output_content = [header] + output_content
             return output_content
 #%%
