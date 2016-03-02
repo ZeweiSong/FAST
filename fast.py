@@ -31,6 +31,7 @@ group.add_argument('-parse_uc_cluster', action = "store_true")
 group.add_argument('-parse_uparse_cluster', action = "store_true")
 group.add_argument('-generate_fast_map', action = "store_true")
 group.add_argument('-combine_fast_map', action = "store_true")
+group.add_argument('-rename_otu_map', action = "store_true")
 
 #args = parser.parse_known_args(['-option1','songzewei','-sub','soon'])
 args = parser.parse_args([sys.argv[1]])
