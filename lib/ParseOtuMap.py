@@ -177,11 +177,50 @@ class fast_output_parser(object):
         if type(temp_value) is int:
             self.fast_type = 'individual'
         elif type(temp_value) is dict:
-            self.fast_type = 'combine'
+            self.fast_type = 'hybrid'
         self.unit_count = len(input_fast)
     
-    def get_seqs(self, input_fast):
-        pass
+    def get_seqs(self, input_fast, sort_by_size = True, size_out = False):
+        if sort_by_size:
+            seq_list = []
+            for key, value in input_fast.items():
+                current_record = []
+                current_record.append(key)
+                current_record.append(value)['seq']
+                
+                current_size = 0
+                
+                if self.fast_type == 'individual':
+                    current_size = value['sample'].values()
+                    current_size = sum([int(i) for i in current_size])
+                    current_record.append(current_size)                            
+                
+                if self.fast_type == 'hybrid':
+                    current_size = 0
+                    for unit, sub_value in value['sample']:
+                        for sample, size in sub_value['sample']:
+                            current_size += int(size)
+                    current_record.append(current_size)
+                
+                
+                seq_list.append(current_record)
+            
+            seq_list = sorted(seq_list, key=lambda x:x[2])
+        
+        else:
+            seq_list = []
+            for key, value in input_fast.items():
+                current_record = []
+                current_record.append(key)
+                current_record .append(value)['seq']
+                seq_list.append(current_record)
+        
+        if size_out:
+            for index, record in enumerate(seq_list):
+                seq_list[index][0] = record[0] + ';size=' + str(record[2])
+            return seq_list
+        else:
+            return seq_list
     
     def get_samples(self, input_fast, sizeout = True):
         pass
