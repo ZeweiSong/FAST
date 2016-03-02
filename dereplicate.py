@@ -9,6 +9,9 @@ Technically, dereplication is OTU clustering with similarity = 1.0
 
 This script is slower than USEARCH 8.0, but does not have limitation on memory usage.
 
+Under windows, in order to use multiple thread, you need to run this program stand alone, 
+i.e. you can not summon this function using fast.py, but need to run dereplicate.py instead.
+
 Please feel free to contact me for any question.
 --
 Zewei Song
