@@ -116,7 +116,7 @@ def read_fasta_multiline(input_content, head_symbol='>'):
     corrected_content = []
     for line in input_content:
         if line[0] == head_symbol:
-            corrected_content.append([line.strip('\n'), ''])
+            corrected_content.append([line.strip('\n')[1:], ''])
         else:
             corrected_content[-1][1] += line.strip('\n')
     return corrected_content
