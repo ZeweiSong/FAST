@@ -43,15 +43,22 @@ def main():
     
     input_map = ParseOtuMap.fast_output_parser(input_map)
     
+    input_map_size = input_map.unit_count
+    print '{0} contains {1} OTUs.'.format(input_map_file, input_map_size)
+    
     otu_list = input_map.get_seqs() # get a list of otu with their sequences
     
     for unit in otu_list:
         output_file = output_folder + '/' + unit[0] + '.txt'
         current_otu = input_map.detail_sample_unit(unit[0])
+        
+        print '\tWriting: {0} ...'.format(output_file)
         with open(output_file, 'wb') as f:
             for line in current_otu:
                 line = '\t'.join([str(i) for i in line])
                 f.write('%s\n' % line)
+    
+    print 'All files wrote to the folder: {0}.'.format(output_folder)
 
 if __name__ == '__main__':
     main()
