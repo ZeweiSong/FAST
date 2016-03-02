@@ -17,25 +17,6 @@ Dept. Plant Pathology
 songzewei@outlook.com
 """
 
-import argparse
-
-parser = argparse.ArgumentParser()
-parser.add_argument('-i', '--input', help='Input FASTA file to be dereplicated.')
-parser.add_argument('-o', '--output', help='Name for output OTU map and FASTA file.')
-parser.add_argument('-t', '--thread', default = 1, help='Number of threads to be used.')
-parser.add_argument('-fast', default = "", help="Name of FAST style output file.")
-parser.add_argument('-sizeout', action = "store_true", help="Specify to add a USEARCH style size label: ;szie=XXX")
-
-args = parser.parse_args()
-
-input_file = args.input
-output_name = args.output
-output_map = output_name + '.txt'
-output_fasta = output_name + '.fasta'
-
-thread = int(args.thread)
-
-
 def dereplicate_worker(input_seqs, output_derep, n, count):
     # Dereplicate a chunk of input sequences
     # n is the iterate number of the worker
@@ -74,14 +55,39 @@ def divide_seqs(total, thread_num):
     seqs_divide = []
     start = 0
     size = total / thread_num
-    for i in range(thread):
+    for i in range(thread_num):
         seqs_divide.append([start, start + size])
         start += size
     seqs_divide[-1][-1] += total % thread_num
     return seqs_divide
 
+def main(Namespace):
+    import argparse
+    import textwrap
 
-if __name__ == '__main__':
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
+                                     epilog=textwrap.dedent('''\
+                                    ------------------------
+                                    By Zewei Song
+                                    University of Minnesota
+                                    Dept. Plant Pathology
+                                    songzewei@outlook.com
+                                    ------------------------'''), prog='fast.py -dereplicate')
+    parser.add_argument('-i', '--input', help='Input FASTA file to be dereplicated.')
+    parser.add_argument('-o', '--output', help='Name for output OTU map and FASTA file.')
+    parser.add_argument('-t', '--thread', default = 1, help='Number of threads to be used.')
+    parser.add_argument('-fast', default = "", help="Name of FAST style output file.")
+    parser.add_argument('-sizeout', action = 'store_true', help='Specify to add a USEARCH style size label: ";szie=XXX"')
+    
+    args = parser.parse_args(Namespace)
+    
+    input_file = args.input
+    output_name = args.output
+    output_map = output_name + '.txt'
+    output_fasta = output_name + '.fasta'
+
+    thread = int(args.thread)
+    
     import time
     from lib import File_IO
     from multiprocessing import Process, Manager
@@ -201,7 +207,7 @@ if __name__ == '__main__':
             f.write('%s\t%s\n' % (element[2], '\t'.join(name_list)))  # Use the last element as group name
     print '%s contains an OTU map for dereplicated sequences.' % output_map
     
-    # Generate FAST style derep output file (a single file with sample names, counts, and dereplicated sequences)  
+    # Generate FAST style derep output file (a single file with sample names, counts, and dereplicated sequences)
     if args.fast != "":
         fast_file = args.fast
         
@@ -225,3 +231,7 @@ if __name__ == '__main__':
         
         import json
         json.dump(fast_dict, open(fast_file, "wb"))
+
+if __name__ == '__main__':
+    import sys
+    main(sys.argv[1:])
