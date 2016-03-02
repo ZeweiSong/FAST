@@ -15,6 +15,7 @@ songzewei@outlook.com
 def main():
     import argparse
     from lib import ParseOtuMap
+    from lib import File_IO
     #import sys
     
     parser = argparse.ArgumentParser()
@@ -22,6 +23,7 @@ def main():
     group.add_argument('-qiime_map', help='The Qiime style OTU map.')
     group.add_argument('-fast_map', help='The FAST hybrid OTU map.')
     parser.add_argument('-o', '--output', help='Output OTU table.')
+    parser.add_argument('-rep', help='Indicate to output a representative sequnce if using FAST method.')
     args = parser.parse_args()
     
     if args.qiime_map != None:
@@ -30,7 +32,10 @@ def main():
     elif args.fast_map != None:
         input_file = args.fast_map
         method = 'fast'
-    print input_file    
+        
+        if args.rep != None:
+            output_seq_file = args.rep
+            
     output_file = args.output
     
     # Parse OTU map into OTU table dictionary
@@ -68,6 +73,14 @@ def main():
 #                        otu_table_dict[otu][treatment] = abundance
         otu_map_parser = ParseOtuMap.fast_output_parser(otu_map)
         sample_list, otu_table_dict = otu_map_parser.parse_otu_table()
+        
+        if args.rep != None:
+            temp_content = otu_map_parser.get_seqs()
+            rep_seq = []
+            for item in temp_content:
+                rep_seq.append(item[:2])
+            rep_seq_count = File_IO.write_seqs(rep_seq, output_seq_file, checker=False, overwrite=True) 
+            print '{0} OTUs were wrote to {1}.'.format(rep_seq_count, output_seq_file)
     
     # Convert OTU table dictionary to table
 #    otu_abundance = {}
@@ -92,6 +105,8 @@ def main():
         for line in otu_table:
             line = [str(i) for i in line]
             f.write('%s\n' % '\t'.join(line))
+    
+    print 'OTU table with {0} samples and {1} OTUs was saved in {2}.'.format(len(sample_list), rep_seq_count, output_file)
 
 if __name__ == "__main__":
     main()
