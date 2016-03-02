@@ -14,8 +14,9 @@ University of Minnesota
 Dept. Plant Pathology
 songzewei@outlook.com
 """
+from __future__ import print_function
 def main(name_space):
-    from __future__ import print_function
+    
     import argparse
     import textwrap
     from lib import ParseOtuMap
@@ -31,8 +32,8 @@ def main(name_space):
     parser.add_argument('-i', '--input', help='Input uparse denovo cluster output file')
     parser.add_argument('-o', '--output', help='Output Qiime style OTU map')
     parser.add_argument('-separator', default=';', help='Separator between sample name and size annotation')
-    parser.add_argument('-fast', default='', help='Name of FAST style output.')
-    parser.add_argument('-centroid', default = '', help='Name of the FASTA file contains sequences of centroids.')
+#    parser.add_argument('-fast', default='', help='Name of FAST style output.')
+#    parser.add_argument('-centroid', default = '', help='Name of the FASTA file contains sequences of centroids.')
     
     args = parser.parse_args(name_space)
     input_file = args.input

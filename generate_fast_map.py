@@ -19,7 +19,7 @@ songzewei@outlook.com
 www.songzewei.org
 """
 
-def main():
+def main(name_space):
     import argparse
     import textwrap
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -29,7 +29,7 @@ def main():
                                         University of Minnesota
                                         Dept. Plant Pathology
                                         songzewei@outlook.com
-                                        ------------------------'''))
+                                        ------------------------'''), prog='fast.py -generate_fast_map')
     parser.add_argument('-map', help='Name of the Qiime style OTU/Derep map file')
     parser.add_argument('-seq', help='Name of the sequence file corresponding to the Qiime map.')
     parser.add_argument('-o', '--output', help='Name of the output FAST map.')
@@ -38,7 +38,7 @@ def main():
     group.add_argument('-otu', action='store_true', help='Indicate the source is an OTU map.')
     parser.add_argument('-separator', default = ';', help='Set the separator for parsing the sequence label.')
     
-    args = parser.parse_args()
+    args = parser.parse_args(name_space)
     
     input_map_file = args.map
     input_seq_file = args.seq
@@ -63,4 +63,5 @@ def main():
     print 'FAST style map file wrote to %s.' %output_map_file
 
 if __name__ == '__main__':
-    main()
+    import sys
+    main(sys.argv[1:])

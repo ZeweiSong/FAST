@@ -28,14 +28,25 @@ group.add_argument('-dereplicate', action = "store_true")
 group.add_argument('-filter_otu_map', action = "store_true")
 group.add_argument('-add_seqs_size', action = "store_true")
 group.add_argument('-parse_uc_cluster', action = "store_true")
+group.add_argument('-parse_uparse_cluster', action = "store_true")
+group.add_argument('-generate_fast_map', action = "store_true")
 
 #args = parser.parse_known_args(['-option1','songzewei','-sub','soon'])
 args = parser.parse_args([sys.argv[1]])
+for option in args.__dict__:
+    if args.__dict__[option]:
+        function_name = option
+
 sub_args = sys.argv[2:]
 
 if args.document:
     print "This is the helping document:"
 
+else:
+    function = __import__(function_name)
+    function.main(sub_args)
+
+'''    
 if args.generate_mapping:
     import generate_mapping
     generate_mapping.main(sub_args)
@@ -67,3 +78,12 @@ if args.add_seqs_size:
 if args.parse_uc_cluster:
     import parse_uc_cluster
     parse_uc_cluster.main(sub_args)
+
+if args.parse_uparse_cluster:
+    import parse_uparse_cluster
+    parse_uparse_cluster.main(sub_args)
+
+if args.generate_fast_map:
+    import generate_fast_map
+    generate_fast_map.main(sub_args)
+'''
