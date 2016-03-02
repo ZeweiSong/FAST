@@ -180,13 +180,13 @@ class fast_output_parser(object):
             self.fast_type = 'individual'
         elif temp_value is dict:
             self.fast_type = 'hybrid'
-        print self.fast_type
+        #print self.fast_type
         self.unit_count = len(input_fast)
     
-    def get_seqs(self, input_fast, sort_by_size = True, sizeout = False):
+    def get_seqs(self, sort_by_size = True, sizeout = False):
         if sort_by_size:
             seq_list = []
-            for key, value in input_fast.items():
+            for key, value in self.fast.items():
                 current_record = []
                 current_record.append(key)
                 current_record.append(value['seq'])
@@ -212,7 +212,7 @@ class fast_output_parser(object):
         
         else:
             seq_list = []
-            for key, value in input_fast.items():
+            for key, value in self.fast.items():
                 current_record = []
                 current_record.append(key)
                 current_record .append(value)['seq']
@@ -242,7 +242,10 @@ class fast_output_parser(object):
                 unit_list += value['sample'].keys()
             unit_list = set(unit_list)
             
-            output_content = []
+            header = [''] + list(unit_list) + ['Sequence']
+            output_content = []                      
+            output_content.append(header)
+            
             for derep_unit, value in unit_dict['sample'].items():
                 current_line = []
                 current_line.append(derep_unit)
