@@ -172,6 +172,7 @@ def read_fast_output(input_fast_file):
 #%%
 class fast_output_parser(object):
     def __init__(self, input_fast):
+        self.fast = input_fast
         temp_check = input_fast[input_fast.keys()[0]]['sample']
         temp_value = type(temp_check[temp_check.keys()[0]])
         #print temp_value is dict
@@ -224,10 +225,33 @@ class fast_output_parser(object):
         else:
             return seq_list
     
-    def get_samples(self, input_fast, sizeout = True):
+    def get_samples(self, sort_by_size = True):
         pass
     
-    def detail_sample_unit(self, input_fast, target_sample):
+    def detail_sample_unit(self, target_unit):
     # Get an output for a single sample unit        
-        pass
+        if self.fast_type == 'individual':
+            print 'This is not a hybrid FAST map.'
+            return ''
+        
+        elif self.fast_type == 'hybrid':
+            unit_dict = self.fast[target_unit]
+            unit_list = []
+            
+            for derep_unit, value in unit_dict['sample'].items():
+                unit_list += value['sample'].keys()
+            unit_list = set(unit_list)
+            
+            output_content = []
+            for derep_unit, value in unit_dict['sample'].items():
+                current_line = []
+                current_line.append(derep_unit)
+                for sample in unit_list:
+                    try:
+                        current_line.append(int(value['sample'][sample]))
+                    except KeyError:
+                        current_line.append(0)
+                current_line.append(value['seq'])
+                output_content.append(current_line)
+            return output_content
 #%%
