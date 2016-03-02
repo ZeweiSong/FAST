@@ -15,7 +15,7 @@ songzewei@outlook.com
 www.songzewei.org
 """
 
-def main():
+def main(name_space):
     import argparse
     import textwrap
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -25,14 +25,14 @@ def main():
                                         University of Minnesota
                                         Dept. Plant Pathology
                                         songzewei@outlook.com
-                                        ------------------------'''))
+                                        ------------------------'''),prog='fast.py -combine_fast_map')
     parser.add_argument('-derep_map', help='Name of the FAST-derep map.')
     parser.add_argument('-otu_map', help='Name of the FAST-OTU map.')
     parser.add_argument('-o', '--output', help='Name of the output hybrid FAST map.')
     
     #parser.add_argument('-separator', default = ';', help='Set the separator for parsing the sequence label.')
 
-    args = parser.parse_args()
+    args = parser.parse_args(name_space)
     
     input_derep_map_file = args.derep_map
     input_otu_map_file = args.otu_map
@@ -51,4 +51,5 @@ def main():
     print 'FAST style map file wrote to %s.' %output_hybrid_fast_file
     
 if __name__ == '__main__':
-    main()
+    import sys
+    main(sys.argv[1:])
