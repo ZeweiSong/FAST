@@ -169,24 +169,26 @@ def read_fast_output(input_fast_file):
     import json
     return json.load(open(input_fast_file))
 
-
+#%%
 class fast_output_parser(object):
     def __init__(self, input_fast):
-        temp_check = input_fast[input_fast.keys()[0]]['samples']
+        temp_check = input_fast[input_fast.keys()[0]]['sample']
         temp_value = type(temp_check[temp_check.keys()[0]])
-        if type(temp_value) is int:
+        #print temp_value is dict
+        if temp_value is int:
             self.fast_type = 'individual'
-        elif type(temp_value) is dict:
+        elif temp_value is dict:
             self.fast_type = 'hybrid'
+        print self.fast_type
         self.unit_count = len(input_fast)
     
-    def get_seqs(self, input_fast, sort_by_size = True, size_out = False):
+    def get_seqs(self, input_fast, sort_by_size = True, sizeout = False):
         if sort_by_size:
             seq_list = []
             for key, value in input_fast.items():
                 current_record = []
                 current_record.append(key)
-                current_record.append(value)['seq']
+                current_record.append(value['seq'])
                 
                 current_size = 0
                 
@@ -197,15 +199,15 @@ class fast_output_parser(object):
                 
                 if self.fast_type == 'hybrid':
                     current_size = 0
-                    for unit, sub_value in value['sample']:
-                        for sample, size in sub_value['sample']:
+                    for unit, sub_value in value['sample'].items():
+                        for sample, size in sub_value['sample'].items():
                             current_size += int(size)
                     current_record.append(current_size)
                 
                 
                 seq_list.append(current_record)
             
-            seq_list = sorted(seq_list, key=lambda x:x[2])
+            seq_list = sorted(seq_list, key=lambda x:x[2], reverse=True)
         
         else:
             seq_list = []
@@ -215,7 +217,7 @@ class fast_output_parser(object):
                 current_record .append(value)['seq']
                 seq_list.append(current_record)
         
-        if size_out:
+        if sizeout:
             for index, record in enumerate(seq_list):
                 seq_list[index][0] = record[0] + ';size=' + str(record[2])
             return seq_list
