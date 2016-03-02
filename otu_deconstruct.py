@@ -1,0 +1,57 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Mar 02 09:56:28 2016
+
+This script will output the detail structure of each individual OTU using the information
+of a hybrid FAST map.
+
+Please feel free to contact me for any question.
+--
+Zewei Song
+University of Minnesota
+Dept. Plant Pathology
+songzewei@outlook.com
+www.songzewei.org
+"""
+
+def main():
+    import argparse
+    import textwrap
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
+                                     epilog=textwrap.dedent('''\
+                                        ------------------------
+                                        By Zewei Song
+                                        University of Minnesota
+                                        Dept. Plant Pathology
+                                        songzewei@outlook.com
+                                        ------------------------'''))
+    parser.add_argument('-map', help='Name of the FAST-derep map.')
+    parser.add_argument('-o', '--output', default = 'otu_deconstruct', help='Name of the output folder')
+
+    args = parser.parse_args()
+    
+    input_map_file = args.map
+    output_folder = args.output
+    
+    from lib import ParseOtuMap
+    from lib import File_IO
+    
+    File_IO.mk_dir(output_folder)
+    
+    input_map = ParseOtuMap.read_fast_output(input_map_file)
+    
+    input_map = ParseOtuMap.fast_output_parser(input_map)
+    
+    otu_list = input_map.get_seqs() # get a list of otu with their sequences
+    
+    for unit in otu_list:
+        output_file = output_folder + '/' + unit[0] + '.txt'
+        current_otu = input_map.detail_sample_unit(unit[0])
+        with open(output_file, 'wb') as f:
+            for line in current_otu:
+                line = '\t'.join([str(i) for i in line])
+                f.write('%s\n' % line)
+
+if __name__ == '__main__':
+    main()
