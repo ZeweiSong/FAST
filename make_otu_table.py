@@ -39,6 +39,8 @@ def main():
     output_file = args.output
     
     # Parse OTU map into OTU table dictionary
+    
+    # Use Qiime style
     if method == 'qiime':
         print 'Reading the Qiime style OTU map: {0} ...'.format(input_file)
         otu_map = ParseOtuMap.read_otu_map(input_file)
@@ -55,6 +57,7 @@ def main():
                 except KeyError:
                     otu_table_dict[key][treatment] = 1
     
+    # Use FAST style
     if method == 'fast':
         print 'Reading the FAST hybrid OTU map: {0} ...'.format(input_file)
         otu_map = ParseOtuMap.read_fast_output(input_file)
