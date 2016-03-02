@@ -51,7 +51,7 @@ python $FAST/generate_mapping.py -i Read1
 # -t specify the thread/cpu you would like to use, for the resource we request, we can use 8 cpu at a same time.
 python $FAST/add_labels.py -m mapping.txt -i Read1 -o Read1_labeled -t 8
 
-# Merge all labeled sequences into a single FASTQ file.
+# Merge all labeled sequences into a single FASTQ file. # Avoid using a Google Drive folder (contain hidden files)
 python $FAST/merge_seqs.py -i Read1_labeled -o raw.fastq
 
 # Use trimmomatic to remove reading primers and trim the sequence.
@@ -60,7 +60,7 @@ java -jar $TRIMMOMATIC/trimmomatic.jar SE raw.fastq raw.trim.fastq ILLUMINACLIP:
 
 # Filer sequences by max length of homopolyers and ambiguous bases.
 # I prefer to use this kind of style to name my output file, so you can have a way to track your progress.
-python $FAST/filter_seqs.py -i .\raw.trim.fastq -o raw.trim.N0.homop9.fastq -maxN 0 -maxhomop 9
+python $FAST/filter_seqs.py -i raw.trim.fastq -o raw.trim.N0.homop9.fastq -maxN 0 -maxhomop 9
 
 # Get general information of the filered data.
 # You can skip this one, but taking look at the report will help you decide the following trimming plan. It could also be a useful supplement for manuscript.
