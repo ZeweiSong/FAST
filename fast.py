@@ -40,6 +40,7 @@ def main():
     group.add_argument('-rarefy_otu_table', action = 'store_true')
     group.add_argument('-truncate_seqs', action = 'store_true')
     group.add_argument('-random_dataset', action = 'store_true')
+    group.add_argument('-correct_fasta', action = 'store_true')
     
     #args = parser.parse_known_args(['-option1','songzewei','-sub','soon'])
     args = parser.parse_args([sys.argv[1]])
