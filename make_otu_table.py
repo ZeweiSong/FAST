@@ -12,19 +12,27 @@ Dept. Plant Pathology
 songzewei@outlook.com
 """
 
-def main():
+def main(name_space):
     import argparse
+    import textwrap
     from lib import ParseOtuMap
     from lib import File_IO
     #import sys
     
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
+                                     epilog=textwrap.dedent('''\
+                                    ------------------------
+                                    By Zewei Song
+                                    University of Minnesota
+                                    Dept. Plant Pathology
+                                    songzewei@outlook.com
+                                    ------------------------'''), prog='fast.py -make_otu_table')
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-qiime_map', help='The Qiime style OTU map.')
     group.add_argument('-fast_map', help='The FAST hybrid OTU map.')
     parser.add_argument('-o', '--output', help='Output OTU table.')
     parser.add_argument('-rep', help='Indicate to output a representative sequnce if using FAST method.')
-    args = parser.parse_args()
+    args = parser.parse_args(name_space)
     
     if args.qiime_map != None:
         input_file = args.qiime_map
@@ -112,4 +120,5 @@ def main():
     print 'OTU table with {0} samples and {1} OTUs was saved in {2}.'.format(len(sample_list), rep_seq_count, output_file)
 
 if __name__ == "__main__":
-    main()
+    import sys
+    main(sys.argv[1:])

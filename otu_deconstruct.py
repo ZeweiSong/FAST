@@ -15,7 +15,7 @@ songzewei@outlook.com
 www.songzewei.org
 """
 
-def main():
+def main(name_space):
     import argparse
     import textwrap
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -25,11 +25,11 @@ def main():
                                         University of Minnesota
                                         Dept. Plant Pathology
                                         songzewei@outlook.com
-                                        ------------------------'''))
+                                        ------------------------'''), prog = 'fast.py -otu_deconstruct')
     parser.add_argument('-map', help='Name of the FAST-derep map.')
     parser.add_argument('-o', '--output', default = 'otu_deconstruct', help='Name of the output folder')
 
-    args = parser.parse_args()
+    args = parser.parse_args(name_space)
     
     input_map_file = args.map
     output_folder = args.output
@@ -61,4 +61,5 @@ def main():
     print 'All files wrote to the folder: {0}.'.format(output_folder)
 
 if __name__ == '__main__':
-    main()
+    import sys
+    main(sys.argv[1:])

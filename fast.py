@@ -34,6 +34,8 @@ def main():
     group.add_argument('-rename_otu_map', action = "store_true")
     group.add_argument('-stat_seqs', action = 'store_true')
     group.add_argument('-pick_seqs', action = 'store_true')
+    group.add_argument('-make_otu_table', action = 'store_true')
+    group.add_argument('-otu_deconstruct', action = 'store_true')
     
     #args = parser.parse_known_args(['-option1','songzewei','-sub','soon'])
     args = parser.parse_args([sys.argv[1]])
