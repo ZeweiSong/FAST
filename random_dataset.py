@@ -61,7 +61,7 @@ def main(name_space):
         for index in seq_index:
             sampled_content.append(current_content[index])
         
-        count = File_IO.write_seqs(sampled_content, output_folder + raw_file)
+        count = File_IO.write_seqs(sampled_content, output_folder + '/' + raw_file)
     
     print('A randomly sampled dataset ({0} files, {1} sequences per file) was generated under the folder {2}'.format(file_number, sample_size, output_folder, end = '\n'))
     
