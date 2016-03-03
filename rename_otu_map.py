@@ -30,7 +30,7 @@ def main(name_space):
     group.add_argument('-fast_map', help='Input FAST style OTU map')
     parser.add_argument('-o', '--output', help='Output OTU map')
     parser.add_argument('-label', default='OTU_', help='New OTU name label')
-    args = parser.parse_args()
+    args = parser.parse_args(name_space)
     
     if args.qiime_map != None:
         input_otu = args.qiime_map
@@ -60,6 +60,7 @@ def main(name_space):
         print 'New OTU map saved in %s.' % output_otu
     
     elif method == 'fast':
+        output_otu = args.output
         fast_otu_map = ParseOtuMap.read_fast_output(input_otu)
         map_parser = ParseOtuMap.fast_output_parser(fast_otu_map)
         seq_list = map_parser.get_seqs()
@@ -69,6 +70,8 @@ def main(name_space):
         for unit in seq_list:
             new_otu_name = args.label + str(count)
             new_map[new_otu_name] = fast_otu_map[unit[0]]
+            count += 1
+        ParseOtuMap.write_fast_output(new_map, output_otu)
 
 if __name__ == '__main__':
     import sys
