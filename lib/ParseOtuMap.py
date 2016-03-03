@@ -241,6 +241,7 @@ class fast_output_parser(object):
             for derep_unit, value in unit_dict['sample'].items():
                 unit_list += value['sample'].keys()
             unit_list = set(unit_list)
+            unit_list = sorted(list(unit_list))
             
             header = [''] + list(unit_list) + ['Sequence']
             output_content = []                      
