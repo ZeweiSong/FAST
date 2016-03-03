@@ -10,7 +10,7 @@ University of Minnesota
 Dept. Plant Pathology
 songzewei@outlook.com
 """
-def main():
+def main(name_space):
     import argparse
     import textwrap
     from lib import ParseOtuMap
@@ -23,16 +23,16 @@ def main():
                                         University of Minnesota
                                         Dept. Plant Pathology
                                         songzewei@outlook.com
-                                        ------------------------'''))
+                                        ------------------------'''), prog = 'fast.py -otu_map_info')
     parser.add_argument("-i", "--input", required=True, help="Input OTU map")
     parser.add_argument("-subset", help="Name of another OTU map to compare with")
-    args = parser.parse_args()
+    args = parser.parse_args(name_space)
     
     input_map = args.input
     input_map_compare = args.subset
     
     print 'Reading in %s ...' % input_map
-    otu_map = ParseOtuMap.read_otu_map(input_map) # This line is useless?
+    #otu_map = ParseOtuMap.read_otu_map(input_map) # This line is useless?
     otu_map_parser = ParseOtuMap.otu_map_parser(input_map) #input_map --> otu_map?
     otu_num = otu_map_parser.derep_count
     seq_num = otu_map_parser.seqs_count
@@ -42,9 +42,10 @@ def main():
     
     print 'OTU = %i; Sequence = %i' % (otu_num, seq_num)
     print 'Max abundance = %i; Min abundance = %i; Ave abundance = %i' % (otu_max, otu_min, otu_ave)
-    print
-    print 'Reading in %s for comparison ...' % input_map_compare # Not finished
-    otu_map_compare = ParseOtuMap.read_otu_map(input_map_compare)
+    #print
+    #print 'Reading in %s for comparison ...' % input_map_compare # Not finished
+    #otu_map_compare = ParseOtuMap.read_otu_map(input_map_compare)
 
 if __name__ == '__main__':
-    main()
+    import sys
+    main(sys.argv[1:])
