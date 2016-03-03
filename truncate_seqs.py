@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Created on Tue Dec 08 13:35:44 2015
@@ -13,7 +14,7 @@ University of Minnesota
 Dept. Plant Pathology
 songzewei@outlook.com
 """
-def main():
+def main(name_space):
     import argparse
     import textwrap
     from lib import File_IO
@@ -25,12 +26,12 @@ def main():
                                         University of Minnesota
                                         Dept. Plant Pathology
                                         songzewei@outlook.com
-                                        ------------------------'''))
+                                        ------------------------'''), prog = 'fast.py -truncate_seqs')
 
     parser.add_argument("-i", "--input", help="Name of the input FASTA file.")
     parser.add_argument("-l", "--length", help="Length to be truncated.")
     parser.add_argument("-o", "--output", help="Name of the output FASTA file")
-    args = parser.parse_args()
+    args = parser.parse_args(name_space)
     truncate_length = int(args.length)
     
     sequences = File_IO.read_seqs(args.input)
@@ -52,4 +53,5 @@ def main():
     print "%i sequences were truncated to %i and save in %s." % (count - count_fail, truncate_length, args.output)
 
 if __name__ == '__main__':
-    main()
+    import sys
+    main(sys.argv[1:])

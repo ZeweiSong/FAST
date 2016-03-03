@@ -37,6 +37,8 @@ def main():
     group.add_argument('-make_otu_table', action = 'store_true')
     group.add_argument('-otu_deconstruct', action = 'store_true')
     group.add_argument('-convert_fastq', action = 'store_true')
+    group.add_argument('-rarefy_otu_table', action = 'store_true')
+    group.add_argument('-truncate_seqs', action = 'store_true')
     
     #args = parser.parse_known_args(['-option1','songzewei','-sub','soon'])
     args = parser.parse_args([sys.argv[1]])
