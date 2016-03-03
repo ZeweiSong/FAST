@@ -36,6 +36,7 @@ def main(name_space):
     group.add_argument('-map', help='OTU map file, will pick OTU names in default')
     group.add_argument('-name_list', help='File with names in separated lines')
     parser.add_argument('-sequence', action='store_true', help='Indicate to pick by sequence names instead of OTU names')
+    parser.add_argument('-sizeout', action='store_true', help='Indicate to output size label.')
     args = parser.parse_args(name_space)
     
     input_fasta = args.input
@@ -60,6 +61,8 @@ def main(name_space):
     input_content = File_IO.read_seqs(input_fasta)
     for record in input_content:
         record[0] = record[0].split(' ')[0]  # OTU name will be cut at the first space
+        if record[0].find(';') != -1:
+            record[0] = record[0][:record[0].find(';')] # Cut the label at the first ";"
     print 'Indexing the original sequence file ...'
     input_dict = Seq_IO.make_dict(input_content)
     
@@ -67,13 +70,29 @@ def main(name_space):
     count_missed = 0
     print 'Search name list in the sequence file ...'
     picked_content = []
-    for name in pick_list:
-        try:
-            picked_content.append([name, input_dict[name][0]])
-            count_picked += 1
-        except KeyError:
-            count_missed += 1
     
+    if args.sizeout:
+        print "Output size labels ..."
+        size_list = []
+        for record in pick_list:
+            size_list.append([record, len(otu_map[record])])
+        size_list = sorted(size_list, key=lambda x:x[1], reverse=True)
+        for record in size_list:
+            try:
+                new_label = record[0] + ';size=' + str(record[1]) 
+                picked_content.append([new_label, input_dict[record[0]][0]])
+                count_picked += 1
+            except KeyError:
+                count_missed += 1
+    
+    else:
+        for name in pick_list:
+            try:
+                picked_content.append([name, input_dict[name][0]])
+                count_picked += 1
+            except KeyError:
+                count_missed += 1
+  
     print 'Finished searching.'
     print 'Original sequence=%i' % len(input_content)
     print 'Input names=%i' % len(pick_list)
