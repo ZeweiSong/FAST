@@ -118,6 +118,12 @@ def allocate_processor(sample,depth,rep,processor=4):
         worker_input.append([sample,depth,rep_parallel[i]])    
     return worker_input
 #%%##############################################################################
+def generate_random_index(sample_size, random_size):
+    import numpy as np
+    index_list = range(sample_size)
+    random_index_list = np.random.choice(index_list, random_size, replace=False)
+    return random_index_list
+#%%##############################################################################
 if __name__ == "__main__":
     print "################################################################################"
     print "random_subsample.py"
