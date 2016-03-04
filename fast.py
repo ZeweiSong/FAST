@@ -17,6 +17,7 @@ def main():
     import argparse
     import textwrap
     import sys
+    import importlib
     
     parser = argparse.ArgumentParser(prog='fast.py -function', add_help=False)
     
@@ -62,8 +63,16 @@ def main():
         print "This is the helping document:"
     
     else:
-        function = __import__(function_name)
+        function = importlib.import_module(function_name)
         function.main(sub_args)
+
+#    elif args.generate_mapping:
+#        import generate_mapping
+#        generate_mapping.main(sub_args)
+        
+#    else:
+#        function = __import__(function_name)
+#        function.main(sub_args)
     
     '''    
     if args.generate_mapping:
