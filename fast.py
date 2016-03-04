@@ -47,6 +47,7 @@ def main():
     group.add_argument('-merge_otu_maps', action = 'store_true')
     group.add_argument('-otu_map_info', action = 'store_true')
     group.add_argument('-substract_controls', action = 'store_true')
+    group.add_argument('-split_taxa', action = 'store_true')
     
     #args = parser.parse_known_args(['-option1','songzewei','-sub','soon'])
     args = parser.parse_args([sys.argv[1]])
