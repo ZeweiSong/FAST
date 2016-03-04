@@ -25,7 +25,7 @@ songzewei@outlook.com
 www.songzewei.org
 """
 
-def main():
+def main(name_space):
     import argparse
     import textwrap
     from lib import ParseOtuTable
@@ -37,13 +37,13 @@ def main():
                                         University of Minnesota
                                         Dept. Plant Pathology
                                         songzewei@outlook.com
-                                        ------------------------'''))
+                                        ------------------------'''), prog = 'fast.py -substract_controls')
 
     parser.add_argument("-otu", help="Name of the input OTU table (tab delimited file).")
     parser.add_argument("-control", help="Name of the extract control list.")
     parser.add_argument("-o", "--output", help="Name of the output OTU table")
     parser.add_argument("-keep_zero", action="store_true", help="Indicate that all OTU that sum to zero should be kept.")
-    args = parser.parse_args()
+    args = parser.parse_args(name_space)
     
     # Parse the extract contrl name list
     control_list = args.control
@@ -109,5 +109,7 @@ def main():
     meta_id = new_table.meta_id    
     print "New OTU table saved in %s." % args.output
     print "New OTU table contains %i samples, %i OTUs, and %i meta columns." % (len(sample_id), len(otu_id), len(meta_id))
+
 if __name__ == '__main__':
-    main()
+    import sys
+    main(sys.argv[1:])
