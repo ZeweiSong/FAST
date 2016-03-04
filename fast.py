@@ -112,10 +112,6 @@ def main():
     	import dereplicate as function
     	function.main(sub_args)
     
-    if args.document:
-    	import document as function
-    	function.main(sub_args)
-    
     if args.filter_database:
     	import filter_database as function
     	function.main(sub_args)
