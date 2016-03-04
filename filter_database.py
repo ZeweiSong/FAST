@@ -12,7 +12,7 @@ University of Minnesota
 Dept. Plant Pathology
 songzewei@outlook.com
 """
-def main():
+def main(name_space):
     import argparse
     import textwrap
     from lib import File_IO
@@ -24,11 +24,11 @@ def main():
                                         University of Minnesota
                                         Dept. Plant Pathology
                                         songzewei@outlook.com
-                                        ------------------------'''))
+                                        ------------------------'''), prog = '-filter_database')
 
     parser.add_argument("-i", "--input", help="Name of the input FASTA file.")
     parser.add_argument("-o", "--output", help="Name of the output FASTA file")
-    args = parser.parse_args()
+    args = parser.parse_args(name_space)
 
     database = File_IO.read_seqs(args.input)
     count = len(database)
@@ -48,4 +48,5 @@ def main():
     print "Filtered database is saved in %s with %i records." % (args.output, count_write)
 
 if __name__ == '__main__':
-    main()
+    import sys
+    main(sys.argv[1:])
