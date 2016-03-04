@@ -14,7 +14,7 @@ songzewei@outlook.com
 """
 
 
-def main(namespace):
+def add_labels(name_space):
     import argparse
     import textwrap
     from lib.LabelSeqs import MainLabelFiles
@@ -35,7 +35,7 @@ def main(namespace):
     parser.add_argument("-t", "--thread", default=1, type=int, help="Number of thread to be used")
     parser.add_argument("-l", "--label", default='qiime', help="Type of label: both, qiime, or usearch")
     parser.add_argument("-fasta", action="store_true", help="Set input file type to FASTA instead of FASTQ")
-    args = parser.parse_args(namespace)
+    args = parser.parse_args(name_space)
 
     mapping_file = args.mapping
     if mapping_file is None:
@@ -63,4 +63,4 @@ def main(namespace):
 
 if __name__ == '__main__':
     import sys
-    main(sys.argv[1:])
+    add_labels(sys.argv[1:])

@@ -17,7 +17,7 @@ def main():
     import argparse
     import textwrap
     import sys
-    import importlib
+    #import importlib
     
     parser = argparse.ArgumentParser(prog='fast.py -function', add_help=False)
     
@@ -53,32 +53,39 @@ def main():
     group.add_argument('-truncate_seqs', action = 'store_true')
     
     args = parser.parse_args([sys.argv[1]])
-    for option in args.__dict__:
-        if args.__dict__[option]:
-            function_name = option
+    #    for option in args.__dict__:
+    #        if args.__dict__[option]:
+    #            function_name = option
     
     sub_args = sys.argv[2:]
     
     if args.document:
         print "This is the helping document:"
     
-    else:
-        function = importlib.import_module(function_name)
-        function.main(sub_args)
-
-#    elif args.generate_mapping:
-#        import generate_mapping
-#        generate_mapping.main(sub_args)
-        
-#    else:
-#        function = __import__(function_name)
-#        function.main(sub_args)
+    #    else:
+    #        function = importlib.import_module(function_name)
+    #        function.main(sub_args)
     
-    '''    
+    #    elif args.generate_mapping:
+    #        import generate_mapping
+    #        generate_mapping.main(sub_args)
+        
+    #    else:
+    #        function = __import__(function_name)
+    #        function.main(sub_args)
+        
+    if args.add_labels:
+        import add_labels as function
+        print sub_args
+        function.add_labels(sub_args)
+    
     if args.generate_mapping:
-        import generate_mapping
-        generate_mapping.main(sub_args)
-    '''
+        import generate_mapping as function
+        function.main(sub_args)
+    
+    if args.dereplicate:
+        import dereplicate as function
+        function.main(sub_args)
 
 if __name__ == '__main__':
     main()
