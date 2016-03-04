@@ -14,7 +14,7 @@ songzewei@outlook.com
 """
 
 
-def add_labels(name_space):
+def main(name_space):
     import argparse
     import textwrap
     from lib.LabelSeqs import MainLabelFiles
@@ -63,4 +63,4 @@ def add_labels(name_space):
 
 if __name__ == '__main__':
     import sys
-    add_labels(sys.argv[1:])
+    main(sys.argv[1:])

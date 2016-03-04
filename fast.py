@@ -77,7 +77,7 @@ def main():
     if args.add_labels:
         import add_labels as function
         print sub_args
-        function.add_labels(sub_args)
+        function.main(sub_args)
     
     if args.generate_mapping:
         import generate_mapping as function
