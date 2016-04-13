@@ -1,5 +1,6 @@
-Fungal Amplicon Sequencing Toolbox
+Welcome to the FAST wiki! FAST stands for Fungal Amplicon Sequencing Toolbox. It is a collection of Python script that can aid you in processing the high throughput sequencing data for marker gene.
 
-Fungal Amplicon Sequencing Toolbox (FAST) is my ongoing Python tools for processing sequencing data on fungal ITS amplicons.
+If this is your first time trying FAST, I recommend visiting [this page](https://github.com/ZeweiSong/FAST/wiki/Setup-the-working-folder) for preparing the working environment of this pipeline.
 
-I will add a wiki later. For now please take a look at the word document on how to use this pipeline.
+After setting up your working folder, you can follow [this example pipeline](https://github.com/ZeweiSong/FAST/wiki/An-example-pipeline) to process the example data set. The entire process should be finished in about 20 min.
+
