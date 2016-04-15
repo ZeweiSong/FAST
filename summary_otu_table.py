@@ -43,13 +43,17 @@ def main(Name_space):
     sample_dict = otu_table.sample_dict()    
     report_dict = {}    
     for sample in sample_id:
-        report_dict[sample] = sum(sample_dict[sample].values())
+        report_dict[sample] = {'depth':0, 'richness':0}
+    
+    for sample in sample_id:    
+        report_dict[sample]['depth'] = sum(sample_dict[sample].values())
+        report_dict[sample]['richness'] = len(sample_dict[sample].values())
     
     with open(output_file, 'w') as f:
-        f.write('Sample\tDepth\n')
+        f.write('Sample\tDepth\tRichness\n')
         for sample in sample_id:
             line = ''
-            line = sample + '\t' + str(report_dict[sample])
+            line = sample + '\t' + str(report_dict[sample]['depth']) + '\t' + str(report_dict[sample]['richness'])
             f.write('%s\n' % line)
     
     print('A summary of {0} was wrote to {1}'.format(input_file, output_file))
