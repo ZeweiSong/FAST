@@ -15,7 +15,7 @@ www.songzewei.org
 """
 def main():
     import argparse
-    #import textwrap
+    import textwrap
     import sys
     #import importlib
     
@@ -50,6 +50,7 @@ def main():
     group.add_argument('-split_taxa', action = 'store_true')
     group.add_argument('-stat_seqs', action = 'store_true')
     group.add_argument('-substract_controls', action = 'store_true')
+    group.add_argument('-summary_otu_table', action = 'store_true')
     group.add_argument('-truncate_seqs', action = 'store_true')
     
     if len(sys.argv) <= 1:
@@ -186,6 +187,10 @@ def main():
     
     if args.substract_controls:
     	import substract_controls as function
+    	function.main(sub_args)
+
+    if args.summary_otu_table:
+    	import summary_otu_table as function
     	function.main(sub_args)
     
     if args.truncate_seqs:
