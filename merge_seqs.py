@@ -57,6 +57,7 @@ def main(Namespace):
     
     start = time.time()
     f_list = File_IO.file_list(input_folder)
+    f.list.sort()
     print 'Found %i files in the folder %s' % (len(f_list), input_folder)
     count = 0
     n = 1
