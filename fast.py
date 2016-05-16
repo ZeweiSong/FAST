@@ -39,7 +39,7 @@ def main():
     group.add_argument('-make_otu_table', action = 'store_true')
     group.add_argument('-merge_otu_maps', action = 'store_true')
     group.add_argument('-merge_seqs', action = "store_true")
-	group.add_argument('-nucl_freq', action = "store_true")
+    group.add_argument('-nucl_freq', action = "store_true")
     group.add_argument('-otu_deconstruct', action = 'store_true')
     group.add_argument('-otu_map_info', action = 'store_true')
     group.add_argument('-parse_uc_cluster', action = "store_true")
