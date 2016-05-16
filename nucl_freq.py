@@ -58,15 +58,30 @@ def main(Namespace):
                 print "Unidentified nucleotide %s in %s" % (nucl, record[0])
     
     # Output the counting result
-    header = 'Position\tA\tT\tC\tG\tN'
+    header = 'Position\tA\tT\tC\tG\tN\tMost frequent\tFrequency'
     output_content = [header]
     for pos in range(max_seq_len):
+        
+        # Get the most frequent nucleotide at this position:
+        temp_list = []
+        most_freq_nucl = ""
+        for nucl in nucl_list:
+            temp_list.append([nucl_dict[pos][nucl],nucl])
+        temp_list.sort(reverse=True)
+        most_freq_nucl = temp_list[0][1]
+        sum_nucl_count = sum(nucl_dict[pos].values())
+        most_freq_nucl_freq = float(temp_list[0][0]) / sum_nucl_count # calculate the frequency of this nucleotide
+        
+        # Get the output for current position
         current_line = []
         current_line = [str(pos)]
         for nucl in nucl_list:
             current_line.append(str(nucl_dict[pos][nucl]))
+        current_line.append(most_freq_nucl)
+        current_line.append(str(most_freq_nucl_freq))
         current_line = '\t'.join(current_line)
         output_content.append(current_line)
+        
     
     with open(output_file, 'wb') as f:
         for line in output_content:
