@@ -25,7 +25,7 @@ def main(Namespace):
                                     songzewei@outlook.com
                                     ------------------------'''), prog='fast.py -nucl_freq')
     parser.add_argument('-i', '--input', help='Name of the input FASTA or FASTQ file.')
-    parser.add_argument('-o', '--output', default='mapping.txt', help='Name of the new mapping file.')
+    parser.add_argument('-o', '--output', default='nucl_report.txt', help='Name of the reporting file.')
     args = parser.parse_args(Namespace)
 
 if __name__ == '__main__':
