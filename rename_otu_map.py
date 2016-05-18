@@ -40,7 +40,7 @@ def main(name_space):
         method = 'fast'
     
     if method == 'qiime':
-        input_otu = args.input
+        input_otu = args.qiime_map
         output_otu = args.output
         otu_label = args.label
         
