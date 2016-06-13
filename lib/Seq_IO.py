@@ -74,5 +74,33 @@ def make_dict(seqs):
         seqs_dict[record[0]] = record[1:]
     return seqs_dict
     
-def nucl_freq(input_seq, tail=False):
-    pass
+def nucl_freq(input_seq, tail = False):
+    # Reverse the input sequences if tail = True
+    if tail == True:
+        for index, record in enumerate(input_seq):
+            input_seq[index][1] = record[1][::-1]
+    else: 
+        pass
+
+    # Get the maximum sequence length
+    seq_len = []
+    for record in input_seq:
+        seq_len.append(len(record[1]))
+    max_seq_len = max(seq_len)
+    
+    # Create dictionary for nucleotide counting    
+    nucl_dict = {}
+    nucl_list = ['A','T','C','G','N']
+    for i in range(max_seq_len):
+        nucl_dict[i] = {}
+        for nucl in nucl_list:
+            nucl_dict[i][nucl] = 0
+    
+    # Count the frequency of nucleotide    
+    for record in input_seq:
+        for index, nucl in enumerate(record[1]):
+            try:
+                nucl_dict[index][nucl] += 1
+            except KeyError:
+                print "Unidentified nucleotide %s in %s" % (nucl, record[0])
+    return nucl_dict
