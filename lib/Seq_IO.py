@@ -73,3 +73,6 @@ def make_dict(seqs):
     for record in seqs:
         seqs_dict[record[0]] = record[1:]
     return seqs_dict
+    
+def nucl_freq(input_seq, tail=False):
+    pass

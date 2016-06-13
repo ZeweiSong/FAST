@@ -3,7 +3,7 @@
 """
 Created on Wed Apr 13 20:36:50 2016
 
-Calculte the frequency of nucleotide from the starting of sequences.
+Calculte the frequency of nucleotide from the start (and end) of sequences.
 
 Please feel free to contact me with any question.
 --
@@ -28,6 +28,7 @@ def main(Namespace):
                                     ------------------------'''), prog='fast.py -nucl_freq')
     parser.add_argument('-i', '--input', help='Name of the input FASTA or FASTQ file.')
     parser.add_argument('-o', '--output', default='nucl_report.txt', help='Name of the reporting file.')
+    parser.add_argument('-tail_output', help='Name of the reporting file starting from the tail of all sequences.')
     args = parser.parse_args(Namespace)
     
     input_file = args.input
