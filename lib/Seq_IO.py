@@ -75,6 +75,7 @@ def make_dict(seqs):
     return seqs_dict
     
 def nucl_freq(input_seq, tail = False):
+# Count the frequency of nucleotide. Return a dictionary.
     # Reverse the input sequences if tail = True
     if tail == True:
         for index, record in enumerate(input_seq):
