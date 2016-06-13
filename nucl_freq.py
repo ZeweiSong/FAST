@@ -72,7 +72,6 @@ def main(Namespace):
         with open(output_file, 'wb') as f:
             for line in output_content:
                 f.write("%s\n" %line)
-    
 
 if __name__ == '__main__':
     import sys
