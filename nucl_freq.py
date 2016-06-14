@@ -67,7 +67,7 @@ def main(Namespace):
         
         # Get the output for current position
         current_line = []
-        current_line = [str(pos)]
+        current_line = [str(pos + 1)]
         for nucl in nucl_list:
             current_line.append(str(nucl_freq[pos][nucl]))
         current_line.append(most_freq_nucl)
