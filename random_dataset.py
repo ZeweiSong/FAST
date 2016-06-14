@@ -29,7 +29,7 @@ def main(name_space):
                                         ------------------------'''), prog='fast.py -random_subsample')
     parser.add_argument('-i', '--input', help='Name of the input folder with raw data')
     parser.add_argument('-o', '--output', default = 'random_dataset', help='Name of the output folder with raw data')
-    parser.add_argument('-file_number', default = 10, help='Number of file to pick sampled.')
+    parser.add_argument('-file_number', default = 10, help='Number of file to pick.')
     parser.add_argument('-size', default = 10000, help='Sampling size for each file.')
     
     args = parser.parse_args(name_space)
