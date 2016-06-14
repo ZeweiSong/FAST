@@ -29,29 +29,53 @@ def main(name_space):
                                         ------------------------'''), prog = 'fast.py -truncate_seqs')
 
     parser.add_argument("-i", "--input", help="Name of the input FASTA file.")
-    parser.add_argument("-l", "--length", help="Length to be truncated.")
-    parser.add_argument("-o", "--output", help="Name of the output FASTA file")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-fixed_length', help='A fixed length to cut on all sequences.')
+    group.add_argument('-slice', help='Slice size to cut from head and tail of each sequence in the format of "head,tail".')
+    parser.add_argument("-o", "--output", help="Name of the output file.")
     args = parser.parse_args(name_space)
-    truncate_length = int(args.length)
     
-    sequences = File_IO.read_seqs(args.input)
-    count = len(sequences)
-    print "Reading in %s ..." % args.input
-    print "%s contains %i records." % (args.input, count)
-    print "Truncating sequences to %i ..." % truncate_length
-
-    count_fail = 0
-    with open(args.output, 'w') as f:
-        for record in sequences:
-            if len(record[1]) >= truncate_length:
-                record[1] = record[1][:truncate_length]
-                f.write('>%s\n' % record[0])
-                f.write('%s\n' % record[1])
-            else:
-                count_fail += 1
+    if args.fixed_length:
+        truncate_length = int(args.truncate)
+        sequences = File_IO.read_seqs(args.input)
+        count = len(sequences)
+        print "Reading in %s ..." % args.input
+        print "%s contains %i records." % (args.input, count)
+        print "Cutting sequences to a fixed length: %i ..." % truncate_length
     
-    print "%i sequences were truncated to %i and save in %s." % (count - count_fail, truncate_length, args.output)
+        count_fail = 0
+        with open(args.output, 'w') as f:
+            for record in sequences:
+                if len(record[1]) >= truncate_length:
+                    record[1] = record[1][:truncate_length]
+                    f.write('>%s\n' % record[0])
+                    f.write('%s\n' % record[1])
+                else:
+                    count_fail += 1
+        print "%i sequences were cut to %i and save in %s." % (count - count_fail, truncate_length, args.output)
 
+    if args.slice:
+        slice_window = args.slice.split(',')
+        head = int(slice_window[0])
+        tail = int(slice_window[1])
+        sequences = File_IO.read_seqs(args.input)
+        count = len(sequences)
+        print "Reading in %s ..." % args.input
+        print "%s contains %i records." % (args.input, count)
+        print "Slicing %i bp from the head and %i bp from the tail ..." % (head, tail)
+        
+        count_fail = 0
+        with open(args.output, 'w') as f:
+            for record in sequences:
+                seq_len = len(record[1])
+                if seq_len > head + tail:            
+                    record[1] = record[1][head:(seq_len - tail)]
+                    f.write('>%s\n' % record[0])
+                    f.write('%s\n' % record[1])
+                else:
+                    count_fail += 1
+        print "%i sequences were sliced and save in %s." % (count - count_fail, args.output)
+       
 if __name__ == '__main__':
     import sys
     main(sys.argv[1:])
