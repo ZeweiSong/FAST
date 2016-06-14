@@ -97,11 +97,13 @@ def nucl_freq(input_seq, tail = False):
         for nucl in nucl_list:
             nucl_dict[i][nucl] = 0
     
-    # Count the frequency of nucleotide    
+    # Count the frequency of nucleotide  
+    unidentified_count = 0
     for record in input_seq:
         for index, nucl in enumerate(record[1]):
             try:
                 nucl_dict[index][nucl] += 1
             except KeyError:
-                print "Unidentified nucleotide %s in %s" % (nucl, record[0])
-    return nucl_dict
+                unidentified_count += 1
+                #print "Unidentified nucleotide %s in %s" % (nucl, record[0])
+    return nucl_dict, unidentified_count

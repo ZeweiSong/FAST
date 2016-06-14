@@ -12,7 +12,7 @@ University of Minnesota
 Dept. Plant Pathology
 songzewei@outlook.com
 """
-
+from __future__ import print_function
 
 
 def main(Namespace):
@@ -38,9 +38,15 @@ def main(Namespace):
     output_file = args.output
     tail_indicator = args.tail
     
+    print('Reading in file: {0} ...'.format(input_file))
     input_seq = File_IO.read_seqs(input_file)
+    print('The file contains {0} sequences.'.format(len(input_seq)))
+    if tail_indicator:
+        print('Counting nucleotide frequencies from the tail of all sequences...')
+    else:
+        print('Counting nucleotide frequencies from the head of all sequences...')
 
-    nucl_freq = Seq_IO.nucl_freq(input_seq, tail = tail_indicator)    
+    nucl_freq, unidentified_count = Seq_IO.nucl_freq(input_seq, tail = tail_indicator)    
     
     nucl_list = ['A','T','C','G','N']            
     
@@ -72,6 +78,8 @@ def main(Namespace):
         with open(output_file, 'wb') as f:
             for line in output_content:
                 f.write("%s\n" %line)
+    print('A report has been written to {0}'.format(output_file))
+    print('A total of {0} nucleotide has unknown letter (only uppercase was counted).'.format(unidentified_count))
 
 if __name__ == '__main__':
     import sys
