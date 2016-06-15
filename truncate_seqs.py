@@ -32,6 +32,7 @@ def main(name_space):
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-fixed_length', help='A fixed length to cut on all sequences.')
     group.add_argument('-slice', help='Slice size to cut from head and tail of each sequence in the format of "head,tail".')
+    parser.add_argument('-slice_out', action='store_ture', help='Indicate to output sliced sequences.')
     parser.add_argument("-o", "--output", help="Name of the output file.")
     args = parser.parse_args(name_space)
     
@@ -48,8 +49,14 @@ def main(name_space):
             for record in sequences:
                 if len(record[1]) >= truncate_length:
                     record[1] = record[1][:truncate_length]
-                    f.write('>%s\n' % record[0])
-                    f.write('%s\n' % record[1])
+                    if len(record) == 2:
+                        f.write('>%s\n' % record[0])
+                        f.write('%s\n' % record[1])
+                    elif len(record) == 4:
+                        f.write('@%s\n' % record[0])
+                        f.write('%s\n' % record[1])
+                        f.write('%s\n' % record[2])
+                        f.write('%s\n' % record[3])
                 else:
                     count_fail += 1
         print "%i sequences were cut to %i and save in %s." % (count - count_fail, truncate_length, args.output)
@@ -65,16 +72,54 @@ def main(name_space):
         print "Slicing %i bp from the head and %i bp from the tail ..." % (head, tail)
         
         count_fail = 0
-        with open(args.output, 'w') as f:
+        with open(args.output, 'wb') as f:
             for record in sequences:
                 seq_len = len(record[1])
                 if seq_len > head + tail:            
                     record[1] = record[1][head:(seq_len - tail)]
-                    f.write('>%s\n' % record[0])
-                    f.write('%s\n' % record[1])
+                    if len(record) == 2:
+                        f.write('>%s\n' % record[0])
+                        f.write('%s\n' % record[1])
+                    elif len(record) == 4:
+                        f.write('@%s\n' % record[0])
+                        f.write('%s\n' % record[1])
+                        f.write('%s\n' % record[2])
+                        f.write('%s\n' % record[3])
                 else:
                     count_fail += 1
         print "%i sequences were sliced and save in %s." % (count - count_fail, args.output)
+        
+        if args.slice_out:
+            if head > 0:
+                head_output = 'head.' + args.output
+                with open(head_output, 'wb') as f:
+                    for record in sequences:
+                        record[1] = record[1][:head]
+                    if len(record) == 2:
+                        f.write('>%s\n' % record[0])
+                        f.write('%s\n' % record[1])
+                    elif len(record) == 4:
+                        f.write('@%s\n' % record[0])
+                        f.write('%s\n' % record[1])
+                        f.write('%s\n' % record[2])
+                        f.write('%s\n' % record[3])
+                print 'The sliced head sequences wrote to %s.' % (head_output)
+            
+            if tail > 0:
+                tail_output = 'tail.' + args.output
+                with open(tail_output, 'wb') as f:
+                    for record in sequences:
+                        seq_len = len(record[1])
+                        record[1] = record[1][(seq_len - tail):]
+                    if len(record) == 2:
+                        f.write('>%s\n' % record[0])
+                        f.write('%s\n' % record[1])
+                    elif len(record) == 4:
+                        f.write('@%s\n' % record[0])
+                        f.write('%s\n' % record[1])
+                        f.write('%s\n' % record[2])
+                        f.write('%s\n' % record[3])
+                print 'The sliced tail sequences wrote to %s.' % (head_output)                        
        
 if __name__ == '__main__':
     import sys
