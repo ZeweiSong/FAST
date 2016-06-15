@@ -32,7 +32,7 @@ def main(name_space):
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-fixed_length', help='A fixed length to cut on all sequences.')
     group.add_argument('-slice', help='Slice size to cut from head and tail of each sequence in the format of "head,tail".')
-    parser.add_argument('-slice_out', action='store_ture', help='Indicate to output sliced sequences.')
+    parser.add_argument('-slice_out', action='store_true', help='Indicate to output sliced sequences.')
     parser.add_argument("-o", "--output", help="Name of the output file.")
     args = parser.parse_args(name_space)
     
@@ -76,15 +76,14 @@ def main(name_space):
             for record in sequences:
                 seq_len = len(record[1])
                 if seq_len > head + tail:            
-                    record[1] = record[1][head:(seq_len - tail)]
                     if len(record) == 2:
                         f.write('>%s\n' % record[0])
-                        f.write('%s\n' % record[1])
+                        f.write('%s\n' % record[1][head:(seq_len - tail)])
                     elif len(record) == 4:
                         f.write('@%s\n' % record[0])
-                        f.write('%s\n' % record[1])
+                        f.write('%s\n' % record[1][head:(seq_len - tail)])
                         f.write('%s\n' % record[2])
-                        f.write('%s\n' % record[3])
+                        f.write('%s\n' % record[3][head:(seq_len - tail)])
                 else:
                     count_fail += 1
         print "%i sequences were sliced and save in %s." % (count - count_fail, args.output)
@@ -94,15 +93,14 @@ def main(name_space):
                 head_output = 'head.' + args.output
                 with open(head_output, 'wb') as f:
                     for record in sequences:
-                        record[1] = record[1][:head]
-                    if len(record) == 2:
-                        f.write('>%s\n' % record[0])
-                        f.write('%s\n' % record[1])
-                    elif len(record) == 4:
-                        f.write('@%s\n' % record[0])
-                        f.write('%s\n' % record[1])
-                        f.write('%s\n' % record[2])
-                        f.write('%s\n' % record[3])
+                        if len(record) == 2:
+                            f.write('>%s\n' % record[0])
+                            f.write('%s\n' % record[1][:head])
+                        elif len(record) == 4:
+                            f.write('@%s\n' % record[0])
+                            f.write('%s\n' % record[1][:head])
+                            f.write('%s\n' % record[2])
+                            f.write('%s\n' % record[3][:head])
                 print 'The sliced head sequences wrote to %s.' % (head_output)
             
             if tail > 0:
@@ -110,15 +108,14 @@ def main(name_space):
                 with open(tail_output, 'wb') as f:
                     for record in sequences:
                         seq_len = len(record[1])
-                        record[1] = record[1][(seq_len - tail):]
-                    if len(record) == 2:
-                        f.write('>%s\n' % record[0])
-                        f.write('%s\n' % record[1])
-                    elif len(record) == 4:
-                        f.write('@%s\n' % record[0])
-                        f.write('%s\n' % record[1])
-                        f.write('%s\n' % record[2])
-                        f.write('%s\n' % record[3])
+                        if len(record) == 2:
+                            f.write('>%s\n' % record[0])
+                            f.write('%s\n' % record[1][(seq_len - tail):])
+                        elif len(record) == 4:
+                            f.write('@%s\n' % record[0])
+                            f.write('%s\n' % record[1][(seq_len - tail):])
+                            f.write('%s\n' % record[2])
+                            f.write('%s\n' % record[3][(seq_len - tail):])
                 print 'The sliced tail sequences wrote to %s.' % (head_output)                        
        
 if __name__ == '__main__':
