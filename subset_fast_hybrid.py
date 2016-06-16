@@ -17,7 +17,7 @@ Dept. Plant Pathology
 songzewei@outlook.com
 www.songzewei.org
 """
-
+from __future__ import print_function
 def main(name_space):
     import argparse
     import textwrap
@@ -39,6 +39,7 @@ def main(name_space):
     group.add_argument('-otu_file', help='A file contains a list of OTU names (no header)')
     args = parser.parse_args(name_space)
     
+    print ('Subtracting a FAST hybrid map with provieded OTU names ...')    
     input_file = args.input
     output_derep = args.output + '.txt'
     output_fasta = args.output + '.fasta'
@@ -51,12 +52,15 @@ def main(name_space):
         with open(args.otu_file) as f:
             for line in f:
                 otu_list.append(line)
+    print ('Found {0} OTU names.'.format(len(otu_list)))
 
+    print ('Reading in the FAST hybrid map: {0} ...'.format(input_file))
     hybrid_map = ParseOtuMap.read_fast_output(input_file)
     fast_derep = {}
     for otu in otu_list:
         fast_derep.update(hybrid_map[otu]['sample'])
     ParseOtuMap.write_fast_output(fast_derep, output_derep)
+    print ('A FAST derep map wrote to: {0}.'.format(output_derep))    
     
     derep_seq = []
     for key, value in fast_derep.items():
@@ -70,6 +74,8 @@ def main(name_space):
     derep_seq = [i[1:] for i in derep_seq]
 
     count = File_IO.write_seqs(derep_seq, output_fasta, checker=False)
+    print ('A dereplicated FASTA file wrote to {0}, containing {1} sequences with size annotation.'.format(output_fasta, count))
+    print ('\n')
 
 if __name__ == '__main__':
     import sys
