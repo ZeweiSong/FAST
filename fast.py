@@ -50,6 +50,7 @@ def main():
     group.add_argument('-rename_otu_map', action = "store_true")
     group.add_argument('-split_taxa', action = 'store_true')
     group.add_argument('-stat_seqs', action = 'store_true')
+    group.add_argument('-subset_fast_hybrid', action = 'store_true')
     group.add_argument('-substract_controls', action = 'store_true')
     group.add_argument('-summary_otu_table', action = 'store_true')
     group.add_argument('-truncate_seqs', action = 'store_true')
@@ -83,123 +84,128 @@ def main():
     #        function.main(sub_args)
         
     if args.add_labels:
-    	import add_labels as function
-    	function.main(sub_args)
+        import add_labels as function
+        function.main(sub_args)
     
     if args.add_seqs_size:
-    	import add_seqs_size as function
-    	function.main(sub_args)
+        import add_seqs_size as function
+        function.main(sub_args)
     
     if args.assign_taxonomy:
-    	import assign_taxonomy as function
-    	function.main(sub_args)
+        import assign_taxonomy as function
+        function.main(sub_args)
     
     if args.combine_fast_map:
-    	import combine_fast_map as function
-    	function.main(sub_args)
+        import combine_fast_map as function
+        function.main(sub_args)
     
     if args.convert_fastq:
-    	import convert_fastq as function
-    	function.main(sub_args)
+        import convert_fastq as function
+        function.main(sub_args)
     
     if args.correct_fasta:
-    	import correct_fasta as function
-    	function.main(sub_args)
+        import correct_fasta as function
+        function.main(sub_args)
     
     if args.count_seqs:
-    	import count_seqs as function
-    	function.main(sub_args)
+        import count_seqs as function
+        function.main(sub_args)
     
     if args.dereplicate:
-    	import dereplicate as function
-    	function.main(sub_args)
+        import dereplicate as function
+        function.main(sub_args)
     
     if args.filter_database:
-    	import filter_database as function
-    	function.main(sub_args)
+        import filter_database as function
+        function.main(sub_args)
     
     if args.filter_otu_map:
-    	import filter_otu_map as function
-    	function.main(sub_args)
-    
+        import filter_otu_map as function
+        function.main(sub_args)
+     
     if args.filter_seqs:
-    	import filter_seqs as function
-    	function.main(sub_args)
+        import filter_seqs as function
+        function.main(sub_args)
     
     if args.generate_fast_map:
-    	import generate_fast_map as function
-    	function.main(sub_args)
+        import generate_fast_map as function
+        function.main(sub_args)
     
     if args.generate_mapping:
-    	import generate_mapping as function
-    	function.main(sub_args)
+        import generate_mapping as function
+        function.main(sub_args)
     
     if args.make_otu_table:
-    	import make_otu_table as function
-    	function.main(sub_args)
+        import make_otu_table as function
+        function.main(sub_args)
     
     if args.merge_otu_maps:
-    	import merge_otu_maps as function
-    	function.main(sub_args)
+        import merge_otu_maps as function
+        function.main(sub_args)
     
     if args.merge_seqs:
-    	import merge_seqs as function
-    	function.main(sub_args)
+        import merge_seqs as function
+        function.main(sub_args)
+        
     if args.nucl_freq:
-    	import nucl_freq as function
-    	function.main(sub_args)
+        import nucl_freq as function
+        function.main(sub_args)
     
     if args.otu_deconstruct:
-    	import otu_deconstruct as function
-    	function.main(sub_args)
+        import otu_deconstruct as function
+        function.main(sub_args)
     
     if args.otu_map_info:
-    	import otu_map_info as function
-    	function.main(sub_args)
+        import otu_map_info as function
+        function.main(sub_args)
     
     if args.parse_uc_cluster:
-    	import parse_uc_cluster as function
-    	function.main(sub_args)
+        import parse_uc_cluster as function
+        function.main(sub_args)
     
     if args.parse_uparse_cluster:
-    	import parse_uparse_cluster as function
-    	function.main(sub_args)
+        import parse_uparse_cluster as function
+        function.main(sub_args)
     
     if args.pick_seqs:
-    	import pick_seqs as function
-    	function.main(sub_args)
+        import pick_seqs as function
+        function.main(sub_args)
     
     if args.random_dataset:
-    	import random_dataset as function
-    	function.main(sub_args)
+        import random_dataset as function
+        function.main(sub_args)
     
     if args.rarefy_otu_table:
-    	import rarefy_otu_table as function
-    	function.main(sub_args)
+        import rarefy_otu_table as function
+        function.main(sub_args)
     
     if args.rename_otu_map:
-    	import rename_otu_map as function
-    	function.main(sub_args)
+        import rename_otu_map as function
+        function.main(sub_args)
     
     if args.split_taxa:
-    	import split_taxa as function
-    	function.main(sub_args)
-    
+        import split_taxa as function
+        function.main(sub_args)
+
     if args.stat_seqs:
-    	import stat_seqs as function
-    	function.main(sub_args)
+        import stat_seqs as function
+        function.main(sub_args)
+
+    if args.subset_fast_hybrid:
+        import subset_fast_hybrid as function
+        function.main(sub_args)
     
     if args.substract_controls:
-    	import substract_controls as function
-    	function.main(sub_args)
+        import substract_controls as function
+        function.main(sub_args)
 
     if args.summary_otu_table:
-    	import summary_otu_table as function
-    	function.main(sub_args)
+        import summary_otu_table as function
+        function.main(sub_args)
     
     if args.truncate_seqs:
-    	import truncate_seqs as function
-    	function.main(sub_args)
+        import truncate_seqs as function
+        function.main(sub_args)
 
 if __name__ == '__main__':
     main()
