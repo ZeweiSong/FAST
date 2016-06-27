@@ -76,7 +76,7 @@ def main(Namespace):
     if checker == 12:
         for record in seqs:
             count_total += 1
-            print 'Processing %i sequence ...' % count_total + '\b' * 100,
+            sys.stderr.write('Processing %i sequence ...' % count_total + '\b' * 100,)
             current_record = record[1]
             if not Seq_IO.check_ambiguous(current_record, maxN):
                 if not Seq_IO.check_homop(current_record, maxhomop + 1):
@@ -86,7 +86,7 @@ def main(Namespace):
     if checker == 1:
         for record in seqs:
             count_total += 1
-            print 'Processing %i sequence ...' % count_total + '\b' * 100,
+            sys.stderr.write('Processing %i sequence ...' % count_total + '\b' * 100,)
             current_record = record[1]
             if not Seq_IO.check_ambiguous(current_record, maxN):
                 seqs_filtered.append(record)
@@ -95,7 +95,7 @@ def main(Namespace):
     if checker == 2:
         for record in seqs:
             count_total += 1
-            print 'Processing %i sequence ...' % count_total + '\b' * 100,
+            sys.stderr.write('Processing %i sequence ...' % count_total + '\b' * 100,)
             current_record = record[1]
             if not Seq_IO.check_homop(current_record, maxhomop + 1):
                 seqs_filtered.append(record)
@@ -109,7 +109,7 @@ def main(Namespace):
     
     print 'Writing to %s ...' % filtered_file
     count = File_IO.write_seqs(seqs_filtered, filtered_file, checker=False, overwrite=True)
-    print 'Filtered sequences store in %s' % filtered_file
+    print 'Filtered sequences (%i seqs) store in %s' % (count, filtered_file)
 
 if __name__ == '__main__':
     import sys
