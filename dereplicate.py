@@ -150,10 +150,10 @@ def main(Namespace):
         seqs = []  # Empty sequences list to free memory.
 
     # Merged dereplicated dictionaries into a single dict
-    print
+    sys.stderr.write('/n')
     
     if thread > 1:
-        print 'Merging %i dictionaries into one ...' % len(derep_dict)
+        sys.stderr.write('Merging %i dictionaries into one ...' % len(derep_dict))
         merged_dict = {}
         count = 0
         for d in derep_dict:
@@ -163,7 +163,7 @@ def main(Namespace):
                     merged_dict[key] += value
                 except KeyError:
                     merged_dict[key] = value
-                print 'Merging %i sequence ...' % count + '\b' * 50,
+                sys.stderr.write('Merging %i sequence ...' % count + '\b' * 50,)
             derep_dict[0] = ''  # Empty finished dictionary to free memory.  
     else:
         merged_dict = derep_dict
