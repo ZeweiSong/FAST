@@ -160,6 +160,34 @@ def write_sample_dict(sample_dict, meta_dict, otu_id, output_file_path):
     write_content(content, output_file_path)
     return
 
+# Output a tab delimited OTU table using a sample dict and meta_dict, and re-organized the sample order using a list
+# Need to add a checking for sample name later
+def write_sample_dict_newlist(sample_dict, meta_dict, otu_id, output_file_path, new_order):
+    #sample_id = sample_dict.keys()
+    #sample_id.sort()
+    meta_id = meta_dict.keys()
+    
+    header = ['OTU_ID'] + new_order + meta_id
+    content = [header]
+    for otu in otu_id:
+        current_line = [otu]
+        for sample in new_order:
+            try:
+                current_abundance = sample_dict[sample][otu]
+                current_line.append(str(current_abundance))
+            except KeyError:
+                current_line.append('0')
+        if len(meta_id) > 0:
+            for meta_column in meta_id:
+                current_meta = meta_dict[meta_column][otu]
+                current_line.append(current_meta)
+        else:
+            pass
+        content.append(current_line)
+    
+    write_content(content, output_file_path)
+    return
+
 def write_content(input_content, output_file_path):
     with open(output_file_path, 'w') as f:
         for line in input_content:
