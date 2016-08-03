@@ -37,7 +37,7 @@ def main(name_space):
     args = parser.parse_args(name_space)
     
     if args.fixed_length:
-        truncate_length = int(args.truncate)
+        truncate_length = int(args.fixed_length)
         sequences = File_IO.read_seqs(args.input)
         count = len(sequences)
         print "Reading in %s ..." % args.input
