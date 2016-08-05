@@ -34,6 +34,7 @@ def main():
     group.add_argument('-filter_database', action = 'store_true')
     group.add_argument('-filter_otu_map', action = "store_true")
     group.add_argument('-filter_seqs', action = "store_true")
+    group.add_argument('-filter_taxonomy', action = "store_true")
     group.add_argument('-generate_fast_map', action = "store_true")
     group.add_argument('-generate_mapping', action = "store_true")
     group.add_argument('-make_otu_table', action = 'store_true')
@@ -125,6 +126,10 @@ def main():
      
     if args.filter_seqs:
         import filter_seqs as function
+        function.main(sub_args)
+
+    if args.filter_taxonomy:
+        import filter_taxonomy as function
         function.main(sub_args)
     
     if args.generate_fast_map:
