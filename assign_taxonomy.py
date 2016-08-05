@@ -31,6 +31,7 @@ def main(name_space):
     parser.add_argument("-tax", help="BLAST taxonomy search result")
     parser.add_argument("-o", "--output", help="Output OTU table")
     parser.add_argument('-scores', action='store_true', help='Indicate to output detail matching score following the taxonomy column.')
+    parser.add_argument('-remove_unassigned', action='store_true', help='Indicate to remove OTUs without a taxonomy assignment.')
     args = parser.parse_args(name_space)
     
     input_otu = args.otu
@@ -53,15 +54,32 @@ def main(name_space):
         taxonomy[line[0]] = line[1:]
     
     otu_matrix = otu_table.species_matrix
-    hit = 0
-    no_hit = 0
-    for line in otu_matrix:
-        try:
-            line += taxonomy[line[0]]
-            hit += 1
-        except KeyError:
-            line.append('no_blast_hit')
-            no_hit += 1
+    otu_matrix_assigned = []
+    if args.remove_unassigned:
+        print 'OTUs without taxonomy assignment will be removed.'
+        hit = 0
+        no_hit = 0
+        for line in otu_matrix:
+            try:
+                line += taxonomy[line[0]]
+                otu_matrix_assigned.append(line)
+                hit += 1
+            except KeyError:
+                no_hit += 1
+    else:
+        print 'OTUs without taxonomy assignment will be kept.'
+        hit = 0
+        no_hit = 0
+        for line in otu_matrix:
+            try:
+                line += taxonomy[line[0]]
+                otu_matrix_assigned.append(line)
+                hit += 1
+            except KeyError:
+                line.append('no_blast_hit')
+                otu_matrix_assigned.append(line)
+                no_hit += 1
+    
     print '{0} OTUs have been assigned a taxa.'.format(hit)
     print '{0} OTUs have no hit.'.format(no_hit)
     
@@ -74,7 +92,7 @@ def main(name_space):
     # Write the new OTU table
     with open(output_otu, 'w') as f:
         f.write('%s\n' % '\t'.join(sample_id))
-        for line in otu_matrix:
+        for line in otu_matrix_assigned:
             line = [str(x) for x in line]
             f.write('%s\n' % '\t'.join(line))
     
