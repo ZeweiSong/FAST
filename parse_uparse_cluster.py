@@ -18,6 +18,7 @@ def main(name_space):
     import argparse
     import textwrap
     from lib import ParseOtuMap
+    import sys
     
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
                                      epilog=textwrap.dedent('''\
@@ -44,7 +45,7 @@ def main(name_space):
             temp[0] = temp[0][:temp[0].find(separator)]  # Remove size annotation and other extra labels
             uparse_content.append(temp)
             count_uparse += 1
-            print '%i line in the uparse file ...' % count_uparse + '\b' * 100,
+            sys.stderr.write('%i line in the uparse file ...' % count_uparse + '\b' * 100,)
     
     # Convert uparse output into Qiime style OTU map
     otu_map = {}

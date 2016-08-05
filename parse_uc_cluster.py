@@ -20,6 +20,7 @@ def main(name_space):
     import argparse
     import textwrap
     from lib import ParseOtuMap
+    import sys
     
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter,
                                      epilog=textwrap.dedent('''\
@@ -49,7 +50,7 @@ def main(name_space):
             #temp[0] = temp[0][:temp[0].find(separator)]  # Remove size annotation and other extra labels
             uc_content.append(temp)
             count_uc += 1
-            print('%i line in the uparse file ...' % count_uc, end='\r')
+            sys.stderr.write('%i line in the uparse file ...' % count_uc, end='\r')
     
     # Convert uparse output into Qiime style OTU map
     otu_map = {}
