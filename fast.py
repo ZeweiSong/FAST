@@ -49,6 +49,7 @@ def main():
     group.add_argument('-random_dataset', action = 'store_true')
     group.add_argument('-rarefy_otu_table', action = 'store_true')
     group.add_argument('-rename_otu_map', action = "store_true")
+    group.add_argument('-reorder_otu_table', action = "store_true")
     group.add_argument('-split_taxa', action = 'store_true')
     group.add_argument('-stat_seqs', action = 'store_true')
     group.add_argument('-subset_fast_hybrid', action = 'store_true')
@@ -186,6 +187,10 @@ def main():
     
     if args.rename_otu_map:
         import rename_otu_map as function
+        function.main(sub_args)
+
+    if args.reorder_otu_table:
+        import reorder_otu_table as function
         function.main(sub_args)
     
     if args.split_taxa:
