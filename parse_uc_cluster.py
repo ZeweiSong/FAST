@@ -50,7 +50,8 @@ def main(name_space):
             #temp[0] = temp[0][:temp[0].find(separator)]  # Remove size annotation and other extra labels
             uc_content.append(temp)
             count_uc += 1
-            sys.stderr.write('%i line in the uparse file ...' % count_uc, end='\r')
+            line = '%i line in the uparse file ... \r' % count_uc
+            sys.stderr.write(line)
     
     # Convert uparse output into Qiime style OTU map
     otu_map = {}
