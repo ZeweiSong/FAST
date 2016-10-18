@@ -47,6 +47,7 @@ def main():
     group.add_argument('-parse_uparse_cluster', action = "store_true")
     group.add_argument('-pick_seqs', action = 'store_true')
     group.add_argument('-random_dataset', action = 'store_true')
+    group.add_argument('-random_pick', action = 'store_true')
     group.add_argument('-rarefy_otu_table', action = 'store_true')
     group.add_argument('-rename_otu_map', action = "store_true")
     group.add_argument('-reorder_otu_table', action = "store_true")
@@ -180,6 +181,10 @@ def main():
     if args.random_dataset:
         import random_dataset as function
         function.main(sub_args)
+    
+    if args.random_pick:
+        import random_pick as function
+        function.main(sub_args)    
     
     if args.rarefy_otu_table:
         import rarefy_otu_table as function
