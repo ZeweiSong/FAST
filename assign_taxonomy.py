@@ -32,6 +32,7 @@ def main(name_space):
     parser.add_argument("-o", "--output", help="Output OTU table")
     parser.add_argument('-scores', action='store_true', help='Indicate to output detail matching score following the taxonomy column.')
     parser.add_argument('-remove_unassigned', action='store_true', help='Indicate to remove OTUs without a taxonomy assignment.')
+    #parser.add_argument('-id', help='This is the similarity threshold to keep a taxonomy record, assignments with lower id will be filled with no_hit.')
     args = parser.parse_args(name_space)
     
     input_otu = args.otu
@@ -40,7 +41,7 @@ def main(name_space):
     
     otu_table = ParseOtuTable.parser_otu_table(input_otu)
     
-    # Read in BLAST taxonomy result and store in a dictionary
+    # Read in BLAST 6 style taxonomy result and store in a dictionary
     taxonomy_temp = []
     with open(input_tax, 'rU') as f:
         if args.scores:
@@ -76,7 +77,7 @@ def main(name_space):
                 otu_matrix_assigned.append(line)
                 hit += 1
             except KeyError:
-                line.append('no_blast_hit')
+                line.append('no_hit')
                 otu_matrix_assigned.append(line)
                 no_hit += 1
     
