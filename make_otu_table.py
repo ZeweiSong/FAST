@@ -117,7 +117,7 @@ def main(name_space):
             line = [str(i) for i in line]
             f.write('%s\n' % '\t'.join(line))
     
-    print 'OTU table with {0} samples was saved in {1}.'.format(len(sample_list), output_file)
+    print 'OTU table with {0} samples was saved in {1}.'.format(len(sample_list)-1, output_file)
 
 if __name__ == "__main__":
     import sys
