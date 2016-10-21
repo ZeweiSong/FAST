@@ -32,7 +32,7 @@ def main(name_space):
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-fixed_length', help='A fixed length to cut on all sequences.')
     group.add_argument('-slice', help='Slice size to cut from head and tail of each sequence in the format of "head,tail".')
-    parser.add_argument('-slice_out', action='store_true', help='Indicate to output sliced sequences.')
+    parser.add_argument('-sliced_out', action='store_true', help='Indicate to output sliced sequences.')
     parser.add_argument("-o", "--output", help="Name of the output file.")
     args = parser.parse_args(name_space)
     
@@ -88,7 +88,7 @@ def main(name_space):
                     count_fail += 1
         print "%i sequences were sliced and save in %s." % (count - count_fail, args.output)
         
-        if args.slice_out:
+        if args.sliced_out:
             if head > 0:
                 head_output = 'head.' + args.output
                 with open(head_output, 'wb') as f:
@@ -116,7 +116,7 @@ def main(name_space):
                             f.write('%s\n' % record[1][(seq_len - tail):])
                             f.write('%s\n' % record[2])
                             f.write('%s\n' % record[3][(seq_len - tail):])
-                print 'The sliced tail sequences wrote to %s.' % (head_output)                        
+                print 'The sliced tail sequences wrote to %s.' % (tail_output)                        
        
 if __name__ == '__main__':
     import sys
