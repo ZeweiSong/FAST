@@ -16,7 +16,7 @@ songzewei@outlook.com
 # The broken down string is save as a dictionary
 def parse_taxonomy(tax_string):
     parser = ['k__', 'p__', 'c__', 'o__', 'f__', 'g__', 's__']
-    if tax_string == 'no_blast_hit':
+    if tax_string == 'no_blast_hit' or tax_string == "no_hit":
         string = ['k__Fungi']
         for level in parser[1:]:
             string.append(level + 'unidentified')
