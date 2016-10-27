@@ -44,6 +44,8 @@ def main(name_space):
     input_fasta = args.input
     output_fasta = args.output
     pick_list = False
+    
+    print '\n'
     if args.map:
         pick_list = []
         if not args.sequence:

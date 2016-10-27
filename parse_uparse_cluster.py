@@ -45,7 +45,7 @@ def main(name_space):
             temp[0] = temp[0][:temp[0].find(separator)]  # Remove size annotation and other extra labels
             uparse_content.append(temp)
             count_uparse += 1
-            sys.stderr.write('%i line in the uparse file ...' % count_uparse + '\b' * 100,)
+            #sys.stderr.write('%i line in the uparse file ...' % count_uparse + '\b' * 100,)
     
     # Convert uparse output into Qiime style OTU map
     otu_map = {}
@@ -60,7 +60,7 @@ def main(name_space):
     
     # Report basic informatin of the OTU map
     otu_map_parser = ParseOtuMap.otu_map_parser(otu_map)
-    print
+    print '\n'
     print 'The OTU map contains:'
     print '%i OTUs' % otu_map_parser.derep_count
     print '%i sequences' % otu_map_parser.seqs_count

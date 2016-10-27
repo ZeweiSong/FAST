@@ -75,6 +75,7 @@ def main(Namespace):
     old_map = ParseOtuMap.otu_map_parser(MapDict)
     new_map = ParseOtuMap.otu_map_parser(MapDictFiltered)
     
+    print '\n'
     print 'Original OTU map:'
     print '\t OTU=%i (Total Sequences=%i, Max=%i, Min=%i, Ave=%i)' % (
         old_map.derep_count, old_map.seqs_count, old_map.max_derep, old_map.min_derep, old_map.ave_derep)
