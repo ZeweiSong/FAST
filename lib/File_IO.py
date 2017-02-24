@@ -4,7 +4,7 @@ Created on Tue Mar 31 11:29:35 2015
 Some simple manipulation on files and folders
 @author: Zewei Song
 """
-
+from __future__ import print_function
 # Create a new folder
 def mk_dir(folder):
     # Create a new folder, will check its availability first.
@@ -24,7 +24,7 @@ def check_dir(folder):
         if not os.listdir(folder):
             return False
         else:
-            print 'Folder: <%s> already exists. Program aborted.' % folder
+            print('Folder: <%s> already exists. Program aborted.' % folder)
             sys.exit()
     else:
         return True
@@ -75,22 +75,22 @@ def read_seqs(input_filename, file_type='default', output='default'):
         elif head_symbol == '@':
             file_type = 'fastq'
         else:
-            print '%s is not a correct header for FASTA or FASTQ, please check you file.' % head_symbol
+            print('%s is not a correct header for FASTA or FASTQ, please check you file.' % head_symbol)
             sys.exit()
     if file_type in ['fasta', 'Fasta', 'FASTA']:
         if content[0][0] == '@':
-            print '%s seems to be a FASTQ file. Please use the correct format.' % input_filename
+            print('%s seems to be a FASTQ file. Please use the correct format.' % input_filename)
             sys.exit()
         line_num = 2
         seq_line_num = 2
     elif file_type in ['fastq', 'Fastq', 'FASTQ']:
         if content[0][0] == '>':
-            print '%s seems to be a FASTA file. Please use the correct format.' % input_filename
+            print('%s seems to be a FASTA file. Please use the correct format.' % input_filename)
             sys.exit()
         line_num = 4
         seq_line_num = 4
     else:
-        print 'Please specify a right format [fasta | fastq].'
+        print('Please specify a right format [fasta | fastq].')
         sys.exit()
 
     # set line number to 2 if want to export FASTA for a FASTQ file.
@@ -136,17 +136,17 @@ def write_seqs(input_content, output_file, checker=True, overwrite=False):
 
     if checker:
         if not check_file(output_file):  # File already exist
-            print '%s already exist, please check your working folder to avoid any potential loss.' % output_file
+            print('%s already exist, please check your working folder to avoid any potential loss.' % output_file)
             sys.exit()
 
     if not overwrite:  # Append to current file
-        with open(output_file, 'ab') as f:
+        with open(output_file, 'a') as f:
             for record in input_content:
                 record[0] = head_symbol + record[0]
                 for i in range(line_num):
                     f.write('%s\n' % record[i])
     elif overwrite:  # Overwrite current file
-        with open(output_file, 'wb') as f:
+        with open(output_file, 'w') as f:
             for record in input_content:
                 record[0] = head_symbol + record[0]
                 for i in range(line_num):
