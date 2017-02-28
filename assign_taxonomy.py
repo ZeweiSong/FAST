@@ -81,9 +81,9 @@ def main(name_space):
         else:
             no_hit_count += 1
     
-    print(len(taxonomy))
-    print(len(taxonomy_keep))
-    print(len(taxonomy_assign))
+    print('{0} OTUs can be aligned to the reference database.'.format(len(taxonomy)))
+    print('{0} assignments have match length >= {1}, and Pident >= {2}. Other assignments are marked as "below_minimum_threshold".'.format(len(taxonomy_keep), args.min_match, args.min_pident))
+    print('{0} assignments have match length >= {1}, and Pident >= {2}. Other assignments are marked as "below_assignment_threshold".'.format(len(taxonomy_assign), args.match_length, args.pident))
 
     otu_matrix = otu_table.species_matrix
     otu_matrix_assigned = []
