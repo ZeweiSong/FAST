@@ -12,7 +12,8 @@ University of Minnesota
 Dept. Plant Pathology
 songzewei@outlook.com
 """
-
+from __future__ import print_function
+from __future__ import division
 
 class parser_otu_table(object):
     def __init__(self, file_path, meta_col='taxonomy'):
@@ -41,7 +42,7 @@ class parser_otu_table(object):
             try:
                 line[1:meta_position] = map(int, line[1:meta_position])
             except ValueError:
-                print "There are non-number value in your OTU table."
+                print("There are non-number value in your OTU table.")
                 import sys                
                 sys.exit()
                 
