@@ -13,6 +13,8 @@ Dept. Plant Pathology
 songzewei@outlook.com
 www.songzewei.org
 """
+from __future__ import print_function
+from __future__ import division
 def main():
     import argparse
     import textwrap
@@ -59,7 +61,7 @@ def main():
     group.add_argument('-truncate_seqs', action = 'store_true')
     
     if len(sys.argv) <= 1:
-        print "This is the helping document:"
+        print("This is the helping document:")
         sys.exit()
     
     else:
@@ -72,7 +74,7 @@ def main():
         sub_args = sys.argv[2:]
     
     if args.document:
-        print "This is the helping document:"
+        print("This is the helping document:")
     
     #    else:
     #        function = importlib.import_module(function_name)
