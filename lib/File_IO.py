@@ -6,6 +6,7 @@ Some simple manipulation on files and folders
 """
 from __future__ import print_function
 from __future__ import division
+
 # Create a new folder
 def mk_dir(folder):
     # Create a new folder, will check its availability first.
@@ -99,7 +100,7 @@ def read_seqs(input_filename, file_type='default', output='default'):
         seq_line_num = 2
 
     # Store record in list
-    seq_num = len(content) / line_num  # Total number of records
+    seq_num = int(len(content) / line_num)  # Total number of records
     output_content = []
     for i in range(seq_num):
         temp = []  # Store current record
@@ -141,13 +142,13 @@ def write_seqs(input_content, output_file, checker=True, overwrite=False):
             sys.exit()
 
     if not overwrite:  # Append to current file
-        with open(output_file, 'ab') as f:
+        with open(output_file, 'a') as f:
             for record in input_content:
                 record[0] = head_symbol + record[0]
                 for i in range(line_num):
                     f.write('%s\n' % record[i])
     elif overwrite:  # Overwrite current file
-        with open(output_file, 'wb') as f:
+        with open(output_file, 'w') as f:
             for record in input_content:
                 record[0] = head_symbol + record[0]
                 for i in range(line_num):
