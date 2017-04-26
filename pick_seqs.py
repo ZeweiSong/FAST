@@ -69,7 +69,7 @@ def main(name_space):
         pick_size = int(args.random_pick)
         print 'Randomly pick %i sequences.' % (pick_size)
         
-    if not pick_list:
+    if pick_list == []:
         input_content = File_IO.read_seqs(input_fasta)
         print 'Reaing in the original FASTA file: %s ...' % input_fasta
         print 'Randomly sampling %i sequences out of %i ...' %(pick_size, len(input_content))
