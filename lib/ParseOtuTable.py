@@ -136,9 +136,9 @@ def sorted_table(otu_table_parser, new_file_path='otu_table_sorted.txt', remove_
     
 # Output a tab delimited OTU table using a sample dict and meta_dict
 def write_sample_dict(sample_dict, meta_dict, otu_id, output_file_path):
-    sample_id = sample_dict.keys()
+    sample_id = list(sample_dict.keys())
     sample_id.sort()
-    meta_id = meta_dict.keys()
+    meta_id = list(meta_dict.keys())
     
     header = ['OTU_ID'] + sample_id + meta_id
     content = [header]

@@ -31,7 +31,7 @@ def main(Namespace):
                                     ------------------------'''), prog='fast.py -nucl_freq')
     parser.add_argument('-i', '--input', help='Name of the input FASTA or FASTQ file.')
     parser.add_argument('-o', '--output', default='nucl_report.txt', help='Name of the reporting file.')
-    parser.add_argument('-tail', action='store_true', help='Indicate to perform the counting from the tail of the sequences.')
+    parser.add_argument('-tail', action='store_true', help='Indicate to also count from the tail of the sequences.')
     args = parser.parse_args(Namespace)
     
     input_file = args.input
@@ -42,7 +42,7 @@ def main(Namespace):
     input_seq = File_IO.read_seqs(input_file)
     print('The file contains {0} sequences.'.format(len(input_seq)))
     if tail_indicator:
-        print('Counting nucleotide frequencies from the tail of all sequences...')
+        print('Counting nucleotide frequencies from both ends of all sequences...')
     else:
         print('Counting nucleotide frequencies from the head of all sequences...')
 
