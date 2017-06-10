@@ -1,4 +1,4 @@
-# Example pipeline for ITS1 data set
+# Example pipeline for ITS2 data set
 #
 # The following command between : ' and ' are for setting up the working environment. I just put them here as an example, and I recommend that you visit my Wiki's set up page (https://github.com/ZeweiSong/FAST/wiki/Setup-the-working-folder) for more details. Usually I would visit the webpage of ecah individual prpgram and download their latest version. If you want to try these command, just copy and paste each line to run them.
 #
@@ -8,9 +8,9 @@
 : '
 #Set up FAST package
 mkdir bin
-wget https://github.com/ZeweiSong/FAST/archive/FAST_v1.101.tar.gz
-tar -xvf FAST_v1.101.tar.gz
-mv FAST-FAST_v1.101. bin/FAST
+wget https://github.com/ZeweiSong/FAST/archive/FAST_v1.2.tar.gz
+tar -xvf FAST_v1.2.tar.gz
+mv FAST-FAST_v1.2 bin/FAST
 bin/FAST/fast.py -add_labels -h
 '
 
@@ -23,9 +23,9 @@ bin/cutadapt --help
 
 : '
 #Download VSEARCH (I am using v2.1.0 here, their latest version require an update of Linux system if you know how. There is no difference.)
-wget https://github.com/torognes/vsearch/releases/download/v2.1.0/vsearch-2.1.0-linux-x86_64.tar.gz
-tar -xvf vsearch-2.1.0-linux-x86_64.tar.gz
-mv vsearch-2.1.0-linux-x86_64/bin/vsearch bin/
+wget https://github.com/torognes/vsearch/releases/download/v2.4.3/vsearch-2.4.3-linux-x86_64.tar.gz
+tar -xvf vsearch-2.4.3-linux-x86_64.tar.gz
+mv vsearch-2.4.3-linux-x86_64/bin/vsearch bin/
 rm -r vsearch-2.1.0-linux-x86_64/
 '
 
@@ -61,16 +61,16 @@ rm *.zip
 '
 
 # Generate sample mapping files:
-bin/FAST/fast.py -generate_mapping -i read1 -o read1_map.txt
-bin/FAST/fast.py -generate_mapping -i read2 -o read2_map.txt
+python bin/FAST/fast.py -generate_mapping -i read1 -o read1_map.txt
+python bin/FAST/fast.py -generate_mapping -i read2 -o read2_map.txt
 
 # Label sequences:
-bin/FAST/fast.py -add_labels -m read1_map.txt -i read1 -o read1_labeled -t 4
-bin/FAST/fast.py -add_labels -m read2_map.txt -i read2 -o read2_labeled -t 4
+python bin/FAST/fast.py -add_labels -m read1_map.txt -i read1 -o read1_labeled -t 4
+python bin/FAST/fast.py -add_labels -m read2_map.txt -i read2 -o read2_labeled -t 4
 
 # Merge all files:
-bin/FAST/fast.py -merge_seqs -i read1_labeled -o read1.fastq
-bin/FAST/fast.py -merge_seqs -i read2_labeled -o read2.fastq
+python bin/FAST/fast.py -merge_seqs -i read1_labeled -o read1.fastq
+python bin/FAST/fast.py -merge_seqs -i read2_labeled -o read2.fastq
 
 # Trim off sequencing primers:
 bin/cutadapt -a CTGTCTCTTATACACATCTCCGAGCCCACGAGAC -A CTGTCTCTTATACACATCTGACGCTGCCGACGA -o read1.cut.fastq -p read2.cut.fastq read1.fastq read2.fastq -m 50
@@ -79,8 +79,8 @@ bin/cutadapt -a CTGTCTCTTATACACATCTCCGAGCCCACGAGAC -A CTGTCTCTTATACACATCTGACGCTG
 bin/pear -f read1.cut.fastq -r read2.cut.fastq -o merge.pear.its2 -k -j 4
 
 # Remove 5.8SR primer and LSU regions:
-bin/FAST/fast.py -nucl_freq -i merge.pear.its2.assembled.fastq -o merge.pear.head.txt
-bin/FAST/fast.py -nucl_freq -i merge.pear.its2.assembled.fastq -o merge.pear.tail.txt -tail
+python bin/FAST/fast.py -nucl_freq -i merge.pear.its2.assembled.fastq -o merge.pear.head.txt
+python bin/FAST/fast.py -nucl_freq -i merge.pear.its2.assembled.fastq -o merge.pear.tail.txt -tail
 
 cutadapt -g ^TCGATGAAGAACGCAGCG -o merge.pear.its2.cut_f.fastq merge.pear.its2.assembled.fastq --discard-untrimmed
 bin/FAST/fast.py -truncate_seqs -i merge.pear.its2.cut_f.fastq -slice 0,60 -o merge.pear.its2.cut_fr.fastq
