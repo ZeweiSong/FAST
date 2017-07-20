@@ -41,21 +41,21 @@ def main(name_space):
     if args.input:
         fastq_file = args.input
         start = time.time()
-        print "Loading %s ..." % fastq_file
+        print("Loading %s ..." % fastq_file)
         fasta_content = File_IO.read_seqs(fastq_file, file_type='fastq', output='fasta')
-        print 'Converting to FASTA ...'
+        print('Converting to FASTA ...')
         record_num = File_IO.write_seqs(fasta_content, fasta_file, checker=False, overwrite=True)
-        print "Converted %d records in %s ..." % (record_num, fastq_file)
+        print("Converted %d records in %s ..." % (record_num, fastq_file))
     
         end = time.time()
         used_time = round(end - start, 2)
-        print "It took %s sec to convert (%s seqs/s).\nFASTA file saved in %s." % (
-            str(used_time), str(round(record_num/used_time,0)), fasta_file)
+        print("It took %s sec to convert (%s seqs/s).\nFASTA file saved in %s." % (
+            str(used_time), str(round(record_num/used_time,0)), fasta_file))
     #    if qual:
     #        print "Quality scores saved in %s." % (File_IO.name_file(fasta_file, '', 'qual'))
     
     else:
-        print "Please specify a FASTQ file."
+        print("Please specify a FASTQ file.")
         sys.exit()
 
 if __name__ == '__main__':

@@ -40,9 +40,9 @@ def main(name_space):
         truncate_length = int(args.fixed_length)
         sequences = File_IO.read_seqs(args.input)
         count = len(sequences)
-        print "Reading in %s ..." % args.input
-        print "%s contains %i records." % (args.input, count)
-        print "Cutting sequences to a fixed length: %i ..." % truncate_length
+        print("Reading in %s ..." % args.input)
+        print("%s contains %i records." % (args.input, count))
+        print("Cutting sequences to a fixed length: %i ..." % truncate_length)
     
         count_fail = 0
         with open(args.output, 'w') as f:
@@ -59,7 +59,7 @@ def main(name_space):
                         f.write('%s\n' % record[3])
                 else:
                     count_fail += 1
-        print "%i sequences were cut to %i and save in %s." % (count - count_fail, truncate_length, args.output)
+        print("%i sequences were cut to %i and save in %s." % (count - count_fail, truncate_length, args.output))
 
     if args.slice:
         slice_window = args.slice.split(',')
@@ -67,9 +67,9 @@ def main(name_space):
         tail = int(slice_window[1])
         sequences = File_IO.read_seqs(args.input)
         count = len(sequences)
-        print "Reading in %s ..." % args.input
-        print "%s contains %i records." % (args.input, count)
-        print "Slicing %i bp from the head and %i bp from the tail ..." % (head, tail)
+        print("Reading in %s ..." % args.input)
+        print("%s contains %i records." % (args.input, count))
+        print("Slicing %i bp from the head and %i bp from the tail ..." % (head, tail))
         
         count_fail = 0
         with open(args.output, 'wb') as f:
@@ -86,7 +86,7 @@ def main(name_space):
                         f.write('%s\n' % record[3][head:(seq_len - tail)])
                 else:
                     count_fail += 1
-        print "%i sequences were sliced and save in %s." % (count - count_fail, args.output)
+        print("%i sequences were sliced and save in %s." % (count - count_fail, args.output))
         
         if args.sliced_out:
             if head > 0:
@@ -101,7 +101,7 @@ def main(name_space):
                             f.write('%s\n' % record[1][:head])
                             f.write('%s\n' % record[2])
                             f.write('%s\n' % record[3][:head])
-                print 'The sliced head sequences wrote to %s.' % (head_output)
+                print('The sliced head sequences wrote to %s.' % (head_output))
             
             if tail > 0:
                 tail_output = 'tail.' + args.output
@@ -116,7 +116,7 @@ def main(name_space):
                             f.write('%s\n' % record[1][(seq_len - tail):])
                             f.write('%s\n' % record[2])
                             f.write('%s\n' % record[3][(seq_len - tail):])
-                print 'The sliced tail sequences wrote to %s.' % (tail_output)                        
+                print('The sliced tail sequences wrote to %s.' % (tail_output))
        
 if __name__ == '__main__':
     import sys
