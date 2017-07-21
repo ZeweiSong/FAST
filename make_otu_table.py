@@ -11,6 +11,8 @@ University of Minnesota
 Dept. Plant Pathology
 songzewei@outlook.com
 """
+from __future__ import print_function
+from __future__ import division
 
 def main(name_space):
     import argparse
@@ -50,7 +52,7 @@ def main(name_space):
     
     # Use Qiime style
     if method == 'qiime':
-        print 'Reading the Qiime style OTU map: {0} ...'.format(input_file)
+        print('Reading the Qiime style OTU map: {0} ...'.format(input_file))
         otu_map = ParseOtuMap.read_otu_map(input_file)
         sample_list = []
         otu_table_dict = {}
@@ -67,7 +69,7 @@ def main(name_space):
     
     # Use FAST style
     if method == 'fast':
-        print 'Reading the FAST hybrid OTU map: {0} ...'.format(input_file)
+        print('Reading the FAST hybrid OTU map: {0} ...'.format(input_file))
         otu_map = ParseOtuMap.read_fast_output(input_file)
 #        sample_list = []
 #        otu_table_dict = {}
@@ -91,7 +93,7 @@ def main(name_space):
             for item in temp_content:
                 rep_seq.append(item[:2])
             rep_seq_count = File_IO.write_seqs(rep_seq, output_seq_file, checker=False, overwrite=True) 
-            print '{0} OTUs were wrote to {1}.'.format(rep_seq_count, output_seq_file)
+            print('{0} OTUs were wrote to {1}.'.format(rep_seq_count, output_seq_file))
     
     # Convert OTU table dictionary to table
 #    otu_abundance = {}
@@ -117,7 +119,7 @@ def main(name_space):
             line = [str(i) for i in line]
             f.write('%s\n' % '\t'.join(line))
     
-    print 'OTU table with {0} samples was saved in {1}.'.format(len(sample_list)-1, output_file)
+    print('OTU table with {0} samples was saved in {1}.'.format(len(sample_list)-1, output_file))
 
 if __name__ == "__main__":
     import sys

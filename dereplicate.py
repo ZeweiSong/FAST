@@ -19,6 +19,8 @@ University of Minnesota
 Dept. Plant Pathology
 songzewei@outlook.com
 """
+from __future__ import print_function
+from __future__ import division
 
 def dereplicate_worker(input_seqs, output_derep, n, count):
     # Dereplicate a chunk of input sequences
@@ -96,21 +98,21 @@ def main(Namespace):
     from multiprocessing import Process, Manager
     import sys
 
-    print 'Using %i threads ...' % thread
+    print('Using %i threads ...' % thread)
     start = time.time()
     
     input_file = input_file
-    print 'Loading %s ...' % input_file
+    print('Loading %s ...' % input_file)
     seqs = File_IO.read_seqs(input_file)
     seqs_num = len(seqs)
-    print 'Read in %i sequences.' % seqs_num
+    print('Read in %i sequences.' % seqs_num)
 
     # Disable multiprocess if using single thread
     if thread == 1:
         derep_dict = dereplicate_single_thread(seqs)
     else:
         # Separated seqs into pools
-        print 'Separating raw sequences into %d jobs ...' % thread
+        print('Separating raw sequences into %d jobs ...' % thread)
         d = divide_seqs(seqs_num, thread)
     
         
@@ -119,7 +121,7 @@ def main(Namespace):
         derep_dict = manager.list([{}] * thread)
         count = manager.list([0] * thread)
     
-        print 'Starting dereplicating ...'
+        print('Starting dereplicating ...')
         workers = []
         for i in range(thread):
             current_range = d[i]
@@ -127,11 +129,11 @@ def main(Namespace):
                                    args=(seqs[current_range[0]:current_range[1]], derep_dict, i, count)))
         del seqs
         
-        print 'Starting %i jobs ...' % thread
+        print('Starting %i jobs ...' % thread)
         count_worker = 1
         for job in workers:
             job.start()
-            print 'Starting thread No. %i ...' % count_worker
+            print('Starting thread No. %i ...' % count_worker)
             count_worker += 1
             
         job_alive = True
@@ -146,7 +148,7 @@ def main(Namespace):
     
         for derep_worker in workers:
             derep_worker.join()
-        print 'Finished dereplicating.'
+        print('Finished dereplicating.')
         seqs = []  # Empty sequences list to free memory.
 
     # Merged dereplicated dictionaries into a single dict
@@ -168,11 +170,11 @@ def main(Namespace):
     else:
         merged_dict = derep_dict
     print
-    print "Sequences dereplicated, clasped from %i into %i sequences." % (seqs_num, len(merged_dict))
+    print("Sequences dereplicated, clasped from %i into %i sequences." % (seqs_num, len(merged_dict)))
     s = [len(merged_dict[i]) for i in merged_dict]
-    print 'Dereplicated OTU size: Max=%i, Min=%i, Average=%i.' % (max(s), min(s), round(float(sum(s) / len(s)), 2))
+    print('Dereplicated OTU size: Max=%i, Min=%i, Average=%i.' % (max(s), min(s), round(float(sum(s) / len(s)), 2)))
     end = time.time()
-    print "Used time: " + str(end - start) + ' seconds.'
+    print("Used time: " + str(end - start) + ' seconds.')
     print
     
   
@@ -186,9 +188,9 @@ def main(Namespace):
 
 
     # Output dereplicated FASTA file
-    print 'Writing dereplicated sequence and OTU map ...'
+    print('Writing dereplicated sequence and OTU map ...')
     output_seq_file = output_fasta
-    with open(output_seq_file, 'wb') as f:
+    with open(output_seq_file, 'w') as f:
         if args.sizeout:        
             for element in size_list:
                 output_label = element[2] + ";size=" + str(element[0])
@@ -201,14 +203,14 @@ def main(Namespace):
                 f.write('>%s\n' % output_label)
                 f.write('%s\n' % element[1])
                 
-    print '%s contains dereplicated sequences.' % output_fasta
+    print('%s contains dereplicated sequences.' % output_fasta)
 
     # Output Qiime style map
-    with open(output_map, 'wb') as f:
+    with open(output_map, 'w') as f:
         for element in size_list:
             name_list = merged_dict[element[1]]
             f.write('%s\t%s\n' % (element[2], '\t'.join(name_list)))  # Use the last element as group name
-    print '%s contains an OTU map for dereplicated sequences.' % output_map
+    print('%s contains an OTU map for dereplicated sequences.' % output_map)
     
     # Generate FAST style derep output file (a single file with sample names, counts, and dereplicated sequences)
     if args.fast != "":

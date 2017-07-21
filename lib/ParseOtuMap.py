@@ -9,7 +9,8 @@ University of Minnesota
 Dept. Plant Pathology
 songzewei@outlook.com
 """
-
+from __future__ import print_function
+from __future__ import division
 #%%
 def read_otu_map(filename):
     from lib import File_IO
@@ -47,8 +48,8 @@ def filter_by_name(MapDict,otu_list,method='discard'):
             MapDict_keep[otu] = MapDict[otu]
         return MapDict_keep
     else:
-        print 'Wrong method: %s is not a valid method.'%method
-        print 'use discard or keep'
+        print('Wrong method: %s is not a valid method.'% method)
+        print('use discard or keep')
 
 def filter_by_size(MapDict,min_size=2):
 #Filter OTU map by minimum size.
@@ -67,7 +68,7 @@ def filter_by_size(MapDict,min_size=2):
 def write_otu_map(MapDict,output_file='new_map.txt'):
 #Not sure for now if I should sort the otu names by number
 #Probably not, it can be converted to otu table in Qiime.
-    with open(output_file, 'wb') as f:
+    with open(output_file, 'w') as f:
         for key, value in MapDict.items():
             cluster_seqs = '\t'.join(value)
             f.write('%s\t%s\n'%(key,cluster_seqs))
@@ -82,7 +83,7 @@ def extract_all_seqs(Map, otu_list):
             for seq_name in Map[name]:
                 extracted.append(seq_name)
         except ValueError:
-            print 'Cannot find %s in the provided Qiime map.'
+            print('Cannot find %s in the provided Qiime map.')
             sys.exit()
     return extracted
 
@@ -162,7 +163,7 @@ def merge_derep_fast_with_Qiime_otu():
 def write_fast_output(input_fast_dict, output_file):
 # Save the FAST output in JSON format
     import json
-    json.dump(input_fast_dict, open(output_file, 'wb'))
+    json.dump(input_fast_dict, open(output_file, 'w'))
 
 def read_fast_output(input_fast_file):
 # Load the FAST output
@@ -173,8 +174,8 @@ def read_fast_output(input_fast_file):
 class fast_output_parser(object):
     def __init__(self, input_fast):
         self.fast = input_fast
-        temp_check = input_fast[input_fast.keys()[0]]['sample']
-        temp_value = type(temp_check[temp_check.keys()[0]])
+        temp_check = input_fast[list(input_fast.keys())[0]]['sample']
+        temp_value = type(temp_check[list(temp_check.keys())[0]])
         #print temp_value is dict
         if temp_value is int:
             self.fast_type = 'individual'
@@ -231,7 +232,7 @@ class fast_output_parser(object):
     def detail_sample_unit(self, target_unit):
     # Get an output for a single sample unit        
         if self.fast_type == 'individual':
-            print 'This is not a hybrid FAST map.'
+            print('This is not a hybrid FAST map.')
             return ''
         
         elif self.fast_type == 'hybrid':
@@ -264,7 +265,7 @@ class fast_output_parser(object):
     
     def parse_otu_table(self):
         if self.fast_type == 'individual':
-            print 'This is not a hybrid FAST map.'
+            print('This is not a hybrid FAST map.')
             return ''
         elif self.fast_type == 'hybrid':
             sample_list = []

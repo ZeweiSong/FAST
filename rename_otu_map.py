@@ -12,6 +12,9 @@ University of Minnesota
 Dept. Plant Pathology
 songzewei@outlook.com
 """
+from __future__ import print_function
+from __future__ import division
+
 def main(name_space):
     import argparse
     import textwrap
@@ -44,10 +47,10 @@ def main(name_space):
         output_otu = args.output
         otu_label = args.label
         
-        print 'Reading in %s ...' % input_otu
+        print('Reading in %s ...' % input_otu)
         old_map = ParseOtuMap.read_otu_map(input_otu)
         otu_temp = old_map.items()
-        print 'Sorting OTUs by size ...'
+        print('Sorting OTUs by size ...')
         otu_temp.sort(key=lambda x: len(x[1]), reverse=True)
         
         with open(output_otu, 'w') as f:
@@ -57,7 +60,7 @@ def main(name_space):
                 count += 1
                 line = new_name + '\t' + '\t'.join(otu[1])
                 f.write('%s\n' % line)
-        print 'New OTU map saved in %s.' % output_otu
+        print('New OTU map saved in %s.' % output_otu)
     
     elif method == 'fast':
         output_otu = args.output

@@ -59,6 +59,7 @@ def main():
     group.add_argument('-substract_controls', action = 'store_true')
     group.add_argument('-summary_otu_table', action = 'store_true')
     group.add_argument('-truncate_seqs', action = 'store_true')
+    group.add_argument('-unmerge_seqs', action = 'store_true')
     
     if len(sys.argv) <= 1:
         print("This is the helping document:")
@@ -224,5 +225,9 @@ def main():
         import truncate_seqs as function
         function.main(sub_args)
 
+    if args.unmerge_seqs:
+        import unmerge_seqs as function
+        function.main(sub_args)
+        
 if __name__ == '__main__':
     main()

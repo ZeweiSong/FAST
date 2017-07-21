@@ -11,6 +11,8 @@ University of Minnesota
 Dept. Plant Pathology
 songzewei@outlook.com
 """
+from __future__ import print_function
+from __future__ import division
 
 def main(Namespace):
     import argparse
@@ -37,11 +39,11 @@ def main(Namespace):
     
     input_folder = args.input
     if not input_folder:
-        print 'please specified an input folder'
+        print('please specified an input folder')
         sys.exit()
     output_file = args.output
     if not output_file:
-        print 'Please specified an output file.'
+        print('Please specified an output file.')
         sys.exit()
     if os.path.isfile(output_file):
         file_size = round(os.path.getsize(output_file)/1024**2, 0)
@@ -49,7 +51,7 @@ def main(Namespace):
         if exist == 'y' or exist == 'Y':
             os.remove(output_file)
         else:
-            print 'Program stopped.'
+            print('Program stopped.')
             sys.exit()
     file_type = 'fastq'
     if args.fasta:
@@ -58,19 +60,19 @@ def main(Namespace):
     start = time.time()
     f_list = File_IO.file_list(input_folder)
     f_list.sort()
-    print 'Found %i files in the folder %s' % (len(f_list), input_folder)
+    print('Found %i files in the folder %s' % (len(f_list), input_folder))
     count = 0
     n = 1
     count_total = 0
     for seq_file in f_list:
         current_file = input_folder+'/'+seq_file
         count = File_IO.write_seqs(File_IO.read_seqs(current_file, file_type), output_file, checker=False, overwrite=False)
-        print '%d. Merged %d sequences from %s into the new file.' % (n, count, seq_file)
+        print('%d. Merged %d sequences from %s into the new file.' % (n, count, seq_file))
         n += 1
         count_total += count
     end = time.time()
     used_time = round(end-start, 2)
-    print 'Spent %s sec to merge %d records in %d files into %s' % (str(used_time), count_total, len(f_list), output_file)
+    print('Spent %s sec to merge %d records in %d files into %s' % (str(used_time), count_total, len(f_list), output_file))
 
 if __name__ == '__main__':
     import sys

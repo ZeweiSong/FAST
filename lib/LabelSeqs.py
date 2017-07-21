@@ -19,7 +19,8 @@ University of Minnesota
 Dept. Plant Pathology
 songzewei@outlook.com
 """
-
+from __future__ import print_function
+from __future__ import division
 # %%+++++Single thread relabeling++++++++++++++++++++++++++++++++++++++++++++++++++++++
 def ReLabelFastQ(file_name, label, read_type, input_folder, output_folder='labeled', file_type='fastq',
                  label_type='qiime'):
@@ -87,8 +88,8 @@ def LabelFiles(mapping):
         count = ReLabelFastQ(item['file'], item['label'], item['read_type'], item['input_folder'], \
                              output_folder=item['output_folder'], file_type=item['file_type'],
                              label_type=item['label_type'])
-        print "%s sequences in %s relabeled to %s as %s file.\n" % (
-            count, item['file'], item['label'], item['read_type'])
+        print("%s sequences in %s relabeled to %s as %s file.\n" % (
+            count, item['file'], item['label'], item['read_type']))
 
 
 def CreateWorker(mapping_multithreads, threads=4):
@@ -110,7 +111,7 @@ def SplitMapping(mapping_file, input_folder, output_folder='labeled', file_type=
         item['label_type'] = label_type
     file_number = len(mapping)
     threads = []
-    for i in range(processor): threads.append(file_number / processor)
+    for i in range(processor): threads.append(file_number // processor)
     for i in range(file_number % processor): threads[i] += 1
 
     temp = list(mapping[:])
@@ -134,17 +135,17 @@ def MainLabelFiles(mapping_file, input_folder, threads=1, output_folder='labeled
 
     File_IO.mk_dir(output_folder)
     if threads == 1:
-        print "Relabeling files using %d thread ..." % threads
+        print("Relabeling files using %d thread ..." % threads)
         mapping = ParseMapping(mapping_file, input_folder)
         file_num = len(mapping)
         for item in mapping:
             count = ReLabelFastQ(item['file'], item['label'], item['read_type'], item['input_folder'], \
                                  output_folder=output_folder, file_type=file_type, label_type=label_type)
-            print "%s sequences in %s relabeled to %s as %s file.\n" % (
-                count, item['file'], item['label'], item['read_type'])
+            print("%s sequences in %s relabeled to %s as %s file.\n" % (
+                count, item['file'], item['label'], item['read_type']))
 
     elif threads > 1:
-        print "Relabeling files using %d threads ..." % threads
+        print("Relabeling files using %d threads ..." % threads)
         mapping_multithreads = SplitMapping(mapping_file, input_folder, output_folder=output_folder,
                                             file_type=file_type, label_type=label_type, processor=threads)
         file_num = sum([len(i) for i in mapping_multithreads])
@@ -158,7 +159,7 @@ def MainLabelFiles(mapping_file, input_folder, threads=1, output_folder='labeled
             item.join()
 
     else:
-        print "The number of threads cannot be negative."
+        print("The number of threads cannot be negative.")
         import sys
 
         sys.exit()

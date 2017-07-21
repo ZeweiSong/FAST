@@ -28,6 +28,8 @@ rep is the repeated time for a single sample
 @author: Zewei Song
 songzewei@outlook.com
 """
+from __future__ import print_function
+from __future__ import division
 #%%##############################################################################
 def rarefaction(sample,depth):
     sample_single = generate_repeat_otu(sample)
@@ -125,38 +127,38 @@ def generate_random_index(sample_size, random_size):
     return random_index_list
 #%%##############################################################################
 if __name__ == "__main__":
-    print "################################################################################"
-    print "random_subsample.py"
-    print "Zewei Song"
-    print "University of Minnesota"
-    print "songzewei@outlook.com\n"
+    print("################################################################################")
+    print("random_subsample.py")
+    print("Zewei Song")
+    print("University of Minnesota")
+    print("songzewei@outlook.com\n")
     import psutil
-    print "The number of processor in this computer is: "+str(psutil.cpu_count())
-    print
+    print("The number of processor in this computer is: "+str(psutil.cpu_count()))
+    print("\n")
     otuid = []
     sample = []
     for i in range(20):
         otuid.append('OTU_%d'%(i+1))
         sample.append(100)
-    print "Example otuid, length = 20, otu_id is not needed:"
-    print otuid
-    print
-    print "Example sample, length = 20:"
-    print sample
-    print
-    print "Rarefy sample to the level of 500 from a total of 2000:"
-    print "rarefaction(sample,500)"
-    print rarefaction(sample,500)
-    print
-    print "Rarefy sample to the level of 500 for 3 times:"
-    print "repeat_rarefaction(sample,500,3)"
+    print("Example otuid, length = 20, otu_id is not needed:")
+    print(otuid)
+    print()
+    print("Example sample, length = 20:")
+    print(sample)
+    print()
+    print("Rarefy sample to the level of 500 from a total of 2000:")
+    print("rarefaction(sample,500)")
+    print(rarefaction(sample,500))
+    print()
+    print("Rarefy sample to the level of 500 for 3 times:")
+    print("repeat_rarefaction(sample,500,3)")
     repeat_sample = repeat_rarefaction(sample,500,3)
     for sample in repeat_sample:
-        print sample
-    print
-    print "Rarefy sample to the level of 500 for 3 times and using 4 processors:"
-    print "repeat_rarefaction_parallel(sample,500,3,processor=4)"
+        print(sample)
+    print()
+    print("Rarefy sample to the level of 500 for 3 times and using 4 processors:")
+    print("repeat_rarefaction_parallel(sample,500,3,processor=4)")
     repeat_sample = repeat_rarefaction_parallel(sample,500,3,processor=4)
     for sample in repeat_sample:
-        print sample
-    print "################################################################################"
+        print(sample)
+    print("################################################################################")

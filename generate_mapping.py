@@ -15,6 +15,8 @@ University of Minnesota
 Dept. Plant Pathology
 songzewei@outlook.com
 """
+from __future__ import print_function
+from __future__ import division
 
 def main(Namespace):
 
@@ -69,9 +71,9 @@ def main(Namespace):
     folder_name = args.input
     count_file, unknown_read = write_mapping(folder_name, mapping_file=args.output)
 
-    print 'Generated a mapping file with %d files in %s.' % (count_file, args.output)
+    print('Generated a mapping file with %d files in %s.' % (count_file, args.output))
     if unknown_read > 0:
-        print '%s files have unknown read type, please check the mapping file.' % unknown_read
+        print('%s files have unknown read type, please check the mapping file.' % unknown_read)
         
 if __name__ == '__main__':
     import sys

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
 """
 Created on Wed Apr 08 15:44:18 2015
@@ -12,7 +13,8 @@ University of Minnesota
 Dept. Plant Pathology
 songzewei@outlook.com
 """
-
+from __future__ import print_function
+from __future__ import division
 
 def main(name_space):
     import argparse
@@ -39,11 +41,11 @@ def main(name_space):
 
     mapping_file = args.mapping
     if mapping_file is None:
-        print "Please provide a mapping file."
+        print("Please provide a mapping file.")
         sys.exit()
     input_folder = args.input
     if input_folder is None:
-        print "Please provide an input folder."
+        print("Please provide an input folder.")
         sys.exit()
     thread = args.thread
     output_folder = args.output
@@ -58,7 +60,7 @@ def main(name_space):
     end = time.time()
     used_time = round(end - start, 2)
     speed = round((used_time/file_num), 2)
-    print '%i files has been labeled in %s seconds (%s sec/file).' % (file_num, str(used_time), str(speed))
+    print('%i files has been labeled in %s seconds (%s sec/file).' % (file_num, str(used_time), str(speed)))
 
 
 if __name__ == '__main__':

@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Created on Fri Apr 24 11:44:11 2015
@@ -5,7 +6,7 @@ Created on Fri Apr 24 11:44:11 2015
 Assign taxonomy information from  a BLAST output to the OTU table.
 
 Now it only accept following output from BLAST:
-@ blastn -db blast\unite_02.03.2015 -query raw.qc.fasta_rep_set.fasta -max_target_seqs 1 -outfmt "6 qseqid stitle qlen length pident evalue" -out rep.otu.txt
+@ blastn -db blast\\unite_02.03.2015 -query raw.qc.fasta_rep_set.fasta -max_target_seqs 1 -outfmt "6 qseqid stitle qlen length pident evalue" -out rep.otu.txt
 
 Please feel free to contact me for any question.
 --
@@ -15,6 +16,8 @@ Dept. Plant Pathology
 songzewei@outlook.com
 """
 from __future__ import print_function
+from __future__ import division
+
 def main(name_space):
     from lib import ParseOtuTable
     import argparse

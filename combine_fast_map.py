@@ -14,6 +14,8 @@ Dept. Plant Pathology
 songzewei@outlook.com
 www.songzewei.org
 """
+from __future__ import print_function
+from __future__ import division
 
 def main(name_space):
     import argparse
@@ -48,7 +50,7 @@ def main(name_space):
     
     ParseOtuMap.write_fast_output(output_hybrid_fast, output_hybrid_fast_file)
     
-    print 'FAST style map file wrote to %s.' %output_hybrid_fast_file
+    print('FAST style map file wrote to %s.' %output_hybrid_fast_file)
     
 if __name__ == '__main__':
     import sys
