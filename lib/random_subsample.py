@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Mar 12 13:07:49 2015
-Random_subsample.py will randomly sample the giving abundance data to a certain 
+Random_subsample.py will randomly sample the giving abundance data to a certain
 depth.
-    
+
 rarefaction() will rarefy a single sample to certain depth, returning a list of interger,
 this corresponds to the OTU in the orginal table.
 
@@ -59,7 +59,7 @@ def repeat_rarefaction_parallel(sample,depth,rep,processor=4):
             for element in item:
                 sample_rarefied_cat.append(element)
         return sample_rarefied_cat
-#%%#############################################################################   
+#%%#############################################################################
 # Generate a new list that contains the repeat for each OTU.
 # The variable sample should be a list of OTU abundance (include 0), without sample name
 def generate_repeat_otu(sample):
@@ -75,7 +75,7 @@ def generate_repeat_otu(sample):
     sample_single = {'single':sample_single,'original_length':len(sample)} # Save rriginal length of degenerate
     return sample_single
 #%%###############################################################################
-#Random sample the repeat list for a given time (depth) 
+#Random sample the repeat list for a given time (depth)
 def rarefy_repeat_otu(sample_single,depth):
     from random import randrange
     single = sample_single['single'][:] #if use sample_single as variable, w/o [:] will change it.
@@ -104,20 +104,20 @@ def worker_parallel(worker_input):
     sample = worker_input[0]
     depth = worker_input[1]
     rep = worker_input[2]
-    return repeat_rarefaction(sample,depth,rep)    
+    return repeat_rarefaction(sample,depth,rep)
 #%%##############################################################################
 def allocate_processor(sample,depth,rep,processor=4):
 #Generate input parameter for worker_parallel().
     rep_parallel = []
     worker_input = []
     for i in range(processor):
-        rep_parallel.append(rep/processor)
+        rep_parallel.append(rep//processor)
     n = 0
     for i in range(rep%processor):
         rep_parallel[n] += 1
         n += 1
     for i in range(processor):
-        worker_input.append([sample,depth,rep_parallel[i]])    
+        worker_input.append([sample,depth,rep_parallel[i]])
     return worker_input
 #%%##############################################################################
 def generate_random_index(sample_size, random_size):
