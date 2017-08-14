@@ -17,7 +17,7 @@ from __future__ import division
 
 class parser_otu_table(object):
     def __init__(self, file_path, meta_col='taxonomy'):
-        with open(file_path, 'rU') as f:
+        with open(file_path, 'r') as f:
             temp = f.readlines()
         table = []
         for line in temp:
@@ -36,16 +36,16 @@ class parser_otu_table(object):
         self.meta_id = table[0][meta_position:]  # Start from the first meta column to the end
         self.species_id = [i[0] for i in table[1:]]  # First column starting from the second row
         self.header = ['OTU_ID'] + self.sample_id + self.meta_id
-        
+
         # Convert all abundance to intger
         for line in table[1:]:
             try:
                 line[1:meta_position] = map(int, line[1:meta_position])
             except ValueError:
                 print("There are non-number value in your OTU table.")
-                import sys                
+                import sys
                 sys.exit()
-                
+
         # Get sample, species, and meta data matrix with head names
         self.species_matrix = [i[:meta_position] for i in table[1:]]
         temp = [i[1:meta_position] for i in table]
@@ -87,21 +87,21 @@ class parser_otu_table(object):
             for i in range(len(self.species_id)):
                 meta[line[0]][self.species_id[i]] = line[1:][i]
         return meta
-    
-    
+
+
 # Generate a new tab delimited OTU table sorted by sum of OTU abundance
 def sorted_table(otu_table_parser, new_file_path='otu_table_sorted.txt', remove_zero = False):
     otu_id = otu_table_parser.species_id
     otu_dict = otu_table_parser.species_dict()
     meta_id = otu_table_parser.meta_id
     meta_dict = otu_table_parser.meta_dict()
-    
+
     otu_abundance_list = []
     for otu in otu_id:
         sum_abundance = sum(otu_dict[otu].values())
         otu_abundance_list.append([sum_abundance, otu])
     otu_abundance_list = sorted(otu_abundance_list, reverse = True)
-    
+
     if remove_zero:
         new_otu_list = []
         for item in otu_abundance_list:
@@ -110,36 +110,36 @@ def sorted_table(otu_table_parser, new_file_path='otu_table_sorted.txt', remove_
             else:
                 pass
         otu_abundance_list = new_otu_list
-    
+
     output_content = [otu_table_parser.header]
     for item in otu_abundance_list:
         otu_name = item[1]
         current_line = [otu_name]
         for sample in otu_table_parser.sample_id:
-            try:            
+            try:
                 current_line.append(otu_dict[otu_name][sample])
             except KeyError:
                 current_line.append(0)
-                
+
         if len(meta_id) >0:
             for meta_column in meta_id:
                 current_meta = meta_dict[meta_column][otu_name]
                 current_line.append(current_meta)
         else:
             pass
-        
+
         output_content.append(current_line)
-    write_content(output_content, new_file_path)    
-    
+    write_content(output_content, new_file_path)
+
     return
-    
-    
+
+
 # Output a tab delimited OTU table using a sample dict and meta_dict
 def write_sample_dict(sample_dict, meta_dict, otu_id, output_file_path):
     sample_id = list(sample_dict.keys())
     sample_id.sort()
     meta_id = list(meta_dict.keys())
-    
+
     header = ['OTU_ID'] + sample_id + meta_id
     content = [header]
     for otu in otu_id:
@@ -157,7 +157,7 @@ def write_sample_dict(sample_dict, meta_dict, otu_id, output_file_path):
         else:
             pass
         content.append(current_line)
-    
+
     write_content(content, output_file_path)
     return
 
@@ -167,7 +167,7 @@ def write_sample_dict_newlist(sample_dict, meta_dict, otu_id, output_file_path, 
     #sample_id = sample_dict.keys()
     #sample_id.sort()
     meta_id = meta_dict.keys()
-    
+
     header = ['OTU_ID'] + new_order + meta_id
     content = [header]
     for otu in otu_id:
@@ -185,7 +185,7 @@ def write_sample_dict_newlist(sample_dict, meta_dict, otu_id, output_file_path, 
         else:
             pass
         content.append(current_line)
-    
+
     write_content(content, output_file_path)
     return
 
