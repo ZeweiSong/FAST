@@ -168,7 +168,7 @@ def write_sample_dict_newlist(sample_dict, meta_dict, otu_id, output_file_path, 
     #sample_id.sort()
     meta_id = meta_dict.keys()
 
-    header = ['OTU_ID'] + new_order + meta_id
+    header = ['OTU_ID'] + list(new_order) + list(meta_id)
     content = [header]
     for otu in otu_id:
         current_line = [otu]
