@@ -71,7 +71,7 @@ def main(name_space):
         print("Slicing %i bp from the head and %i bp from the tail ..." % (head, tail))
 
         count_fail = 0
-        with open(args.output, 'wb') as f:
+        with open(args.output, 'w') as f:
             for record in sequences:
                 seq_len = len(record[1])
                 if seq_len > head + tail:
