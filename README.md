@@ -1,4 +1,4 @@
-FAST stands for Fungal Amplicon Sequencing Toolbox. It is a collection of Python script that can aid you in processing the high throughput sequencing data for marker gene (so it works for Bacteria too).
+FAST stands for FAST is an Amplicon Sequencing Toolbox (as similar to GNU). It is a collection of Python script that can aid you in processing the high throughput sequencing data for marker gene (so it works for Bacteria too).
 
 I have complied two example data set for a quick trial of FAST. The data set contains six soil samples sequenced on MiSeq 300 bp PE run either on ITS1 region or ITS2 region.
 
