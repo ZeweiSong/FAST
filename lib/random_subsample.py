@@ -72,7 +72,7 @@ def generate_repeat_otu(sample):
                 temp.append(n)
             sample_single += temp
         n += 1
-    sample_single = {'single':sample_single,'original_length':len(sample)} # Save rriginal length of degenerate
+    sample_single = {'single':sample_single,'original_length':len(sample)} # Save original length of degenerate to keep the order of input OTU
     return sample_single
 #%%###############################################################################
 #Random sample the repeat list for a given time (depth)
@@ -80,7 +80,7 @@ def rarefy_repeat_otu(sample_single,depth):
     from random import randrange
     single = sample_single['single'][:] #if use sample_single as variable, w/o [:] will change it.
     original_length = sample_single['original_length']
-    if  sum(single) <= depth:
+    if  len(single) <= depth: # Should be len instead of sum here
         sample_single_rare = single #Total abundance <= depth, ignore rarefaction
     else:
         sample_single_rare = []
@@ -95,7 +95,7 @@ def rarefy_repeat_otu(sample_single,depth):
 def degenerate_rarefied_sample(sample_single_rare):
     from collections import Counter
     count = Counter(sample_single_rare['single'])
-    sample_rarefied_corrected = [0] * sample_single_rare['original_length']
+    sample_rarefied_corrected = [0] * sample_single_rare['original_length'] # Create a list with the length of original OTUs
     for item in count:
         sample_rarefied_corrected[int(item)] = count[item]
     return sample_rarefied_corrected
