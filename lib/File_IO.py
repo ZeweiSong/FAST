@@ -6,6 +6,7 @@ Some simple manipulation on files and folders
 """
 from __future__ import print_function
 from __future__ import division
+import gzip
 
 # Create a new folder
 def mk_dir(folder):
@@ -66,9 +67,14 @@ def read_file(input_filename):
 def read_seqs(input_filename, file_type='default', output='default'):
     import sys
     # Check for record header
-    with open(input_filename, 'rU') as f:
-        content = f.readlines()
-        head_symbol = content[0][0]
+    if input_filename[-3:] == '.gz': # Check if the file extension is .gz, beware that this is a loose condition for gz file.
+        with gzip.open(input_filename, 'r') as f:
+            content = [i.decode(encoding='utf-8') for i in f.readlines()]
+            head_symbol = content[0][0]
+    else:
+        with open(input_filename, 'rU') as f:
+            content = f.readlines()
+            head_symbol = content[0][0]
 
     if file_type == 'default':
         # Try to guess file format if not provided
