@@ -75,7 +75,7 @@ def main(name_space):
     
     #%% Output
     output_pass = args.output_pass
-    with open(output_pass, 'wb') as f:
+    with open(output_pass, 'w') as f:
         for record in pass_content:
             current_line = '\t'.join(record)
             f.write('%s\n' %current_line)
@@ -84,7 +84,7 @@ def main(name_space):
     
     if args.output_fail:
         output_fail = args.output_fail
-        with open(output_fail, 'wb') as f:
+        with open(output_fail, 'w') as f:
             for record in fail_content:
                 current_line = '\t'.join(record)
                 f.write('%s\n' %current_line)
