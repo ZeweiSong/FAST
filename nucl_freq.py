@@ -33,11 +33,11 @@ def main(Namespace):
     parser.add_argument('-o', '--output', default='nucl_report.txt', help='Name of the reporting file.')
     parser.add_argument('-tail', action='store_true', help='Indicate to also count from the tail of the sequences.')
     args = parser.parse_args(Namespace)
-    
+
     input_file = args.input
     output_file = args.output
     tail_indicator = args.tail
-    
+
     print('Reading in file: {0} ...'.format(input_file))
     input_seq = File_IO.read_seqs(input_file)
     print('The file contains {0} sequences.'.format(len(input_seq)))
@@ -46,15 +46,15 @@ def main(Namespace):
     else:
         print('Counting nucleotide frequencies from the head of all sequences...')
 
-    nucl_freq, unidentified_count = Seq_IO.nucl_freq(input_seq, tail = tail_indicator)    
-    
-    nucl_list = ['A','T','C','G','N']            
-    
+    nucl_freq, unidentified_count = Seq_IO.nucl_freq(input_seq, tail = tail_indicator)
+
+    nucl_list = ['A','T','C','G','N']
+
     # Output the counting result
     header = 'Position\tA\tT\tC\tG\tN\tMost frequent\tFrequency'
     output_content = [header]
     for pos in range(len(nucl_freq)):
-        
+
         # Get the most frequent nucleotide at this position:
         temp_list = []
         most_freq_nucl = ""
@@ -64,7 +64,7 @@ def main(Namespace):
         most_freq_nucl = temp_list[0][1]
         sum_nucl_count = sum(nucl_freq[pos].values())
         most_freq_nucl_freq = float(temp_list[0][0]) / sum_nucl_count # calculate the frequency of this nucleotide
-        
+
         # Get the output for current position
         current_line = []
         current_line = [str(pos + 1)]
@@ -74,8 +74,8 @@ def main(Namespace):
         current_line.append(str(most_freq_nucl_freq))
         current_line = '\t'.join(current_line)
         output_content.append(current_line)
-        
-        with open(output_file, 'wb') as f:
+
+        with open(output_file, 'w') as f:
             for line in output_content:
                 f.write("%s\n" %line)
     print('A report has been written to {0}'.format(output_file))
